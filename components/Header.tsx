@@ -4,11 +4,10 @@ import Link from "next/link";
 export default async function Header() {
   const session = await auth();
   const user = session?.user;
-  console.log(user);
 
   return (
     <header className="border-b sticky top-0 backdrop-blur-sm">
-      <div className="max-w-[1280px] flex justify-between items-center mx-auto py-4">
+      <div className="max-w-[1280px] flex justify-between items-center mx-auto p-4">
         <Link href="/">Libro Mondo</Link>
         <nav>
           <ul className="flex gap-4 items-center">

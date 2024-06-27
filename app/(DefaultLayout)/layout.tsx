@@ -20,8 +20,8 @@ export default function DefaultLayout({
     <html lang="ko">
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Header />
-        <main className="grow">
-          <div className="max-w-[1280px] mx-auto">{children}</div>
+        <main className="grow flex max-w-[1280px] mx-auto w-full p-4">
+          {children}
         </main>
         <Footer />
       </body>

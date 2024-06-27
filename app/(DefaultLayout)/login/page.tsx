@@ -1,25 +1,19 @@
-import { signIn } from "@/auth";
+import { auth } from "@/auth";
+import GoogleLogin from "./components/GoogleLogin";
+import KakaoLogin from "./components/KakaoLogin";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session) {
+    return redirect("/");
+  }
+
   return (
-    <section>
-      <h3>로그인 페이지입니다.</h3>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("google");
-        }}
-      >
-        <button>Signin with Google</button>
-      </form>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("kakao");
-        }}
-      >
-        <button>Signin with Kakao</button>
-      </form>
+    <section className="w-full flex flex-col justify-center items-center gap-2">
+      <GoogleLogin />
+      <KakaoLogin />
     </section>
   );
 }
