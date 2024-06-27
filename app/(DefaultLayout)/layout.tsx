@@ -5,8 +5,8 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "북적북적",
-  description: "북적북적은 강력한 도서 추천 서비스입니다.",
+  title: "Libro Mondo",
+  description: "Libro Mondo는 간편한 도서 추천 서비스입니다.",
 };
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,8 +20,8 @@ export default function DefaultLayout({
     <html lang="ko">
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Header />
-        <main className="grow">
-          <div className="max-w-[1280px] mx-auto">{children}</div>
+        <main className="grow flex max-w-[1280px] mx-auto w-full p-4">
+          {children}
         </main>
         <Footer />
       </body>

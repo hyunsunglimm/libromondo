@@ -8,6 +8,6 @@ export const client = createClient({
   apiVersion,
   useCdn,
   perspective: "published",
-  token: process.env.SANITY_SECRET_TOKEN,
+  token: process.env.NEXT_PUBLIC_SANITY_SECRET_TOKEN,
   ignoreBrowserTokenWarning: true,
 });
