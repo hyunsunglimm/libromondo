@@ -14,14 +14,15 @@ export default async function HomePage() {
       <MotionText className="mt-4 text-3xl">
         리브로 몬도와 함께 알아가보세요.
       </MotionText>
-      <ul>
+      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-8 gap-4">
         {books.map((book) => (
           <li key={book?.isbn}>
             <Image
-              src={book?.thumbnail}
+              src={book?.image}
               alt={`${book?.title} 이미지`}
-              width={100}
-              height={100}
+              width={200}
+              height={290}
+              className="w-full"
             />
           </li>
         ))}

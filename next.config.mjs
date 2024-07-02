@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "search1.kakaocdn.net",
+        hostname: "shopping-phinf.pstatic.net",
       },
     ],
   },
