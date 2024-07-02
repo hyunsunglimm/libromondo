@@ -16,5 +16,5 @@ export const GET = async () => {
     list.push(title);
   });
 
-  return Response.json(list.slice(0, 6));
+  return Response.json(list);
 };

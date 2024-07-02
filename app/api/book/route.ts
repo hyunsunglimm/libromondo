@@ -1,7 +1,7 @@
-import { getTodayBooks } from "@/service/book";
+import { getBestBooks } from "@/service/book";
 
 export const GET = async () => {
-  const data = await getTodayBooks();
+  const data = await getBestBooks();
 
   return Response.json(data);
 };

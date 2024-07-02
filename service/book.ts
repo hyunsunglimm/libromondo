@@ -1,6 +1,6 @@
 import { BookResponseType } from "@/app/api/book/type";
 
-const getBestBooks = async () => {
+const getBestBookTitles = async () => {
   const res = await fetch("http://localhost:3000/api/crawler");
   const data = await res.json();
   return data;
@@ -29,12 +29,12 @@ const fetchBookData = async (title: string) => {
   return data;
 };
 
-export const getTodayBooks = async (): Promise<BookResponseType[]> => {
-  const bestBookTitles = await getBestBooks();
+export const getBestBooks = async (): Promise<BookResponseType[]> => {
+  const bestBookTitles = await getBestBookTitles();
 
   const data = await Promise.all(bestBookTitles.map(fetchBookData));
 
-  const bookData = data.map((d) => d.items[0]);
+  const bookData = data.filter((d) => d.total !== 0).map((d) => d.items[0]);
 
   return bookData;
 };
