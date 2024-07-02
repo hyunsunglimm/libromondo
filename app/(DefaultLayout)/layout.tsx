@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Inter } from "next/font/google";
 import "../globals.css";
+import SWRConfigContext from "@/context/SWRConfigContext";
 
 export const metadata: Metadata = {
   title: "Libro Mondo",
@@ -21,7 +22,7 @@ export default function DefaultLayout({
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Header />
         <main className="grow flex max-w-[1280px] mx-auto w-full p-4">
-          {children}
+          <SWRConfigContext>{children}</SWRConfigContext>
         </main>
         <Footer />
       </body>
