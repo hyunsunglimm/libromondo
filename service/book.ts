@@ -1,7 +1,7 @@
 import { BookResponseType, KakaoBookResponse } from "@/types/book";
 
 const getBestBookTitles = async (): Promise<string[]> => {
-  const res = await fetch("http://localhost:3000/api/crawler");
+  const res = await fetch(`${process.env.BASE_URL}/api/crawler`);
   const data = await res.json();
   return data;
 };
