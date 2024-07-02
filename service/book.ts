@@ -34,7 +34,9 @@ export const getBestBooks = async (): Promise<BookResponseType[]> => {
 
   const data = await Promise.all(bestBookTitles.map(fetchBookData));
 
-  const bookData = data.filter((d) => d.total !== 0).map((d) => d.items[0]);
+  const bookData = data
+    .filter((d) => d.total !== 0 && d.items && d.items.length > 0)
+    .map((d) => d.items[0]);
 
   return bookData;
 };

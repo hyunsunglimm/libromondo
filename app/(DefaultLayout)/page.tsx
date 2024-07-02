@@ -1,7 +1,7 @@
 import MotionText from "@/components/MotionText";
-import TodaysBookList from "./(home)/components/BestBooksList";
+import BestBooksList from "./(home)/components/BestBooksList";
 
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <section className="w-full">
       <MotionText className="mt-20 text-4xl">
@@ -10,7 +10,7 @@ export default async function HomePage() {
       <MotionText className="mt-4 text-3xl">
         리브로 몬도와 함께 알아가보세요.
       </MotionText>
-      <TodaysBookList />
+      <BestBooksList />
     </section>
   );
 }
