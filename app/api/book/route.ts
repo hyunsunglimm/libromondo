@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getBestBooks } from "@/service/book";
 
 export const GET = async () => {
