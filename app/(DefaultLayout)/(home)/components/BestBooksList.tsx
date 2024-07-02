@@ -1,9 +1,9 @@
 "use client";
 
-import { BookResponseType } from "@/app/api/book/type";
 import Image from "next/image";
 import useSWR from "swr";
 import { motion } from "framer-motion";
+import { BookResponseType } from "@/types/book";
 
 export default function BestBooksList() {
   const { data: books } = useSWR<BookResponseType[]>("/api/book");
