@@ -4,13 +4,23 @@ import Image from "next/image";
 import useSWR from "swr";
 import { motion } from "framer-motion";
 import { BookResponseType } from "@/types/book";
+import { useEffect, useState } from "react";
 
 export default function BestBooksList() {
   const { data: books } = useSWR<BookResponseType[]>("/api/book");
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(true);
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-      {books && (
+      {books && show && (
         <motion.ul
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
