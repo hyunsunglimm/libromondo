@@ -6,8 +6,13 @@ import { motion } from "framer-motion";
 import { BookResponseType } from "@/types/book";
 import { useEffect, useState } from "react";
 
-export default function BestBooksList() {
-  const { data: books } = useSWR<BookResponseType[]>("/api/book");
+type BooksListProps = {
+  fetchUrl: string;
+  delay?: boolean;
+};
+
+export default function BooksList({ fetchUrl, delay = false }: BooksListProps) {
+  const { data: books, isLoading } = useSWR<BookResponseType[]>(fetchUrl);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -18,13 +23,19 @@ export default function BestBooksList() {
     return () => clearTimeout(timer);
   }, []);
 
+  const isShow = delay || show;
+
+  if (isLoading && !delay) {
+    return <p className="w-full text-center">Loading...</p>;
+  }
+
   return (
     <>
-      {books && show && (
+      {books && isShow && (
         <motion.ul
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          initial={delay ? { opacity: 0, y: 50 } : undefined}
+          animate={delay ? { opacity: 1, y: 0 } : undefined}
+          transition={delay ? { duration: 1, ease: "easeOut" } : undefined}
           className="grid grid-cols-4 w-[800px] mx-auto mt-8 gap-4"
         >
           {books.map((book, index) => (

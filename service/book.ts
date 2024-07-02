@@ -6,9 +6,12 @@ const getBestBookTitles = async (): Promise<string[]> => {
   return data;
 };
 
-const fetchBookData = async (title: string): Promise<KakaoBookResponse> => {
+export const fetchBookData = async (
+  title: string,
+  size?: number
+): Promise<KakaoBookResponse> => {
   const res = await fetch(
-    `https://dapi.kakao.com/v3/search/book?query=${title}&size=1`,
+    `https://dapi.kakao.com/v3/search/book?query=${title}&size=${size}`,
     {
       headers: {
         Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
@@ -24,7 +27,9 @@ const fetchBookData = async (title: string): Promise<KakaoBookResponse> => {
 export const getBestBooks = async (): Promise<BookResponseType[]> => {
   const bestBookTitles = await getBestBookTitles();
 
-  const data = await Promise.all(bestBookTitles.map(fetchBookData));
+  const data = await Promise.all(
+    bestBookTitles.map((title) => fetchBookData(title, 1))
+  );
 
   const bookData = data
     .filter((d) => d.meta.total_count > 0)
