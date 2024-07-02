@@ -1,15 +1,7 @@
-// NAVER API
-// export type BookResponseType = {
-//   title: string;
-//   link: string;
-//   image: string;
-//   author: string;
-//   discount: string;
-//   publisher: string;
-//   pubdate: string;
-//   isbn: string;
-//   description: string;
-// };
+export type KakaoBookResponse = {
+  documents: BookResponseType[];
+  meta: BookMeta;
+};
 
 export type BookResponseType = {
   authors: string[];
@@ -24,4 +16,10 @@ export type BookResponseType = {
   title: string;
   translators: string[];
   url: string;
+};
+
+export type BookMeta = {
+  is_end: boolean;
+  pageable_count: number;
+  total_count: number;
 };
