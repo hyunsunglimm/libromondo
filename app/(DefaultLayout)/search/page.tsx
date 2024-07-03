@@ -16,7 +16,7 @@ export default function SearchPage() {
         onChange={(e) => setKeyword(e.target.value)}
         value={keyword}
       />
-      <BooksList fetchUrl={`/api/book/search?query=${debouncedKeyword}`} />
+      <BooksList keyword={debouncedKeyword} />
     </section>
   );
 }

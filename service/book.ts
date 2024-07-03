@@ -8,10 +8,11 @@ const getBestBookTitles = async (): Promise<string[]> => {
 
 export const fetchBookData = async (
   title: string,
-  size?: number
+  size?: number,
+  page?: string
 ): Promise<KakaoBookResponse> => {
   const res = await fetch(
-    `https://dapi.kakao.com/v3/search/book?query=${title}&size=${size}`,
+    `https://dapi.kakao.com/v3/search/book?query=${title}&size=${size}&page=${page}`,
     {
       headers: {
         Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
