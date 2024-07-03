@@ -1,9 +1,5 @@
-"use client";
-
-import Image from "next/image";
 import useSWR from "swr";
 import { KakaoBookResponse } from "@/types/book";
-import { useEffect, useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -14,16 +10,18 @@ import {
 } from "./ui/pagination";
 import { ScaleLoader } from "react-spinners";
 import BookCard from "./BookCard";
+import { useSearchStore } from "@/store/search";
 
 type BooksListProps = {
   keyword: string | null;
 };
 
 export default function BooksList({ keyword }: BooksListProps) {
-  const [page, setPage] = useState(1);
+  const { page, setPage } = useSearchStore();
   const { data, isLoading } = useSWR<KakaoBookResponse>(
     keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
   );
+
   const isLastPage = data?.meta.is_end || page >= 100;
   const books = data?.documents;
   const pageableCount = data?.meta.pageable_count ?? 0;
@@ -39,10 +37,6 @@ export default function BooksList({ keyword }: BooksListProps) {
   };
 
   const pageArray = getPageArray();
-
-  useEffect(() => {
-    setPage(1);
-  }, [keyword]);
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);
