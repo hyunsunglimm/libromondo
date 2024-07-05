@@ -11,7 +11,7 @@ export default function SearchPage() {
   return (
     <section className="mx-auto">
       <input
-        className="border w-[800px] p-4 mt-8"
+        className="border w-[800px] p-4"
         placeholder="원하시는 책의 키워드를 검색해주세요."
         onChange={(e) => {
           setKeyword(e.target.value);

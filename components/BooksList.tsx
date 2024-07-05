@@ -1,16 +1,9 @@
 import useSWR from "swr";
 import { KakaoBookResponse } from "@/types/book";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "./ui/pagination";
 import { ScaleLoader } from "react-spinners";
 import BookCard from "./BookCard";
 import { useSearchStore } from "@/store/search";
+import PaginationSection from "./PaginationSection";
 
 type BooksListProps = {
   keyword: string | null;
@@ -76,53 +69,3 @@ export default function BooksList({ keyword }: BooksListProps) {
     </>
   );
 }
-
-type PaginationSectionProps = {
-  setPrevPage: () => void;
-  setNextPage: () => void;
-  pageArray: number[];
-  setPage: (arg: number) => void;
-  currentPage: number;
-  isLastPage: boolean;
-};
-
-const PaginationSection = ({
-  setPrevPage,
-  setNextPage,
-  pageArray,
-  setPage,
-  currentPage,
-  isLastPage,
-}: PaginationSectionProps) => {
-  return (
-    <Pagination className="mt-8">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            disabled={currentPage === 1}
-            href="#"
-            onClick={setPrevPage}
-          />
-        </PaginationItem>
-        {pageArray.map((p) => (
-          <PaginationItem key={p}>
-            <PaginationLink
-              href="#"
-              onClick={() => setPage(p)}
-              isActive={p === currentPage}
-            >
-              {p}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
-        <PaginationItem>
-          <PaginationNext
-            disabled={isLastPage}
-            href="#"
-            onClick={setNextPage}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
-};
