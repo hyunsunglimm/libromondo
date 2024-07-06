@@ -1,16 +1,10 @@
 import useSWR from "swr";
 import { KakaoBookResponse } from "@/types/book";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "./ui/pagination";
 import { ScaleLoader } from "react-spinners";
 import BookCard from "./BookCard";
 import { useSearchStore } from "@/store/search";
+import PaginationSection from "./PaginationSection";
+import { getPageArray } from "@/utils/book";
 
 type BooksListProps = {
   keyword: string | null;
@@ -22,21 +16,12 @@ export default function BooksList({ keyword }: BooksListProps) {
     keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
   );
 
-  const isLastPage = data?.meta.is_end || page >= 100;
   const books = data?.documents;
   const pageableCount = data?.meta.pageable_count ?? 0;
   const lastPage = Math.ceil(pageableCount / 8);
+  const isLastPage = page === lastPage || page >= 100;
 
-  const getPageArray = () => {
-    const startPage = Math.floor((page - 1) / 10) * 10 + 1;
-    const endPage = Math.min(startPage + 9, lastPage);
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
-
-  const pageArray = getPageArray();
+  const pageArray = getPageArray(page, lastPage);
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);
@@ -53,7 +38,12 @@ export default function BooksList({ keyword }: BooksListProps) {
 
   return (
     <>
-      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-8 gap-4">
+      {books && books?.length > 0 && (
+        <p className="text-gray-400 text-end mt-4">
+          {pageableCount > 800 ? 800 : pageableCount}개의 검색 결과가 있습니다.
+        </p>
+      )}
+      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-4 gap-4">
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
@@ -63,6 +53,7 @@ export default function BooksList({ keyword }: BooksListProps) {
           검색된 도서가 없습니다.
         </p>
       )}
+
       {books && books?.length > 0 && (
         <PaginationSection
           setPrevPage={handlePrevPage}
@@ -76,53 +67,3 @@ export default function BooksList({ keyword }: BooksListProps) {
     </>
   );
 }
-
-type PaginationSectionProps = {
-  setPrevPage: () => void;
-  setNextPage: () => void;
-  pageArray: number[];
-  setPage: (arg: number) => void;
-  currentPage: number;
-  isLastPage: boolean;
-};
-
-const PaginationSection = ({
-  setPrevPage,
-  setNextPage,
-  pageArray,
-  setPage,
-  currentPage,
-  isLastPage,
-}: PaginationSectionProps) => {
-  return (
-    <Pagination className="mt-8">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            disabled={currentPage === 1}
-            href="#"
-            onClick={setPrevPage}
-          />
-        </PaginationItem>
-        {pageArray.map((p) => (
-          <PaginationItem key={p}>
-            <PaginationLink
-              href="#"
-              onClick={() => setPage(p)}
-              isActive={p === currentPage}
-            >
-              {p}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
-        <PaginationItem>
-          <PaginationNext
-            disabled={isLastPage}
-            href="#"
-            onClick={setNextPage}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
-};
