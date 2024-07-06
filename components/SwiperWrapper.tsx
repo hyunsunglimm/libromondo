@@ -9,13 +9,14 @@ import "swiper/css/pagination";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 type SwiperWrapperProps = {
+  setPage: (arg: number) => void;
   children: Array<React.ReactNode>;
 };
 
 const SwiperWrapper = forwardRef<
   { slideTo: (arg: number) => void },
   SwiperWrapperProps
->(({ children }, ref) => {
+>(({ setPage, children }, ref) => {
   const swiperRef = useRef<SwiperType | null>();
   useImperativeHandle(ref, () => {
     return {
@@ -28,6 +29,7 @@ const SwiperWrapper = forwardRef<
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)}
+      onSlideChange={(swiper) => setPage(Math.ceil(swiper.realIndex / 4 + 1))}
       spaceBetween={8}
       slidesPerView={4}
       slidesPerGroup={4}
