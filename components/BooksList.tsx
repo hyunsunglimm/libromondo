@@ -4,6 +4,7 @@ import { ScaleLoader } from "react-spinners";
 import BookCard from "./BookCard";
 import { useSearchStore } from "@/store/search";
 import PaginationSection from "./PaginationSection";
+import { getPageArray } from "@/utils/book";
 
 type BooksListProps = {
   keyword: string | null;
@@ -15,21 +16,12 @@ export default function BooksList({ keyword }: BooksListProps) {
     keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
   );
 
-  const isLastPage = data?.meta.is_end || page >= 100;
   const books = data?.documents;
   const pageableCount = data?.meta.pageable_count ?? 0;
   const lastPage = Math.ceil(pageableCount / 8);
+  const isLastPage = page === lastPage || page >= 100;
 
-  const getPageArray = () => {
-    const startPage = Math.floor((page - 1) / 10) * 10 + 1;
-    const endPage = Math.min(startPage + 9, lastPage);
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
-
-  const pageArray = getPageArray();
+  const pageArray = getPageArray(page, lastPage);
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);

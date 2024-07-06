@@ -13,17 +13,14 @@ type SwiperWrapperProps = {
 };
 
 const SwiperWrapper = forwardRef<
-  { next: () => void; prev: () => void },
+  { slideTo: (arg: number) => void },
   SwiperWrapperProps
 >(({ children }, ref) => {
   const swiperRef = useRef<SwiperType | null>();
   useImperativeHandle(ref, () => {
     return {
-      next() {
-        swiperRef.current?.slideNext();
-      },
-      prev() {
-        swiperRef.current?.slidePrev();
+      slideTo(index: number) {
+        swiperRef.current?.slideTo(index);
       },
     };
   });
@@ -31,7 +28,6 @@ const SwiperWrapper = forwardRef<
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)}
-      // onSlideChange={(swiper) => console.log(swiper.activeIndex)}
       spaceBetween={8}
       slidesPerView={4}
       slidesPerGroup={4}

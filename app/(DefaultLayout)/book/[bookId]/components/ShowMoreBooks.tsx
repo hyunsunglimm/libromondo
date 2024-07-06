@@ -5,7 +5,8 @@ import PaginationSection from "@/components/PaginationSection";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
 import { BookResponseType } from "@/types/book";
-import { useRef, useState } from "react";
+import { getPageArray } from "@/utils/book";
+import { useEffect, useRef, useState } from "react";
 
 type ShowMoreBooksProps = {
   title: string;
@@ -14,23 +15,25 @@ type ShowMoreBooksProps = {
 
 export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
   const [page, setPage] = useState(1);
-  const ref = useRef<{ next: () => void; prev: () => void } | null>(null);
+  const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 
   const lastPage = Math.ceil(books.length / 4);
   const isLastPage = page === lastPage;
-  const getPageArray = () => {
-    const startPage = Math.floor((page - 1) / 10) * 10 + 1;
-    const endPage = Math.min(startPage + 9, lastPage);
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+
+  const pageArray = getPageArray(page, lastPage);
+
+  useEffect(() => {
+    ref.current?.slideTo((page - 1) * 4);
+  }, [page]);
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
   };
-
-  const pageArray = getPageArray();
-
-  const handlePrev = () => ref.current?.prev();
-  const handleNext = () => ref.current?.next();
+  const handleNextPage = () => {
+    if (!isLastPage) setPage(page + 1);
+  };
 
   return (
     <div className="mt-8">
@@ -45,8 +48,8 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
       </SwiperWrapper>
 
       <PaginationSection
-        setPrevPage={handlePrev}
-        setNextPage={handleNext}
+        setPrevPage={handlePrevPage}
+        setNextPage={handleNextPage}
         setPage={setPage}
         pageArray={pageArray}
         currentPage={page}
