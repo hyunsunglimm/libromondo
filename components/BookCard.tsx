@@ -10,7 +10,7 @@ type BookCardProps = {
 };
 
 export default function BookCard({ book, index }: BookCardProps) {
-  const bookId = book.isbn.split(" ")[0];
+  const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
   return (
     <li className="flex flex-col gap-4 justify-between rounded-sm p-4 w-full border shadow-md">
       <Image
