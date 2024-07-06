@@ -41,7 +41,7 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
         <p className="font-bold text-lg">{title}</p>
         <p className="text-gray-400">총 {books.length}개의 도서가 있습니다.</p>
       </div>
-      <SwiperWrapper ref={ref}>
+      <SwiperWrapper ref={ref} setPage={setPage}>
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
