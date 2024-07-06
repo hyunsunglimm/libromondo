@@ -35,7 +35,7 @@ export default async function Header() {
                 <Link href="/mypage/userid">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={user.image || "/images/empty-image.jpeg"}
+                    src={user.image || "/images/empty-profile-image.jpeg"}
                     alt={`${user.name}님의 프로필 이미지`}
                     className="w-8 h-8 border border-black rounded-full object-cover"
                   />
