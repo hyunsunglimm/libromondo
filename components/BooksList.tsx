@@ -38,7 +38,12 @@ export default function BooksList({ keyword }: BooksListProps) {
 
   return (
     <>
-      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-8 gap-4">
+      {books && books?.length > 0 && (
+        <p className="text-gray-400 text-end mt-4">
+          {pageableCount > 800 ? 800 : pageableCount}개의 검색 결과가 있습니다.
+        </p>
+      )}
+      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-4 gap-4">
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
@@ -48,6 +53,7 @@ export default function BooksList({ keyword }: BooksListProps) {
           검색된 도서가 없습니다.
         </p>
       )}
+
       {books && books?.length > 0 && (
         <PaginationSection
           setPrevPage={handlePrevPage}
