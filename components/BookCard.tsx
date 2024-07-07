@@ -27,7 +27,7 @@ export default function BookCard({ book, index }: BookCardProps) {
     }).then((res) => res.json());
   };
 
-  const addSaveHandler = async () => {
+  const updateSaveHandler = async () => {
     const save = user?.books;
 
     if (!save) return;
@@ -62,9 +62,9 @@ export default function BookCard({ book, index }: BookCardProps) {
           <Link href={`/book/${bookId}`}>상세 보기</Link>
         </Button>
         {isSave ? (
-          <HeartFillIcon onClick={addSaveHandler} />
+          <HeartFillIcon onClick={updateSaveHandler} />
         ) : (
-          <HeartIcon onClick={addSaveHandler} />
+          <HeartIcon onClick={updateSaveHandler} />
         )}
       </div>
     </li>
