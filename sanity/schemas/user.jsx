@@ -13,6 +13,12 @@ export const user = {
       name: "image",
       type: "string",
     },
+    {
+      title: "Books",
+      name: "books",
+      type: "array",
+      of: [{ type: "book" }],
+    },
   ],
   preview: {
     select: {
