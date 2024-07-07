@@ -38,5 +38,5 @@ export default function useUser(book: BookResponseType) {
     });
   };
 
-  return { updateSaveHandler };
+  return { isSave, updateSaveHandler };
 }
