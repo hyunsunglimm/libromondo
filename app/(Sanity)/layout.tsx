@@ -3,9 +3,5 @@ export default function EmptyLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ko">
-      <body>{children}</body>
-    </html>
-  );
+  return <section>{children}</section>;
 }
