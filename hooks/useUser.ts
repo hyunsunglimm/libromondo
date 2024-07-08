@@ -1,5 +1,7 @@
 import { BookResponseType } from "@/types/book";
 import useMe from "./useMe";
+import { useEffect, useState } from "react";
+import { useAlarmStore } from "@/store/alarm";
 
 const updateSave = async (
   userId: string,
@@ -13,6 +15,7 @@ const updateSave = async (
 };
 
 export default function useUser(book: BookResponseType) {
+  const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
   const { loginUser, mutate } = useMe();
 
   const isSave =
@@ -21,7 +24,10 @@ export default function useUser(book: BookResponseType) {
   const updateSaveHandler = async () => {
     const save = loginUser?.books;
 
-    if (!save) return;
+    if (!save) {
+      onAlarm();
+      return;
+    }
 
     const newUser = {
       ...loginUser,
@@ -37,6 +43,16 @@ export default function useUser(book: BookResponseType) {
       rollbackOnError: true,
     });
   };
+
+  useEffect(() => {
+    if (isAlarm) {
+      const timer = setTimeout(() => {
+        offAlarm();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isAlarm, offAlarm]);
 
   return { isSave, updateSaveHandler };
 }

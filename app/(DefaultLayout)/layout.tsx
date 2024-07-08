@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import SWRConfigContext from "@/context/SWRConfigContext";
 import AuthContext from "@/context/AuthContext";
+import { Alarm } from "@/components/Alarm";
 
 export const metadata: Metadata = {
   title: "Libro Mondo",
@@ -22,6 +23,7 @@ export default function DefaultLayout({
         <main className="grow flex max-w-[1280px] mx-auto w-full py-12">
           {children}
         </main>
+        <Alarm />
         <Footer />
       </SWRConfigContext>
     </AuthContext>

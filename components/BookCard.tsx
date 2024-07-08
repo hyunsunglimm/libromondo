@@ -3,10 +3,9 @@
 import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import HeartIcon from "./icons/HeartIcon";
 import Link from "next/link";
-import HeartFillIcon from "./icons/HeartFillIcon";
 import useUser from "@/hooks/useUser";
+import HeartToggle from "./HeartToggle";
 
 type BookCardProps = {
   book: BookResponseType;
@@ -24,18 +23,14 @@ export default function BookCard({ book, index }: BookCardProps) {
         alt={`${book?.title} 이미지`}
         width={200}
         height={300}
-        className="w-full h-52"
+        className="w-full h-52 border rounded-sm"
         priority={index < 13}
       />
       <div className="flex gap-2">
         <Button asChild className="w-full h-7">
           <Link href={`/book/${bookId}`}>상세 보기</Link>
         </Button>
-        {isSave ? (
-          <HeartFillIcon onClick={updateSaveHandler} />
-        ) : (
-          <HeartIcon onClick={updateSaveHandler} />
-        )}
+        <HeartToggle isSave={isSave} onClick={updateSaveHandler} />
       </div>
     </li>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import useMe from "@/hooks/useMe";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Header() {
@@ -17,7 +18,7 @@ export default function Header() {
             </li>
             {loginUser ? (
               <li>
-                <button>로그아웃</button>
+                <button onClick={() => signOut()}>로그아웃</button>
               </li>
             ) : (
               <li>

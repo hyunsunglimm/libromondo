@@ -1,7 +1,6 @@
 "use client";
 
-import HeartFillIcon from "@/components/icons/HeartFillIcon";
-import HeartIcon from "@/components/icons/HeartIcon";
+import HeartToggle from "@/components/HeartToggle";
 import { Button } from "@/components/ui/button";
 import useUser from "@/hooks/useUser";
 import { BookResponseType } from "@/types/book";
@@ -49,11 +48,7 @@ export default function DetailBook({ book }: { book: BookResponseType }) {
             더 자세히 보러가기
           </Link>
         </Button>
-        {isSave ? (
-          <HeartFillIcon onClick={updateSaveHandler} />
-        ) : (
-          <HeartIcon onClick={updateSaveHandler} />
-        )}
+        <HeartToggle isSave={isSave} onClick={updateSaveHandler} />
       </div>
     </div>
   );
