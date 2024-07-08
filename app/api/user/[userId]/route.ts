@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { addSave, getUserById, removeSave } from "@/service/user";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Context = {
   params: {
