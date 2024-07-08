@@ -3,15 +3,20 @@ import { addSave, getUserById, removeSave } from "@/service/user";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async () => {
-  const session = await auth();
-  const user = session?.user;
+type Context = {
+  params: {
+    userId: string;
+  };
+};
 
-  if (!user || !user.id) {
-    return new Response("인증 에러", { status: 401 });
+export const GET = async (_: Request, ctx: Context) => {
+  const userId = ctx.params.userId;
+
+  if (!userId) {
+    return new Response("유저정보가 없습니다.", { status: 401 });
   }
 
-  const sanityUser = await getUserById(user.id);
+  const sanityUser = await getUserById(userId);
 
   return Response.json(sanityUser);
 };

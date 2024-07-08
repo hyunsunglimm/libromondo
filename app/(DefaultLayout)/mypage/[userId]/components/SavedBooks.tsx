@@ -1,19 +1,25 @@
 "use client";
 
 import BookCard from "@/components/BookCard";
+import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
 import useSWR from "swr";
 
-export default function SavedBooks() {
-  const { data: user, isLoading } = useSWR<SanityUser>("/api/user");
+export default function SavedBooks({ userId }: { userId: string }) {
+  const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
+  const { loginUser } = useMe();
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
+  const isMe = loginUser?.id === userId;
+
   return (
     <div className="border-t-2 pt-4 mt-4 border-black">
-      <h2 className="text-center font-bold text-2xl">내 서재</h2>
+      <h2 className="text-center font-bold text-2xl">
+        {isMe ? "내 서재" : `${user?.name}님의 서재`}
+      </h2>
       <p className="text-end text-gray-400">
         서재에 {user?.books.length}권의 책이 있습니다.
       </p>

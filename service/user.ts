@@ -1,7 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { BookResponseType } from "@/types/book";
 import { EMPTY_PROFILE_IMAGE } from "@/utils/image";
-import { User } from "next-auth";
 
 export const addUser = async (id: string, name: string, image: string) => {
   return client.createIfNotExists({
@@ -17,15 +16,21 @@ export const getUserById = async (id: string) => {
   return client
     .fetch(
       `
-    *[_type == "user" && _id == "${id}"][0]{
-      "id": _id,
-      "name": name,
-      "image": image,
-      "books": books
-    }
-    `
+        *[_type == "user" && _id == "${id}"][0]{
+          "id": _id,
+          "name": name,
+          "image": image,
+          "books": books
+        }
+      `
     )
-    .then((user) => ({ ...user, books: user.books ?? [] }));
+    .then((user) => {
+      if (user) {
+        return { ...user, books: user.books ?? [] };
+      } else {
+        return null;
+      }
+    });
 };
 
 export const addSave = async (userId: string, book: BookResponseType) => {

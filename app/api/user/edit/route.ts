@@ -18,6 +18,6 @@ export const PUT = async (req: Request) => {
   }
 
   return editProfile(user.id, name, file)
-    .then((res) => Response.json(res))
+    .then((res) => Response.json({ ...res, id: res._id }))
     .catch((error) => new Response(JSON.stringify(error), { status: 500 }));
 };

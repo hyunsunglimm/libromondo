@@ -1,16 +1,24 @@
 "use client";
 
+import Spinner from "@/components/spinner/Spinner";
 import { Button } from "@/components/ui/button";
+import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
 import { useState } from "react";
 
+type UserInfoEditForm = {
+  user: SanityUser | undefined;
+  closeModal: () => void;
+};
+
 export default function UserInfoEditForm({
   user,
-}: {
-  user: SanityUser | undefined;
-}) {
+  closeModal,
+}: UserInfoEditForm) {
+  const { mutate } = useMe();
   const [file, setFile] = useState<File>();
   const [enteredName, setEnteredName] = useState(user?.name);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -20,17 +28,24 @@ export default function UserInfoEditForm({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("file", file || "");
     formData.append("name", enteredName || "");
 
-    fetch("/api/user/edit", {
+    const res = await fetch("/api/user/edit", {
       method: "PUT",
       body: formData,
     });
+    if (res.ok) {
+      const updatedUser = await res.json();
+      mutate(updatedUser, false);
+    }
+    setIsLoading(false);
+    closeModal();
   };
 
   return (
@@ -62,7 +77,7 @@ export default function UserInfoEditForm({
         onChange={(e) => setEnteredName(e.target.value)}
         className="border p-1 rounded-md w-full"
       />
-      <Button className="w-full">저장</Button>
+      <Button className="w-full">{isLoading ? <Spinner /> : "저장"}</Button>
     </form>
   );
 }
