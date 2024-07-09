@@ -32,7 +32,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
 
   return (
     <section className="max-w-[800px] mx-auto">
-      <DetailBook book={book} />
+      <DetailBook book={book} bookId={bookId} />
       <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" />
       <ShowMoreBooks books={relatedBooks} title="관련있는 책" />
     </section>

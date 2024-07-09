@@ -9,7 +9,6 @@
 
 import { NextStudio } from "next-sanity/studio";
 import config from "../../../../sanity.config";
-import { Metadata } from "next";
 
 export const dynamic = "force-static";
 

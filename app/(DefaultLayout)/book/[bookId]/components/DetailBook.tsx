@@ -5,8 +5,14 @@ import { Button } from "@/components/ui/button";
 import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import Link from "next/link";
+import UsersWhoSavedBooks from "./UsersWhoSavedBooks";
 
-export default function DetailBook({ book }: { book: BookResponseType }) {
+type DetailBookProps = {
+  book: BookResponseType;
+  bookId: string;
+};
+
+export default function DetailBook({ book, bookId }: DetailBookProps) {
   const authors = book.authors.join(", ");
   const translators = book.translators.join(", ");
 
@@ -37,7 +43,7 @@ export default function DetailBook({ book }: { book: BookResponseType }) {
               )}
             </p>
           </div>
-          <p className="text-center font-bold">3명이 좋아합니다.</p>
+          <UsersWhoSavedBooks bookId={bookId} />
         </div>
       </div>
       <div className="bg-neutral-100 p-8 my-8 rounded-md">
