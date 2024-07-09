@@ -1,5 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { BookResponseType } from "@/types/book";
+import { SanityUser } from "@/types/user";
 import { EMPTY_PROFILE_IMAGE } from "@/utils/image";
 
 export const addUser = async (id: string, name: string, image: string) => {
@@ -59,4 +60,28 @@ export const editProfile = async (userId: string, name: string, file: Blob) => {
         .commit();
     });
   }
+};
+
+export const getUsersWhoSavedBooks = async (bookId: string) => {
+  return client
+    .fetch(
+      `
+      *[_type == "user"]{
+        ...,
+        "id": _id
+      }
+    `
+    )
+    .then((users: SanityUser[]) =>
+      users.filter((user) =>
+        user.books.some((book) => book.isbn.includes(bookId))
+      )
+    )
+    .then((users: SanityUser[]) =>
+      users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        image: user.image,
+      }))
+    );
 };

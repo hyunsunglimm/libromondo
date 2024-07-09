@@ -23,3 +23,7 @@ export type BookMeta = {
   pageable_count: number;
   total_count: number;
 };
+
+export type DetailBookType = BookResponseType & {
+  usersWhoSavedBooks: { id: string; name: string; image: string }[];
+};
