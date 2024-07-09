@@ -3,6 +3,7 @@
 import useMe from "@/hooks/useMe";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import ProfileImage from "./ProfileImage";
 
 export default function Header() {
   const { loginUser } = useMe();
@@ -28,11 +29,10 @@ export default function Header() {
             {loginUser && (
               <li>
                 <Link href={`/mypage/${loginUser.id}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={loginUser?.image}
-                    alt={`${loginUser?.name}님의 프로필 이미지`}
-                    className="w-8 h-8 border border-black rounded-full object-cover"
+                  <ProfileImage
+                    image={loginUser.image}
+                    name={loginUser.name}
+                    size="sm"
                   />
                 </Link>
               </li>
