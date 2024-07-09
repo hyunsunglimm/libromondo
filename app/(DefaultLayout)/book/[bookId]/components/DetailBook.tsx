@@ -2,19 +2,11 @@
 
 import HeartToggle from "@/components/HeartToggle";
 import { Button } from "@/components/ui/button";
-import useUser from "@/hooks/useUser";
-import { DetailBookType } from "@/types/book";
+import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import Link from "next/link";
-import UsersWhoSavedBooks from "./UsersWhoSavedBooks";
 
-type DetailBookProps = {
-  book: DetailBookType;
-  bookId: string;
-};
-
-export default function DetailBook({ book, bookId }: DetailBookProps) {
-  const { isSave, updateSaveHandler } = useUser(book);
+export default function DetailBook({ book }: { book: BookResponseType }) {
   const authors = book.authors.join(", ");
   const translators = book.translators.join(", ");
 
@@ -45,7 +37,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
               )}
             </p>
           </div>
-          <UsersWhoSavedBooks bookId={bookId} />
+          <p className="text-center font-bold">3명이 좋아합니다.</p>
         </div>
       </div>
       <div className="bg-neutral-100 p-8 my-8 rounded-md">
@@ -57,7 +49,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
             더 자세히 보러가기
           </Link>
         </Button>
-        <HeartToggle isSave={isSave} onClick={updateSaveHandler} />
+        <HeartToggle book={book} />
       </div>
     </div>
   );

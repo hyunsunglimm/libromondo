@@ -1,6 +1,6 @@
 import { BookResponseType } from "@/types/book";
 import useMe from "./useMe";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAlarmStore } from "@/store/alarm";
 
 const updateSave = async (

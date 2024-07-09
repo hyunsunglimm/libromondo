@@ -1,4 +1,4 @@
-import { BookResponseType, DetailBookType } from "@/types/book";
+import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
 import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
@@ -12,9 +12,9 @@ type BookDetailPageProps = {
 export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const { bookId } = params;
 
-  const res = await fetch(`${process.env.BASE_URL}/api/book/${bookId}`);
-  const data = await res.json();
-  const book: DetailBookType = data.documents[0];
+  const book = await fetch(`${process.env.BASE_URL}/api/book/${bookId}`)
+    .then((res) => res.json())
+    .then((data) => data.documents[0]);
 
   if (!book) return redirect("/");
 
@@ -32,7 +32,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
 
   return (
     <section className="max-w-[800px] mx-auto">
-      <DetailBook book={book} bookId={bookId} />
+      <DetailBook book={book} />
       <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" />
       <ShowMoreBooks books={relatedBooks} title="관련있는 책" />
     </section>

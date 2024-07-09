@@ -4,7 +4,6 @@ import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import useUser from "@/hooks/useUser";
 import HeartToggle from "./HeartToggle";
 
 type BookCardProps = {
@@ -13,7 +12,6 @@ type BookCardProps = {
 };
 
 export default function BookCard({ book, index }: BookCardProps) {
-  const { isSave, updateSaveHandler } = useUser(book);
   const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
 
   return (
@@ -30,7 +28,7 @@ export default function BookCard({ book, index }: BookCardProps) {
         <Button asChild className="w-full h-7">
           <Link href={`/book/${bookId}`}>상세 보기</Link>
         </Button>
-        <HeartToggle isSave={isSave} onClick={updateSaveHandler} />
+        <HeartToggle book={book} />
       </div>
     </li>
   );
