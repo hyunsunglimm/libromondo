@@ -18,14 +18,14 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
 
   if (!book) return redirect("/");
 
-  const relatedBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?query=${book.title.slice(0, 2)}`
+  const sameAuthorBooks: BookResponseType[] = await fetch(
+    `${process.env.BASE_URL}/api/book/related?query=${book.authors[0]}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);
 
-  const sameAuthorBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?query=${book.authors[0]}`
+  const relatedBooks: BookResponseType[] = await fetch(
+    `${process.env.BASE_URL}/api/book/related?query=${book.title.slice(0, 2)}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);

@@ -55,7 +55,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
             더 자세히 보러가기
           </Link>
         </Button>
-        <HeartToggle book={book} />
+        <HeartToggle book={book} isDetail />
       </div>
     </div>
   );

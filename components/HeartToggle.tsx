@@ -5,8 +5,16 @@ import HeartIcon from "./icons/HeartIcon";
 import useUser from "@/hooks/useUser";
 import { BookResponseType } from "@/types/book";
 
-export default function HeartToggle({ book }: { book: BookResponseType }) {
-  const { isSave, updateSaveHandler } = useUser(book);
+type HeartToggleProps = {
+  book: BookResponseType;
+  isDetail?: boolean;
+};
+
+export default function HeartToggle({
+  book,
+  isDetail = false,
+}: HeartToggleProps) {
+  const { isSave, updateSaveHandler } = useUser(book, isDetail);
   return (
     <>
       {isSave ? (
