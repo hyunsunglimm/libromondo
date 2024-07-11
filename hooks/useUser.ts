@@ -50,20 +50,26 @@ export default function useUser(book: BookResponseType, isDetail: boolean) {
       rollbackOnError: true,
     });
 
-    bookMutate(null, {
-      optimisticData: isSave
-        ? usersWhoSavedBooks.filter(
-            (user: { id: string; name: string; image: string }) =>
-              user.id !== loginUser.id
-          )
-        : [
-            ...usersWhoSavedBooks,
-            { id: loginUser.id, name: loginUser.name, image: loginUser.image },
-          ],
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
+    if (isDetail) {
+      bookMutate(null, {
+        optimisticData: isSave
+          ? usersWhoSavedBooks.filter(
+              (user: { id: string; name: string; image: string }) =>
+                user.id !== loginUser.id
+            )
+          : [
+              ...usersWhoSavedBooks,
+              {
+                id: loginUser.id,
+                name: loginUser.name,
+                image: loginUser.image,
+              },
+            ],
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    }
   };
 
   useEffect(() => {
