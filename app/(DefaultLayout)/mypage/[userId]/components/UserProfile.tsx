@@ -6,6 +6,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import UserInfoEditForm from "./UserInfoEditForm";
 import useMe from "@/hooks/useMe";
+import ProfileImage from "@/components/ProfileImage";
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -22,12 +23,9 @@ export default function UserProfile({ userId }: { userId: string }) {
 
   return (
     <div className="flex flex-col justify-center gap-4 items-center">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={user?.image}
-        alt={`${user?.name}님의 프로필 이미지`}
-        className="w-32 h-32 border border-black rounded-full object-cover"
-      />
+      {loginUser && (
+        <ProfileImage image={loginUser.image} name={loginUser.name} size="lg" />
+      )}
       <p className="font-bold text-2xl">{user?.name}</p>
       {isMe && (
         <button

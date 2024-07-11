@@ -1,22 +1,26 @@
 "use client";
 
-import { SanityUser } from "@/types/user";
 import HeartFillIcon from "./icons/HeartFillIcon";
 import HeartIcon from "./icons/HeartIcon";
+import useUser from "@/hooks/useUser";
 import { BookResponseType } from "@/types/book";
 
 type HeartToggleProps = {
-  isSave: boolean;
-  onClick: () => Promise<SanityUser | undefined>;
+  book: BookResponseType;
+  isDetail?: boolean;
 };
 
-export default function HeartToggle({ isSave, onClick }: HeartToggleProps) {
+export default function HeartToggle({
+  book,
+  isDetail = false,
+}: HeartToggleProps) {
+  const { isSave, updateSaveHandler } = useUser(book, isDetail);
   return (
     <>
       {isSave ? (
-        <HeartFillIcon onClick={onClick} />
+        <HeartFillIcon onClick={updateSaveHandler} />
       ) : (
-        <HeartIcon onClick={onClick} />
+        <HeartIcon onClick={updateSaveHandler} />
       )}
     </>
   );
