@@ -6,7 +6,7 @@ import { Swiper as SwiperType } from "swiper/types";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 
 type SwiperWrapperProps = {
   setPage: (arg: number) => void;
@@ -18,6 +18,7 @@ const SwiperWrapper = forwardRef<
   SwiperWrapperProps
 >(({ setPage, children }, ref) => {
   const swiperRef = useRef<SwiperType | null>();
+
   useImperativeHandle(ref, () => {
     return {
       slideTo(index: number) {
