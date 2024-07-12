@@ -1,5 +1,3 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import UserProfile from "./components/UserProfile";
 import SavedBooks from "./components/SavedBooks";
 
