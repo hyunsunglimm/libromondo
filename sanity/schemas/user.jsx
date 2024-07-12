@@ -19,6 +19,30 @@ export const user = {
       type: "array",
       of: [{ type: "book" }],
     },
+    {
+      title: "Following",
+      name: "following",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "user" }],
+        },
+      ],
+      validation: (Rule) => Rule.unique(),
+    },
+    {
+      title: "Followers",
+      name: "followers",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "user" }],
+        },
+      ],
+      validation: (Rule) => Rule.unique(),
+    },
   ],
   preview: {
     select: {
