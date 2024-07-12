@@ -23,9 +23,7 @@ export default function UserProfile({ userId }: { userId: string }) {
 
   return (
     <div className="flex flex-col justify-center gap-4 items-center">
-      {loginUser && (
-        <ProfileImage image={loginUser.image} name={loginUser.name} size="lg" />
-      )}
+      {user && <ProfileImage image={user.image} name={user.name} size="lg" />}
       <p className="font-bold text-2xl">{user?.name}</p>
       {isMe && (
         <button
