@@ -35,7 +35,7 @@ export default function UsersWhoSavedBooks({
         </button>
       )}
       {isOpen && (
-        <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4">
+        <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
           {usersWhoSavedBooks?.map((user) => (
             <li key={user.id}>
               <UserListItem user={user} />

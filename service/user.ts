@@ -85,3 +85,16 @@ export const getUsersWhoSavedBooks = async (bookId: string) => {
       }))
     );
 };
+
+export async function searchUsers(keyword?: string) {
+  const query = keyword ? `&& (name match "${keyword}")` : "";
+
+  return client.fetch(
+    `*[_type == "user" ${query}]{
+      "id": _id,
+      "name": name,
+      "image": image
+    }
+    `
+  );
+}

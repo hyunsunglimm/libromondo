@@ -2,10 +2,10 @@
 
 import BooksList from "@/components/BooksList";
 import useDebounce from "@/hooks/useDebounce";
-import { useSearchStore } from "@/store/search";
+import { useBookSearchStore } from "@/store/search";
 
 export default function SearchPage() {
-  const { keyword, setKeyword, setPage } = useSearchStore();
+  const { keyword, setKeyword, setPage } = useBookSearchStore();
   const debouncedKeyword = useDebounce(keyword);
 
   return (

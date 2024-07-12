@@ -15,7 +15,10 @@ export default function Header() {
         <nav>
           <ul className="flex gap-4 items-center">
             <li>
-              <Link href="/search">도서검색</Link>
+              <Link href="/search-user">사용자 검색</Link>
+            </li>
+            <li>
+              <Link href="/search-book">도서검색</Link>
             </li>
             {loginUser ? (
               <li>

@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { KakaoBookResponse } from "@/types/book";
 import { ScaleLoader } from "react-spinners";
 import BookCard from "./BookCard";
-import { useSearchStore } from "@/store/search";
+import { useBookSearchStore } from "@/store/search";
 import PaginationSection from "./PaginationSection";
 import { getPageArray } from "@/utils/book";
 
@@ -11,7 +11,7 @@ type BooksListProps = {
 };
 
 export default function BooksList({ keyword }: BooksListProps) {
-  const { page, setPage } = useSearchStore();
+  const { page, setPage } = useBookSearchStore();
   const { data, isLoading } = useSWR<KakaoBookResponse>(
     keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
   );
