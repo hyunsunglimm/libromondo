@@ -6,3 +6,5 @@ export type SanityUser = {
   image: string;
   books: BookResponseType[];
 };
+
+export type SimpleUser = Omit<SanityUser, "books">;
