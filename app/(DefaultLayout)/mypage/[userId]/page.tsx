@@ -10,20 +10,7 @@ type MyPageProps = {
 };
 
 export default async function MyPage({ params }: MyPageProps) {
-  const session = await auth();
-
-  if (!session) {
-    return redirect("/");
-  }
   const userId = params.userId;
-
-  const user = await fetch(`${process.env.BASE_URL}/api/user/${userId}`).then(
-    (res) => res.json()
-  );
-
-  if (!user) {
-    return redirect("/");
-  }
 
   return (
     <section className="mx-auto">

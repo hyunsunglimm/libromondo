@@ -15,9 +15,8 @@ import Spinner from "@/components/spinner/Spinner";
 export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
-  const [followLoading, setFollowLoading] = useState(false);
 
-  const { loginUser, toggleFollow } = useMe();
+  const { loginUser, followLoading, toggleFollow } = useMe();
   const {
     data: user,
     mutate,
@@ -43,10 +42,8 @@ export default function UserProfile({ userId }: { userId: string }) {
   };
 
   const toggleFollowHandler = async () => {
-    setFollowLoading(true);
     await toggleFollow(userId, !!isFollow);
     await mutate();
-    setFollowLoading(false);
   };
 
   return (
