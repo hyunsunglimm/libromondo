@@ -7,11 +7,21 @@ import useSWR from "swr";
 import UserInfoEditForm from "./UserInfoEditForm";
 import useMe from "@/hooks/useMe";
 import ProfileImage from "@/components/ProfileImage";
+import DropdownIcon from "@/components/icons/DropdownIcon";
+import UserListItem from "@/components/UserListItem";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/spinner/Spinner";
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
-  const { loginUser } = useMe();
-  const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
+  const [dropdownType, setDropdownType] = useState("");
+
+  const { loginUser, followLoading, toggleFollow } = useMe();
+  const {
+    data: user,
+    mutate,
+    isLoading,
+  } = useSWR<SanityUser>(`/api/user/${userId}`);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -19,13 +29,26 @@ export default function UserProfile({ userId }: { userId: string }) {
 
   const isMe = loginUser?.id === userId;
 
+  const isFollow = loginUser?.following.some((user) => user.id === userId);
+
   const closeModal = () => setIsEdit(false);
+
+  const dropdownHandler = (type: string) => {
+    if (dropdownType === type) {
+      setDropdownType("");
+    } else {
+      setDropdownType(type);
+    }
+  };
+
+  const toggleFollowHandler = async () => {
+    await toggleFollow(userId, !!isFollow);
+    await mutate();
+  };
 
   return (
     <div className="flex flex-col justify-center gap-4 items-center">
-      {loginUser && (
-        <ProfileImage image={loginUser.image} name={loginUser.name} size="lg" />
-      )}
+      {user && <ProfileImage image={user.image} name={user.name} size="lg" />}
       <p className="font-bold text-2xl">{user?.name}</p>
       {isMe && (
         <button
@@ -35,6 +58,55 @@ export default function UserProfile({ userId }: { userId: string }) {
           내 정보 수정
         </button>
       )}
+      {!isMe && (
+        <Button onClick={toggleFollowHandler} className="w-20">
+          {followLoading ? (
+            <Spinner />
+          ) : (
+            <p>{isFollow ? "언팔로우" : "팔로우"}</p>
+          )}
+        </Button>
+      )}
+      <div className="w-full flex gap-4">
+        <nav className="relative w-full">
+          <button
+            className="border border-black rounded-md p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
+            onClick={() => dropdownHandler("following")}
+          >
+            <div />
+            <p>팔로잉: {user?.following.length}명</p>
+            <DropdownIcon isOpen={dropdownType === "following"} />
+          </button>
+          {dropdownType === "following" && (
+            <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
+              {user?.following?.map((user) => (
+                <li key={user.id}>
+                  <UserListItem user={user} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </nav>
+        <nav className="relative w-full">
+          <button
+            className="border border-black rounded-md p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
+            onClick={() => dropdownHandler("followers")}
+          >
+            <div />
+            <p>팔로워: {user?.followers.length}명</p>
+            <DropdownIcon isOpen={dropdownType === "followers"} />
+          </button>
+          {dropdownType === "followers" && (
+            <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
+              {user?.followers?.map((user) => (
+                <li key={user.id}>
+                  <UserListItem user={user} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </nav>
+      </div>
       <Modal isOpen={isEdit} onClose={closeModal}>
         <UserInfoEditForm user={user} closeModal={closeModal} />
       </Modal>
