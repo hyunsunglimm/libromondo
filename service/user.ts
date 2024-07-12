@@ -10,6 +10,8 @@ export const addUser = async (id: string, name: string, image: string) => {
     name,
     image: image || EMPTY_PROFILE_IMAGE,
     books: [],
+    following: [],
+    followers: [],
   });
 };
 
@@ -21,7 +23,9 @@ export const getUserById = async (id: string) => {
           "id": _id,
           "name": name,
           "image": image,
-          "books": books
+          "books": books,
+          following[]->{"id": _id, name,image},
+          followers[]->{"id": _id, name,image}
         }
       `
     )
@@ -97,4 +101,28 @@ export async function searchUsers(keyword?: string) {
     }
     `
   );
+}
+
+export async function follow(myId: string, targetId: string) {
+  return client
+    .transaction()
+    .patch(myId, (user) =>
+      user
+        .setIfMissing({ following: [] })
+        .append("following", [{ _ref: targetId, _type: "reference" }])
+    )
+    .patch(targetId, (user) =>
+      user
+        .setIfMissing({ followers: [] })
+        .append("followers", [{ _ref: myId, _type: "reference" }])
+    )
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function unfollow(myId: string, targetId: string) {
+  return client
+    .transaction()
+    .patch(myId, (user) => user.unset([`following[_ref=="${targetId}"]`]))
+    .patch(targetId, (user) => user.unset([`followers[_ref=="${myId}"]`]))
+    .commit({ autoGenerateArrayKeys: true });
 }

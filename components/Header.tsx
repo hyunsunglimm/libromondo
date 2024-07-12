@@ -22,7 +22,9 @@ export default function Header() {
             </li>
             {loginUser ? (
               <li>
-                <button onClick={() => signOut()}>로그아웃</button>
+                <button onClick={() => signOut({ callbackUrl: "/" })}>
+                  로그아웃
+                </button>
               </li>
             ) : (
               <li>
