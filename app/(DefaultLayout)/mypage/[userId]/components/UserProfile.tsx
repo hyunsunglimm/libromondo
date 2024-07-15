@@ -12,6 +12,7 @@ import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner/Spinner";
 import { useAlarmStore } from "@/store/alarm";
+import UserProfileSkeleton from "./UserProfileSkeleton";
 
 async function updateFollow(targetId: string, follow: boolean) {
   return fetch("/api/follow", {
@@ -45,7 +46,7 @@ export default function UserProfile({ userId }: { userId: string }) {
   } = useSWR<SanityUser>(`/api/user/${userId}`);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <UserProfileSkeleton />;
   }
 
   const isMe = loginUser?.id === userId;
@@ -77,7 +78,7 @@ export default function UserProfile({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center">
       {user && <ProfileImage image={user.image} name={user.name} size="lg" />}
       <p className="font-bold text-2xl">{user?.name}</p>
       {isMe && (

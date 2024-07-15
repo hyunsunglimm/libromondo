@@ -4,13 +4,14 @@ import BookCard from "@/components/BookCard";
 import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
 import useSWR from "swr";
+import SavedBooksSkeleton from "./SavedBooksSkeleton";
 
 export default function SavedBooks({ userId }: { userId: string }) {
   const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
   const { loginUser } = useMe();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <SavedBooksSkeleton />;
   }
 
   const isMe = loginUser?.id === userId;
