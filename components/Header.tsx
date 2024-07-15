@@ -4,9 +4,10 @@ import useMe from "@/hooks/useMe";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import ProfileImage from "./ProfileImage";
+import CircularSkeleton from "./skeleton/CircularSkeleton";
 
 export default function Header() {
-  const { loginUser } = useMe();
+  const { loginUser, isLoading } = useMe();
 
   return (
     <header className="border-b sticky top-0 backdrop-blur-sm">
@@ -31,6 +32,7 @@ export default function Header() {
                 <Link href="/login">로그인</Link>
               </li>
             )}
+            {isLoading && <CircularSkeleton size="sm" />}
             {loginUser && (
               <li>
                 <Link href={`/mypage/${loginUser.id}`}>
