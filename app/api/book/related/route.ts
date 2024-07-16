@@ -1,14 +1,17 @@
 import { fetchBookData } from "@/service/book";
+import { KakaoBookResponse } from "@/types/book";
 
 export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
-  const query = searchParams.get("query");
+  const title = searchParams.get("title");
 
-  if (!query) {
-    return new Response("키워드가 입력되지 않았습니다.");
+  if (!title) {
+    return new Response("필요한 정보들이 입력되지 않았습니다.");
   }
 
-  const data = await fetchBookData(query, 50);
+  const data: KakaoBookResponse = await fetchBookData(title.slice(0, 2), 50);
 
-  return Response.json(data);
+  const books = data.documents;
+
+  return Response.json(books);
 };

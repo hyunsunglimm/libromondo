@@ -2,6 +2,7 @@ import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
 import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
+import { generateSearchKeywords } from "@/utils/book";
 
 type BookDetailPageProps = {
   params: {
@@ -24,11 +25,15 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
     .then((res) => res.json())
     .then((data) => data.documents);
 
+  const relatedKeyword = generateSearchKeywords(
+    book.authors,
+    book.contents,
+    book.title
+  );
+
   const relatedBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?query=${book.title.slice(0, 2)}`
-  )
-    .then((res) => res.json())
-    .then((data) => data.documents);
+    `${process.env.BASE_URL}/api/book/related?title=${book.title}`
+  ).then((res) => res.json());
 
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">
