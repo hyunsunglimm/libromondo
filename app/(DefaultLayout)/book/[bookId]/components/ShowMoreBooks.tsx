@@ -17,7 +17,7 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
   const [page, setPage] = useState(1);
   const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 
-  const lastPage = Math.ceil(books.length / 4);
+  const lastPage = Math.ceil(books?.length / 4);
   const isLastPage = page === lastPage;
 
   const pageArray = getPageArray(page, lastPage);
@@ -39,7 +39,7 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
     <div className="mt-8">
       <div className="flex justify-between items-center">
         <p className="font-bold text-lg">{title}</p>
-        <p className="text-gray-400">총 {books.length}개의 도서가 있습니다.</p>
+        <p className="text-gray-400">총 {books?.length}개의 도서가 있습니다.</p>
       </div>
       <SwiperWrapper ref={ref} setPage={setPage}>
         {books?.map((book, index) => (
