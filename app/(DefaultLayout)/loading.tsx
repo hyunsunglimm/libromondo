@@ -1,3 +1,5 @@
+import RootLoading from "@/components/RootLoading";
+
 export default function loading() {
-  return <p>Loading...</p>;
+  return <RootLoading />;
 }
