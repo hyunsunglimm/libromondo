@@ -15,6 +15,7 @@ export default function KakaoLogin() {
           alt="kakao logo"
           width={20}
           height={20}
+          className="w-6"
           unoptimized
         />
         Login with Kakao
