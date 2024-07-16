@@ -11,7 +11,7 @@ export default function Header() {
   const { loginUser, isLoading } = useMe();
 
   return (
-    <header className="border-b sticky top-0 sm:backdrop-blur-sm sm:bg-transparent bg-white z-20">
+    <header className="border-b sticky top-0 backdrop-blur-sm z-20">
       <div className="max-w-[1280px] flex justify-between items-center mx-auto p-8 md:p-4">
         <Link href="/" className="font-bold text-4xl md:text-xl">
           Libro Mondo
