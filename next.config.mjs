@@ -7,7 +7,6 @@ const nextConfig = {
         hostname: "search1.kakaocdn.net",
       },
     ],
-    unoptimized: false,
   },
 };
 
