@@ -1,38 +1,51 @@
 "use client";
 
 import useMe from "@/hooks/useMe";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import ProfileImage from "./ProfileImage";
 import CircularSkeleton from "./skeleton/CircularSkeleton";
 
 export default function Header() {
+  const { data: session } = useSession();
   const { loginUser, isLoading } = useMe();
 
   return (
-    <header className="border-b sticky top-0 backdrop-blur-sm">
-      <div className="max-w-[1280px] flex justify-between items-center mx-auto p-4">
-        <Link href="/">Libro Mondo</Link>
+    <header className="border-b sticky top-0 sm:backdrop-blur-sm sm:bg-transparent bg-white z-20">
+      <div className="max-w-[1280px] flex justify-between items-center mx-auto p-8 md:p-4">
+        <Link href="/" className="font-bold text-4xl md:text-xl">
+          Libro Mondo
+        </Link>
         <nav>
           <ul className="flex gap-4 items-center">
             <li>
-              <Link href="/search-user">사용자 검색</Link>
+              <Link href="/search-user" className="text-3xl md:text-base">
+                사용자 검색
+              </Link>
             </li>
             <li>
-              <Link href="/search-book">도서검색</Link>
+              <Link href="/search-book" className="text-3xl md:text-base">
+                도서검색
+              </Link>
             </li>
-            {loginUser ? (
+            {loginUser && (
               <li>
-                <button onClick={() => signOut({ callbackUrl: "/" })}>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="text-3xl md:text-base"
+                >
                   로그아웃
                 </button>
               </li>
-            ) : (
+            )}
+            {!loginUser && !isLoading && (
               <li>
-                <Link href="/login">로그인</Link>
+                <Link href="/login" className="text-3xl md:text-base">
+                  로그인
+                </Link>
               </li>
             )}
-            {isLoading && <CircularSkeleton size="sm" />}
+            {session && isLoading && <CircularSkeleton size="sm" />}
             {loginUser && (
               <li>
                 <Link href={`/mypage/${loginUser.id}`}>

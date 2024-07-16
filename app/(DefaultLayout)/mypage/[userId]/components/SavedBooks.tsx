@@ -29,7 +29,7 @@ export default function SavedBooks({ userId }: { userId: string }) {
           찜한 도서가 없습니다.
         </p>
       )}
-      <ul className="grid grid-cols-4 w-[800px] mx-auto gap-4 mt-4">
+      <ul className="grid grid-cols-4 w-full mx-auto gap-4 mt-4">
         {user?.books.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}

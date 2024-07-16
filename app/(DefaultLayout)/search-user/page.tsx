@@ -9,9 +9,9 @@ export default function SearchPage() {
   const debouncedKeyword = useDebounce(keyword);
 
   return (
-    <section className="mx-auto">
+    <section className="mx-auto max-w-[832px] w-full px-4">
       <input
-        className="border w-[800px] p-4"
+        className="border w-full p-4"
         placeholder="검색할 사용자의 이름을 입력해주세요."
         onChange={(e) => {
           setKeyword(e.target.value);

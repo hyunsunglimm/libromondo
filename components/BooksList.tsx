@@ -8,20 +8,25 @@ import { getPageArray } from "@/utils/book";
 
 type BooksListProps = {
   keyword: string | null;
+  size: 4 | 8;
 };
 
-export default function BooksList({ keyword }: BooksListProps) {
+export default function BooksList({ keyword, size }: BooksListProps) {
   const { page, setPage } = useBookSearchStore();
   const { data, isLoading } = useSWR<KakaoBookResponse>(
-    keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
+    keyword
+      ? `/api/book/search?query=${keyword}&size=${size}&page=${page}`
+      : null
   );
 
   const books = data?.documents;
   const pageableCount = data?.meta.pageable_count ?? 0;
-  const lastPage = Math.ceil(pageableCount / 8);
+  const lastPage = Math.ceil(pageableCount / size);
   const isLastPage = page === lastPage || page >= 100;
 
-  const pageArray = getPageArray(page, lastPage);
+  const isMobile = size === 4;
+
+  const pageArray = getPageArray(page, lastPage, isMobile ? 3 : 10);
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);
@@ -39,11 +44,18 @@ export default function BooksList({ keyword }: BooksListProps) {
   return (
     <>
       {books && books?.length > 0 && (
-        <p className="text-gray-400 text-end mt-4">
+        <p className={`text-gray-400 text-end mt-4 ${isMobile && "hidden"}`}>
           {pageableCount > 800 ? 800 : pageableCount}개의 검색 결과가 있습니다.
         </p>
       )}
-      <ul className="grid grid-cols-4 w-[800px] mx-auto mt-4 gap-4">
+      {books && books?.length > 0 && (
+        <p className={`text-gray-400 text-end mt-4 ${!isMobile && "hidden"}`}>
+          {pageableCount > 400 ? 400 : pageableCount}개의 검색 결과가 있습니다.
+        </p>
+      )}
+      <ul
+        className={`grid max-w-[832px] w-full mx-auto mt-4 gap-4 ${isMobile ? "grid-cols-2" : "grid-cols-4"}`}
+      >
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
