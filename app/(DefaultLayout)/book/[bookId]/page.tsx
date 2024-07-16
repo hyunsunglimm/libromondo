@@ -31,7 +31,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
     .then((data) => data.documents);
 
   return (
-    <section className="max-w-[800px] mx-auto">
+    <section className="max-w-[832px] w-full mx-auto px-4">
       <DetailBook book={book} bookId={bookId} />
       <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" />
       <ShowMoreBooks books={relatedBooks} title="관련있는 책" />

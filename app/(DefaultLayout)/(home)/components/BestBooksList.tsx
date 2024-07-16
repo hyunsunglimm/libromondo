@@ -26,7 +26,7 @@ export default function BestBooksList() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="grid grid-cols-4 w-[800px] mx-auto mt-8 gap-4"
+          className="grid md:grid-cols-4 grid-cols-3 max-w-[800px] w-full mx-auto mt-8 gap-4"
         >
           {books.map((book, index) => {
             const bookId = book.isbn.split(" ")[0];
@@ -42,7 +42,7 @@ export default function BestBooksList() {
                     alt={`${book?.title} 이미지`}
                     width={200}
                     height={300}
-                    className="hover:scale-105 transition"
+                    className="hover:scale-105 transition w-full"
                     priority={index < 13}
                   />
                 </Link>

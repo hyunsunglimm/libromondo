@@ -74,3 +74,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+html {
+  font-size: 2vw;
+}
+
+@media (min-width: 800px) {
+  html {
+    font-size: 16px;
+  }
+}

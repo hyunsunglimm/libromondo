@@ -2,7 +2,7 @@
 
 import Modal from "@/components/Modal";
 import { SanityUser } from "@/types/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import UserInfoEditForm from "./UserInfoEditForm";
 import useMe from "@/hooks/useMe";
@@ -11,12 +11,34 @@ import DropdownIcon from "@/components/icons/DropdownIcon";
 import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner/Spinner";
+import { useAlarmStore } from "@/store/alarm";
+import UserProfileSkeleton from "./UserProfileSkeleton";
+
+async function updateFollow(targetId: string, follow: boolean) {
+  return fetch("/api/follow", {
+    method: "PUT",
+    body: JSON.stringify({ targetId, follow }),
+  }).then((res) => res.json());
+}
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
+  const [followLoading, setFollowLoading] = useState(false);
 
-  const { loginUser, followLoading, toggleFollow } = useMe();
+  const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
+
+  useEffect(() => {
+    if (isAlarm) {
+      const timer = setTimeout(() => {
+        offAlarm();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isAlarm, offAlarm]);
+
+  const { loginUser, mutate: loginUserMutate } = useMe();
   const {
     data: user,
     mutate,
@@ -24,7 +46,7 @@ export default function UserProfile({ userId }: { userId: string }) {
   } = useSWR<SanityUser>(`/api/user/${userId}`);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <UserProfileSkeleton />;
   }
 
   const isMe = loginUser?.id === userId;
@@ -41,13 +63,22 @@ export default function UserProfile({ userId }: { userId: string }) {
     }
   };
 
-  const toggleFollowHandler = async () => {
-    await toggleFollow(userId, !!isFollow);
+  const toggleFollow = async (targetId: string, follow: boolean) => {
+    if (!loginUser) {
+      onAlarm();
+      return;
+    }
+    setFollowLoading(true);
+
+    await loginUserMutate(updateFollow(targetId, follow), {
+      populateCache: false,
+    });
     await mutate();
+    setFollowLoading(false);
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center">
       {user && <ProfileImage image={user.image} name={user.name} size="lg" />}
       <p className="font-bold text-2xl">{user?.name}</p>
       {isMe && (
@@ -59,7 +90,10 @@ export default function UserProfile({ userId }: { userId: string }) {
         </button>
       )}
       {!isMe && (
-        <Button onClick={toggleFollowHandler} className="w-20">
+        <Button
+          onClick={() => toggleFollow(userId, !!isFollow)}
+          className="w-20"
+        >
           {followLoading ? (
             <Spinner />
           ) : (

@@ -4,13 +4,14 @@ import BookCard from "@/components/BookCard";
 import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
 import useSWR from "swr";
+import SavedBooksSkeleton from "./SavedBooksSkeleton";
 
 export default function SavedBooks({ userId }: { userId: string }) {
   const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
   const { loginUser } = useMe();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <SavedBooksSkeleton />;
   }
 
   const isMe = loginUser?.id === userId;
@@ -28,7 +29,7 @@ export default function SavedBooks({ userId }: { userId: string }) {
           찜한 도서가 없습니다.
         </p>
       )}
-      <ul className="grid grid-cols-4 w-[800px] mx-auto gap-4 mt-4">
+      <ul className="grid grid-cols-4 w-full mx-auto gap-4 mt-4">
         {user?.books.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}

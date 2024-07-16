@@ -11,14 +11,10 @@ type UsersWhoSavedBooksProps = {
 export default function UsersWhoSavedBooks({
   bookId,
 }: UsersWhoSavedBooksProps) {
-  const { data: usersWhoSavedBooks, isLoading } = useSWR<SimpleUser[]>(
+  const { data: usersWhoSavedBooks } = useSWR<SimpleUser[]>(
     `/api/book/${bookId}/saved`
   );
   const [isOpen, setIsOpen] = useState(false);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <nav className="relative">
