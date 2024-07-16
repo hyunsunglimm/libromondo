@@ -26,7 +26,9 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
 
   const relatedBooks: BookResponseType[] = await fetch(
     `${process.env.BASE_URL}/api/book/related?title=${book.title}`
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .then((data) => data.documents);
 
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">

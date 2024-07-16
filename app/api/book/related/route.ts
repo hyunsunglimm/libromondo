@@ -11,7 +11,5 @@ export const GET = async (req: Request) => {
 
   const data: KakaoBookResponse = await fetchBookData(title.slice(0, 2), 50);
 
-  const books = data.documents;
-
-  return Response.json(books);
+  return Response.json(data);
 };
