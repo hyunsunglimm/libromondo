@@ -21,7 +21,7 @@ export default function SearchPage() {
         value={keyword}
       />
 
-      <BooksList keyword={debouncedKeyword} size={8} />
+      <BooksList keyword={debouncedKeyword} />
     </section>
   );
 }
