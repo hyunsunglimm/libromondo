@@ -19,7 +19,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   if (!book) return redirect("/");
 
   const sameAuthorBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?query=${book.authors[0]}`
+    `${process.env.BASE_URL}/api/book/same-author?name=${book.authors[0]}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);
