@@ -2,6 +2,7 @@
 
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
+import RootLoading from "@/components/RootLoading";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
 import { BookResponseType } from "@/types/book";
@@ -14,6 +15,10 @@ type ShowMoreBooksProps = {
 };
 
 export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
+  if (!books || typeof books !== "object") {
+    return <RootLoading />;
+  }
+
   const [page, setPage] = useState(1);
   const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 

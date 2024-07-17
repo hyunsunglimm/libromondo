@@ -18,23 +18,23 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
 
   if (!book) return redirect("/");
 
-  // const sameAuthorBooks: BookResponseType[] = await fetch(
-  //   `${process.env.BASE_URL}/api/book/same-author?name=${book.authors[0]}`
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => data.documents);
+  const sameAuthorBooks: BookResponseType[] = await fetch(
+    `${process.env.BASE_URL}/api/book/same-author?name=${book.authors[0]}`
+  )
+    .then((res) => res.json())
+    .then((data) => data.documents);
 
-  // const relatedBooks: BookResponseType[] = await fetch(
-  //   `${process.env.BASE_URL}/api/book/related?title=${book.title}`
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => data.documents);
+  const relatedBooks: BookResponseType[] = await fetch(
+    `${process.env.BASE_URL}/api/book/related?title=${book.title}`
+  )
+    .then((res) => res.json())
+    .then((data) => data.documents);
 
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">
       <DetailBook book={book} bookId={bookId} />
-      {/* <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" /> */}
-      {/* <ShowMoreBooks books={relatedBooks} title="관련있는 책" /> */}
+      <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" />
+      <ShowMoreBooks books={relatedBooks} title="관련있는 책" />
     </section>
   );
 }
