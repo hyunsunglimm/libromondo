@@ -2,6 +2,7 @@
 
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
+import RootLoading from "@/components/RootLoading";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
 import { BookResponseType } from "@/types/book";
