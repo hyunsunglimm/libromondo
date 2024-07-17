@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import ProfileImage from "./ProfileImage";
 import CircularSkeleton from "./skeleton/CircularSkeleton";
+import SearchIcon from "./icons/SearchIcon";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -19,13 +20,8 @@ export default function Header() {
         <nav>
           <ul className="flex gap-4 items-center">
             <li>
-              <Link href="/search-user" className="text-3xl md:text-base">
-                사용자 검색
-              </Link>
-            </li>
-            <li>
-              <Link href="/search-book" className="text-3xl md:text-base">
-                도서검색
+              <Link href="/search">
+                <SearchIcon />
               </Link>
             </li>
             {loginUser && (
