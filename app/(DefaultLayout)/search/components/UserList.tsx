@@ -6,12 +6,12 @@ import { ScaleLoader } from "react-spinners";
 import useSWR from "swr";
 
 type UserListProps = {
-  debouncedKeyword: string;
+  keyword: string;
 };
 
-export default function UserList({ debouncedKeyword }: UserListProps) {
+export default function UserList({ keyword }: UserListProps) {
   const { data: users, isLoading } = useSWR<SimpleUser[]>(
-    `/api/user/search?query=${debouncedKeyword}`
+    keyword ? `/api/user/search?query=${keyword}` : null
   );
 
   if (isLoading) {
