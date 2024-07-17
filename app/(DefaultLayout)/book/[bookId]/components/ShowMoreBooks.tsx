@@ -2,6 +2,7 @@
 
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
+import RootLoading from "@/components/RootLoading";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
 import { BookResponseType } from "@/types/book";
@@ -34,6 +35,10 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
   const handleNextPage = () => {
     if (!isLastPage) setPage(page + 1);
   };
+
+  if (!books) {
+    return <RootLoading />;
+  }
 
   return (
     <div className="mt-8">
