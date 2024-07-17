@@ -2,12 +2,12 @@
 
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
-import RootLoading from "@/components/RootLoading";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
 import { BookResponseType } from "@/types/book";
 import { getPageArray } from "@/utils/book";
 import { useEffect, useRef, useState } from "react";
+import { ScaleLoader } from "react-spinners";
 
 type ShowMoreBooksProps = {
   title: string;
@@ -37,7 +37,11 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
   };
 
   if (!books) {
-    return <RootLoading />;
+    return (
+      <div className="flex justify-center my-12">
+        <ScaleLoader />
+      </div>
+    );
   }
 
   return (
