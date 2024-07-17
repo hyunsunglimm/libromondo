@@ -63,7 +63,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/book/${params.bookId}/`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/book/${params.bookId}/`,
       images: book.thumbnail,
       siteName: "Libro Mondo",
       locale: "ko_KR",
