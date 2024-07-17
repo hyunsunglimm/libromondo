@@ -15,10 +15,6 @@ type ShowMoreBooksProps = {
 };
 
 export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
-  if (!books || typeof books !== "object") {
-    return <RootLoading />;
-  }
-
   const [page, setPage] = useState(1);
   const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 
