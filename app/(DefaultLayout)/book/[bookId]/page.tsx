@@ -2,6 +2,7 @@ import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
 import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
+import { resolve } from "path";
 
 type BookDetailPageProps = {
   params: {

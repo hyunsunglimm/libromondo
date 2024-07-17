@@ -12,8 +12,10 @@ export default function BestBooksList() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center mt-40">
-        <ScaleLoader />
+      <div className="flex flex-col items-center justify-center mt-24">
+        <p className="text-2xl">국내 베스트 도서를 불러오는 중입니다.</p>
+        <p className="text-2xl">잠시만 기다려주세요.</p>
+        <ScaleLoader className="mt-8" />
       </div>
     );
   }
