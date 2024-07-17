@@ -7,8 +7,23 @@ import AuthContext from "@/context/AuthContext";
 import { Alarm } from "@/components/Alarm";
 
 export const metadata: Metadata = {
-  title: "Libro Mondo",
+  title: {
+    default: "Libro Mondo",
+    template: "Libro Mondo | %s",
+  },
   description: "Libro Mondo는 간편한 도서 추천 서비스입니다.",
+  openGraph: {
+    title: {
+      default: "Libro Mondo",
+      template: "Libro Mondo | %s",
+    },
+    description: "Libro Mondo는 간편한 도서 추천 서비스입니다.",
+    type: "website",
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+    images: "https://libromondo.vercel.app/images/main.png",
+    siteName: "Libro Mondo",
+    locale: "ko_KR",
+  },
 };
 
 export default function DefaultLayout({

@@ -2,7 +2,7 @@ import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
 import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
-import { resolve } from "path";
+import { Metadata } from "next";
 
 type BookDetailPageProps = {
   params: {
@@ -13,20 +13,22 @@ type BookDetailPageProps = {
 export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const { bookId } = params;
 
-  const book = await fetch(`${process.env.BASE_URL}/api/book/${bookId}`)
+  const book = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${bookId}`
+  )
     .then((res) => res.json())
     .then((data) => data.documents[0]);
 
   if (!book) return redirect("/");
 
   const sameAuthorBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?keyword=${book.authors[0]}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${book.authors[0]}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);
 
   const relatedBooks: BookResponseType[] = await fetch(
-    `${process.env.BASE_URL}/api/book/related?keyword=${book.title.slice(0, 2)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${book.title.slice(0, 2)}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);
@@ -38,4 +40,33 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
       <ShowMoreBooks books={relatedBooks} title="관련있는 책" />
     </section>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: BookDetailPageProps): Promise<Metadata> {
+  const bookId = params.bookId;
+
+  const book = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${bookId}`
+  )
+    .then((res) => res.json())
+    .then((data) => data.documents[0]);
+
+  const title = `${book.title} (${book.authors[0]})`;
+  const description = book.contents;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/book/${params.bookId}/`,
+      images: book.thumbnail,
+      siteName: "Libro Mondo",
+      locale: "ko_KR",
+    },
+  };
 }
