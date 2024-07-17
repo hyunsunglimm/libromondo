@@ -1,5 +1,6 @@
 import UserProfile from "./components/UserProfile";
 import SavedBooks from "./components/SavedBooks";
+import { Metadata } from "next";
 
 type MyPageProps = {
   params: {
@@ -16,4 +17,31 @@ export default async function MyPage({ params }: MyPageProps) {
       <SavedBooks userId={userId} />
     </section>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: MyPageProps): Promise<Metadata> {
+  const userId = params.userId;
+
+  const user = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`
+  ).then((res) => res.json());
+
+  const title = user.name;
+  const description = `${user.name}님의 마이페이지입니다.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/mypage/${params.userId}/`,
+      images: user.image,
+      siteName: "Libro Mondo",
+      locale: "ko_KR",
+    },
+  };
 }
