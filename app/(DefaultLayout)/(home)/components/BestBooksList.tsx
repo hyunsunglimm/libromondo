@@ -4,24 +4,23 @@ import Image from "next/image";
 import useSWR from "swr";
 import { motion } from "framer-motion";
 import { BookResponseType } from "@/types/book";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ScaleLoader } from "react-spinners";
 
 export default function BestBooksList() {
-  const { data: books } = useSWR<BookResponseType[]>("/api/book");
-  const [show, setShow] = useState(false);
+  const { data: books, isLoading } = useSWR<BookResponseType[]>("/api/book");
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(true);
-    }, 700);
-
-    return () => clearTimeout(timer);
-  }, []);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center mt-40">
+        <ScaleLoader />
+      </div>
+    );
+  }
 
   return (
     <>
-      {books && show && (
+      {!isLoading && books && (
         <motion.ul
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
