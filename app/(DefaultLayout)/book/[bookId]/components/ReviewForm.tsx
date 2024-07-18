@@ -36,7 +36,7 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
         alt={`${book.title} 이미지`}
         width={400}
         height={500}
-        className="w-full"
+        className="w-full rounded-md border border-black"
       />
       <GradeSection grade={grade} setGrade={setGrade} />
       <textarea

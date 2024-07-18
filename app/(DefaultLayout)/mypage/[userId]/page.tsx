@@ -1,6 +1,6 @@
 import UserProfile from "./components/UserProfile";
-import SavedBooks from "./components/SavedBooks";
 import { Metadata } from "next";
+import UserContents from "./components/UserContents";
 
 type MyPageProps = {
   params: {
@@ -14,7 +14,7 @@ export default async function MyPage({ params }: MyPageProps) {
   return (
     <section className="mx-auto max-w-[832px] w-full px-4">
       <UserProfile userId={userId} />
-      <SavedBooks userId={userId} />
+      <UserContents userId={userId} />
     </section>
   );
 }
