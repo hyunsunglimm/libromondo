@@ -72,7 +72,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
         </div>
       </div>
       <Modal isOpen={isReview} onClose={() => setIsReview(false)}>
-        <ReviewForm book={book} />
+        <ReviewForm book={book} onClose={() => setIsReview(false)} />
       </Modal>
     </>
   );

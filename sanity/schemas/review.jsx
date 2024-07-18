@@ -12,12 +12,75 @@ export const review = {
     {
       title: "Book",
       name: "book",
-      type: "reference",
-      to: [{ type: "book" }],
+      type: "object",
+      fields: [
+        {
+          title: "Authors",
+          name: "authors",
+          type: "array",
+          of: [{ type: "string" }],
+        },
+        {
+          title: "Contents",
+          name: "contents",
+          type: "string",
+        },
+        {
+          title: "Datetime",
+          name: "datetime",
+          type: "string",
+        },
+        {
+          title: "ISBN",
+          name: "isbn",
+          type: "string",
+        },
+        {
+          title: "Price",
+          name: "price",
+          type: "number",
+        },
+        {
+          title: "Publisher",
+          name: "publisher",
+          type: "string",
+        },
+        {
+          title: "Sale Price",
+          name: "sale_price",
+          type: "number",
+        },
+        {
+          title: "Status",
+          name: "status",
+          type: "string",
+        },
+        {
+          title: "Thumbnail",
+          name: "thumbnail",
+          type: "string",
+        },
+        {
+          title: "Title",
+          name: "title",
+          type: "string",
+        },
+        {
+          title: "Translators",
+          name: "translators",
+          type: "array",
+          of: [{ type: "string" }],
+        },
+        {
+          title: "URL",
+          name: "url",
+          type: "url",
+        },
+      ],
     },
     {
       title: "Contents",
-      name: "content",
+      name: "contents",
       type: "string",
     },
     {
