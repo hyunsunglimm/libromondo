@@ -21,6 +21,11 @@ export const review = {
       type: "string",
     },
     {
+      title: "Grade",
+      name: "grade",
+      type: "number",
+    },
+    {
       title: "Comments",
       name: "comments",
       type: "array",
