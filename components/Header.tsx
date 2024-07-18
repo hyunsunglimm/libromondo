@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProfileImage from "./ProfileImage";
 import CircularSkeleton from "./skeleton/CircularSkeleton";
 import SearchIcon from "./icons/SearchIcon";
+import { Button } from "./ui/button";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -24,23 +25,6 @@ export default function Header() {
                 <SearchIcon />
               </Link>
             </li>
-            {loginUser && (
-              <li>
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-3xl md:text-base"
-                >
-                  로그아웃
-                </button>
-              </li>
-            )}
-            {!loginUser && !isLoading && (
-              <li>
-                <Link href="/login" className="text-3xl md:text-base">
-                  로그인
-                </Link>
-              </li>
-            )}
             {session && isLoading && <CircularSkeleton size="sm" />}
             {loginUser && (
               <li>
@@ -51,6 +35,25 @@ export default function Header() {
                     size="sm"
                   />
                 </Link>
+              </li>
+            )}
+            {loginUser && (
+              <li>
+                <Button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="text-3xl md:text-base"
+                >
+                  로그아웃
+                </Button>
+              </li>
+            )}
+            {!loginUser && !isLoading && (
+              <li>
+                <Button asChild>
+                  <Link href="/login" className="text-3xl md:text-base">
+                    로그인
+                  </Link>
+                </Button>
               </li>
             )}
           </ul>

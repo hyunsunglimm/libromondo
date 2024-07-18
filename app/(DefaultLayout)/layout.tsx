@@ -39,6 +39,7 @@ export default function DefaultLayout({
           {children}
         </main>
         <Alarm />
+        <div id="portal" />
         <Footer />
       </SWRConfigContext>
     </AuthContext>
