@@ -1,23 +1,16 @@
 "use client";
 
 import BookCard from "@/components/BookCard";
-import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
-import useSWR from "swr";
-import SavedBooksSkeleton from "./SavedBooksSkeleton";
 
-export default function SavedBooks({ userId }: { userId: string }) {
-  const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
-  const { loginUser } = useMe();
+type SavedBooksProps = {
+  user: SanityUser;
+  isMe: boolean;
+};
 
-  if (isLoading) {
-    return <SavedBooksSkeleton />;
-  }
-
-  const isMe = loginUser?.id === userId;
-
+export default function SavedBooks({ user, isMe }: SavedBooksProps) {
   return (
-    <div className="border-t-2 pt-4 mt-4 border-black">
+    <div className="pt-4 mt-4">
       <h2 className="text-center font-bold text-2xl">
         {isMe ? "내 서재" : `${user?.name}님의 서재`}
       </h2>

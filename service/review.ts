@@ -19,3 +19,18 @@ export const addReview = (
     { autoGenerateArrayKeys: true }
   );
 };
+
+export const getReviewByUser = (userId: string) => {
+  return client.fetch(`
+      *[_type == "review" && author->id == ${userId} | order(_createdAt desc)] {
+        "id": _id,
+        "author": author->name,
+        "book": book,
+        "contents": contents,
+        "grade": grade,
+        "comments": comments,
+        "createdAt": _createdAt,
+        "updatedAt": _updatedAt
+      }
+    `);
+};
