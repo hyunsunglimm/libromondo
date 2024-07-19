@@ -1,12 +1,12 @@
 import { signIn } from "@/auth";
 import Image from "next/image";
 
-export default function GoogleLogin() {
+export default function GoogleLogin({ callbackUrl }: { callbackUrl: string }) {
   return (
     <form
       action={async () => {
         "use server";
-        await signIn("google");
+        await signIn("google", { redirectTo: callbackUrl });
       }}
     >
       <button className="bg-white shadow-md border rounded-xl w-80 p-4 flex justify-center items-center gap-2">

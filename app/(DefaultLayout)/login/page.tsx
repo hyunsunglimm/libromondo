@@ -1,7 +1,5 @@
-import { auth } from "@/auth";
 import GoogleLogin from "./components/GoogleLogin";
 import KakaoLogin from "./components/KakaoLogin";
-import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,17 +16,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function LoginPage() {
-  const session = await auth();
+type LoginPageProps = {
+  searchParams: {
+    callbackUrl: string;
+  };
+};
 
-  if (session) {
-    return redirect("/");
-  }
-
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <section className="w-full flex flex-col justify-center items-center gap-2">
-      <GoogleLogin />
-      <KakaoLogin />
+      <GoogleLogin callbackUrl={searchParams.callbackUrl ?? "/"} />
+      <KakaoLogin callbackUrl={searchParams.callbackUrl ?? "/"} />
     </section>
   );
 }

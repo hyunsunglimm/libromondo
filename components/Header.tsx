@@ -7,10 +7,12 @@ import ProfileImage from "./ProfileImage";
 import CircularSkeleton from "./skeleton/CircularSkeleton";
 import SearchIcon from "./icons/SearchIcon";
 import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { data: session } = useSession();
   const { loginUser, isLoading } = useMe();
+  const pathname = usePathname();
 
   return (
     <header className="border-b sticky top-0 bg-white z-20">
@@ -50,7 +52,10 @@ export default function Header() {
             {!loginUser && !isLoading && (
               <li>
                 <Button asChild>
-                  <Link href="/login" className="text-3xl md:text-base">
+                  <Link
+                    href={`/login?callbackUrl=${pathname}`}
+                    className="text-3xl md:text-base"
+                  >
                     로그인
                   </Link>
                 </Button>
