@@ -22,13 +22,13 @@ export const addReview = (
 
 export const getReviewByUser = (userId: string) => {
   return client.fetch(`
-      *[_type == "review" && author->id == ${userId} | order(_createdAt desc)] {
+      *[_type == "review" && author->_id == "${userId}"] | order(_createdAt desc) {
         "id": _id,
         "author": author->name,
         "book": book,
         "contents": contents,
         "grade": grade,
-        "comments": comments,
+        comments[]{...,"id": _key, comment, "name": author->name, "image": author->image},
         "createdAt": _createdAt,
         "updatedAt": _updatedAt
       }

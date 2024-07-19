@@ -23,9 +23,10 @@ export default function SavedBooks({ user, isMe }: SavedBooksProps) {
         </p>
       )}
       <ul className="grid grid-cols-4 w-full mx-auto gap-4 mt-4">
-        {user?.books.map((book, index) => (
-          <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
-        ))}
+        {user?.books.map((book, index) => {
+          const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
+          return <BookCard book={book} index={index} key={bookId} />;
+        })}
       </ul>
     </div>
   );

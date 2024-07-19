@@ -1,5 +1,6 @@
 "use client";
 
+import ReviewListItem from "@/components/ReviewListItem";
 import { Review } from "@/types/review";
 import { SanityUser } from "@/types/user";
 import { ScaleLoader } from "react-spinners";
@@ -37,11 +38,9 @@ export default function Reviews({ user, isMe }: ReviewsProps) {
           리뷰를 작성해보세요 !
         </p>
       )}
-      <ul className="">
+      <ul className="flex flex-col gap-2 mt-4">
         {reviews?.map((review) => (
-          <li key={review.id}>
-            <p>{review.book.title}</p>
-          </li>
+          <ReviewListItem key={review.id} review={review} />
         ))}
       </ul>
     </div>

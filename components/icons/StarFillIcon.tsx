@@ -1,5 +1,13 @@
 import { FaStar } from "react-icons/fa";
 
-export default function StarFillIcon() {
-  return <FaStar className="w-10 h-10" />;
+type StarFillIconProps = {
+  size: "sm" | "lg";
+};
+
+export default function StarFillIcon({ size }: StarFillIconProps) {
+  return (
+    <FaStar
+      className={`${size === "sm" ? "w-5 h-5" : size === "lg" ? "w-10 h-10" : ""}`}
+    />
+  );
 }

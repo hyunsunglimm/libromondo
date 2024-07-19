@@ -1,5 +1,13 @@
 import { FaRegStar } from "react-icons/fa";
 
-export default function StarIcon() {
-  return <FaRegStar className="w-10 h-10" />;
+type StarIconProps = {
+  size: "sm" | "lg";
+};
+
+export default function StarIcon({ size }: StarIconProps) {
+  return (
+    <FaRegStar
+      className={`${size === "sm" ? "w-5 h-5" : size === "lg" ? "w-10 h-10" : ""}`}
+    />
+  );
 }

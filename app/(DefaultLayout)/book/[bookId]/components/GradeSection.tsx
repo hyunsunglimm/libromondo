@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ToggleStar from "./ToggleStar";
+import ToggleStar from "../../../../../components/ToggleStar";
 
 type GradeSectionProps = {
   grade: number;
@@ -11,7 +10,7 @@ export default function GradeSection({ grade, setGrade }: GradeSectionProps) {
     <div className="flex justify-center gap-2">
       {[1, 2, 3, 4, 5].map((num) => (
         <div key={num} onClick={() => setGrade(num)} className="cursor-pointer">
-          <ToggleStar isFill={grade >= num} />
+          <ToggleStar isFill={grade >= num} size="lg" />
         </div>
       ))}
     </div>

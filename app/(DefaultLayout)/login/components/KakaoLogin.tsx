@@ -1,12 +1,12 @@
 import { signIn } from "@/auth";
 import Image from "next/image";
 
-export default function KakaoLogin() {
+export default function KakaoLogin({ callbackUrl }: { callbackUrl: string }) {
   return (
     <form
       action={async () => {
         "use server";
-        await signIn("kakao");
+        await signIn("kakao", { redirectTo: callbackUrl });
       }}
     >
       <button className="rounded-xl bg-[#FEE500] w-80 p-4 flex justify-center items-center gap-2">
