@@ -3,8 +3,12 @@ import Image from "next/image";
 import ToggleStar from "./ToggleStar";
 import { Button } from "./ui/button";
 import ProfileImage from "./ProfileImage";
+import Link from "next/link";
 
 export default function ReviewDetail({ review }: { review: Review }) {
+  const bookId =
+    review.book.isbn.split(" ")[0] || review.book.isbn.split(" ")[1];
+
   return (
     <section className="w-[600px]">
       <div className="flex">
@@ -16,6 +20,9 @@ export default function ReviewDetail({ review }: { review: Review }) {
             height={500}
             className="w-full border border-black rounded-md"
           />
+          <Button asChild className="mt-2 w-full">
+            <Link href={`/book/${bookId}`}>도서 상세 보기</Link>
+          </Button>
         </div>
         <div className="basis-2/3 ml-4 flex flex-col gap-2">
           <p className="text-center text-xl font-bold pb-1 border-b border-black">
