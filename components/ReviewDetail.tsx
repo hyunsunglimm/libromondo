@@ -37,13 +37,19 @@ export default function ReviewDetail({ review }: { review: Review }) {
         <p className="text-center text-lg font-bold">댓글</p>
         <ul className="flex flex-col p-4 bg-neutral-100 rounded-md">
           {review.comments.map((c) => (
-            <li key={c.id} className="flex gap-2 border-b p-2 items-center">
+            <li key={c.id} className="flex gap-2 border-b p-2">
               <ProfileImage image={c.image} name={c.name} size="sm" />
-              <p className="shrink-0">{c.name}</p>
-              <p className="border-l pl-2">{c.comment}</p>
+              <div>
+                <p className="font-bold text-lg">{c.name}</p>
+                <p className="text-gray-600">{c.comment}</p>
+              </div>
             </li>
           ))}
         </ul>
+        <input
+          className="border mt-2 py-1 px-2 rounded-md w-full"
+          placeholder="댓글을 입력해주세요."
+        />
       </div>
     </section>
   );
