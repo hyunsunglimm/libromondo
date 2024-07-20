@@ -1,5 +1,7 @@
 import { getReviewById } from "@/service/review";
 
+export const revalidate = 0;
+
 type Context = {
   params: {
     reviewId: string;
