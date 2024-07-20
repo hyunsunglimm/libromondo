@@ -13,7 +13,7 @@ type ReviewsProps = {
 
 export default function Reviews({ user, isMe }: ReviewsProps) {
   const { data: reviews, isLoading } = useSWR<Review[]>(
-    `/api/review/${user.id}`
+    `/api/reviews/${user.id}`
   );
 
   if (isLoading) {
