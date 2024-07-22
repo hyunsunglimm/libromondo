@@ -3,7 +3,7 @@ import { BookResponseType } from "@/types/book";
 
 const reviewField = `
   "id": _id,
-  "author": author->name,
+  "author": {"id": author->_id, "name": author->name, "image": author->image},
   "book": book,
   "contents": contents,
   "grade": grade,

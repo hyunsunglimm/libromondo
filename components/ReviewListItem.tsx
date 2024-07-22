@@ -37,7 +37,7 @@ export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
             <div className="flex gap-2 items-center">
               <p className="truncate">{review.book.title}</p>
               <p>|</p>
-              <p className="shrink-0">작성자 : {review.author}</p>
+              <p className="shrink-0">작성자 : {review.author.name}</p>
               <p>|</p>
               <p className="text-gray-400 text-sm shrink-0">
                 {convertToKST(review.createdAt)}

@@ -138,7 +138,7 @@ export default function ReviewDetail({
         </div>
         <div className="basis-2/3 ml-4 flex flex-col gap-2">
           <p className="text-center text-xl font-bold pb-1 border-b border-black">
-            {review?.author}
+            {review?.author.name}
           </p>
           <p className="text-center">{review?.book.title}</p>
           <div className="flex justify-center">
@@ -172,36 +172,46 @@ export default function ReviewDetail({
         )}
         {review && review.comments.length > 0 && (
           <ul className="flex flex-col p-4 bg-neutral-100 rounded-md max-h-60 overflow-y-scroll">
-            {review?.comments.map((c) => (
-              <li key={c.id} className="flex gap-2 border-b p-2">
-                <Link href={`/mypage/${c.userId}`}>
-                  <ProfileImage image={c.image} name={c.name} size="sm" />
-                </Link>
-                <div className="w-full">
-                  <div className="flex justify-between items-center mb-2">
-                    <Link href={`/mypage/${c.userId}`}>
-                      <p className="font-bold text-lg">{c.name}</p>
-                    </Link>
-                    <button onClick={() => handleClick(c.id)}>
-                      <DeleteIcon />
-                    </button>
+            {review?.comments.map((c) => {
+              const isValidRemoveComment =
+                review.author.id === loginUser?.id ||
+                c.userId === loginUser?.id;
+
+              return (
+                <li key={c.id} className="flex gap-2 border-b p-2">
+                  <Link href={`/mypage/${c.userId}`}>
+                    <ProfileImage image={c.image} name={c.name} size="sm" />
+                  </Link>
+                  <div className="w-full">
+                    <div className="flex justify-between items-center mb-2">
+                      <Link href={`/mypage/${c.userId}`}>
+                        <p className="font-bold text-lg">{c.name}</p>
+                      </Link>
+                      {isValidRemoveComment && (
+                        <button onClick={() => handleClick(c.id)}>
+                          <DeleteIcon />
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-gray-600">{c.comment}</p>
                   </div>
-                  <p className="text-gray-600">{c.comment}</p>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
-        <form className="flex mt-2 gap-2" onSubmit={handleSubmit}>
-          <input
-            className="border py-1 px-2 rounded-md w-full"
-            placeholder="댓글을 입력해주세요."
-            required
-            onChange={(e) => setEnteredComment(e.target.value)}
-            value={enteredComment}
-          />
-          <Button>작성</Button>
-        </form>
+        {loginUser && (
+          <form className="flex mt-2 gap-2" onSubmit={handleSubmit}>
+            <input
+              className="border py-1 px-2 rounded-md w-full"
+              placeholder="댓글을 입력해주세요."
+              required
+              onChange={(e) => setEnteredComment(e.target.value)}
+              value={enteredComment}
+            />
+            <Button>작성</Button>
+          </form>
+        )}
       </div>
     </section>
   );
