@@ -140,9 +140,17 @@ export default function ReviewDetail({
           </Button>
         </div>
         <div className="basis-2/3 ml-4 flex flex-col gap-2">
-          <p className="text-center text-xl font-bold pb-1 border-b border-black">
-            {review?.author.name}
-          </p>
+          <Link
+            href={`/mypage/${review?.author.id}`}
+            className="py-2 border-b border-black flex justify-center items-center gap-2 hover:bg-neutral-50 transition"
+          >
+            <ProfileImage
+              image={review?.author.image || ""}
+              name={review?.author.name || ""}
+              size="sm"
+            />
+            <p className="text-xl font-bold">{review?.author.name}</p>
+          </Link>
           <p className="text-center">{review?.book.title}</p>
           <div className="flex justify-center">
             {[1, 2, 3, 4, 5].map(
