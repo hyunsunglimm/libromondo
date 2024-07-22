@@ -45,6 +45,15 @@ export const getReviews = () => {
     `);
 };
 
+export const getFollowingReviews = (userId: string) => {
+  return client.fetch(`
+      *[_type == "review" && author._ref in *[_type == "user" && _id == "${userId}"].following[]._ref]
+      | order(_createdAt desc) {
+        ${reviewField}
+      }
+    `);
+};
+
 export const getReviewByUser = (userId: string) => {
   return client.fetch(`
       *[_type == "review" && author->_id == "${userId}"] | order(_createdAt desc) {
