@@ -232,7 +232,9 @@ export default function ReviewDetail({
               onChange={(e) => setEnteredComment(e.target.value)}
               value={enteredComment}
             />
-            <Button>작성</Button>
+            <Button className="w-28 h-16 md:h-12 text-2xl md:text-lg">
+              작성
+            </Button>
           </form>
         )}
       </div>
