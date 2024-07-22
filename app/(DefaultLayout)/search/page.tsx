@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "사용자 검색 혹은 도서 검색을 이용하세요.",
     type: "website",
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/search`,
-    images: "https://libromondo.vercel.app/images/main.png",
+    images: "https://libromondo.vercel.app/images/libro-mondo-logo.png",
     siteName: "Libro Mondo",
     locale: "ko_KR",
   },
