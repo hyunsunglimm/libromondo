@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import UsersWhoSavedBooks from "./UsersWhoSavedBooks";
 import WriteReview from "./WriteReview";
+import BookReviewInfo from "./BookReviewInfo";
 
 type DetailBookProps = {
   book: BookResponseType;
@@ -53,6 +54,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
       <div className="bg-neutral-100 p-8 my-8 rounded-md">
         <p className="leading-10">{book.contents}</p>
       </div>
+      <BookReviewInfo isbn={book.isbn} />
       <div className="flex gap-2 items-center">
         <Button asChild className="w-full">
           <Link href={book.url} target="_blank">

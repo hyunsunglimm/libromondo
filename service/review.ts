@@ -54,6 +54,14 @@ export const getFollowingReviews = (userId: string) => {
     `);
 };
 
+export const getBookReviews = (isbn: string) => {
+  return client.fetch(`
+      *[_type == "review" && book.isbn == "${isbn}"] | order(_createdAt desc) {
+        ${reviewField}
+      }
+    `);
+};
+
 export const getReviewByUser = (userId: string) => {
   return client.fetch(`
       *[_type == "review" && author->_id == "${userId}"] | order(_createdAt desc) {
