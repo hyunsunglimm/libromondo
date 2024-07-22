@@ -1,42 +1,43 @@
+"use client";
+
 import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReviewForm from "./ReviewForm";
 import { BookResponseType } from "@/types/book";
-import { useSession } from "next-auth/react";
-import { useAlarmStore } from "@/store/alarm";
+import useAlarm from "@/hooks/useAlarm";
+import useSWR from "swr";
+import { Review } from "@/types/review";
+import useMe from "@/hooks/useMe";
 
 type WriteReviewProps = {
   book: BookResponseType;
 };
 
 export default function WriteReview({ book }: WriteReviewProps) {
-  const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
-  const { data: session } = useSession();
   const [isReview, setIsReview] = useState(false);
+  const { data: reviews } = useSWR<Review[]>(
+    `/api/reviews?type=book&isbn=${book.isbn}`
+  );
+  const { loginUser } = useMe();
+  const { withAlarm } = useAlarm();
 
-  useEffect(() => {
-    if (isAlarm) {
-      const timer = setTimeout(() => {
-        offAlarm();
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isAlarm, offAlarm]);
+  const alreadyWriteReview = reviews?.some(
+    (review) => review.author.id === loginUser?.id
+  );
 
   const handleClick = () => {
-    if (!session) {
-      onAlarm();
-      return;
-    }
-    setIsReview(!isReview);
+    withAlarm(() => setIsReview(!isReview));
   };
 
   return (
     <>
-      <Button className="w-full mt-4" onClick={handleClick}>
-        리뷰 작성하기
+      <Button
+        className={`w-full mt-4 ${alreadyWriteReview && "cursor-not-allowed"}`}
+        onClick={handleClick}
+        disabled={alreadyWriteReview}
+      >
+        {alreadyWriteReview ? "이 책의 리뷰를 작성했습니다." : "리뷰 작성하기"}
       </Button>
       <Modal isOpen={isReview} onClose={() => setIsReview(false)}>
         <ReviewForm book={book} onClose={() => setIsReview(false)} />

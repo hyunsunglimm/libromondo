@@ -9,6 +9,7 @@ import SearchIcon from "./icons/SearchIcon";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import ReviewListIcon from "./icons/ReviewListIcon";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -28,6 +29,11 @@ export default function Header() {
         </Link>
         <nav>
           <ul className="flex gap-4 items-center">
+            <li>
+              <Link href="/reviews">
+                <ReviewListIcon />
+              </Link>
+            </li>
             <li>
               <Link href="/search">
                 <SearchIcon />

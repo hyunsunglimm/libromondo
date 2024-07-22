@@ -11,8 +11,8 @@ import DropdownIcon from "@/components/icons/DropdownIcon";
 import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner/Spinner";
-import { useAlarmStore } from "@/store/alarm";
 import UserProfileSkeleton from "./UserProfileSkeleton";
+import useAlarm from "@/hooks/useAlarm";
 
 async function updateFollow(targetId: string, follow: boolean) {
   return fetch("/api/follow", {
@@ -25,18 +25,7 @@ export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
   const [followLoading, setFollowLoading] = useState(false);
-
-  const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
-
-  useEffect(() => {
-    if (isAlarm) {
-      const timer = setTimeout(() => {
-        offAlarm();
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isAlarm, offAlarm]);
+  const { withAlarm } = useAlarm();
 
   const { loginUser, mutate: loginUserMutate } = useMe();
   const {
@@ -64,17 +53,15 @@ export default function UserProfile({ userId }: { userId: string }) {
   };
 
   const toggleFollow = async (targetId: string, follow: boolean) => {
-    if (!loginUser) {
-      onAlarm();
-      return;
-    }
-    setFollowLoading(true);
+    withAlarm(async () => {
+      setFollowLoading(true);
 
-    await loginUserMutate(updateFollow(targetId, follow), {
-      populateCache: false,
+      await loginUserMutate(updateFollow(targetId, follow), {
+        populateCache: false,
+      });
+      await mutate();
+      setFollowLoading(false);
     });
-    await mutate();
-    setFollowLoading(false);
   };
 
   return (

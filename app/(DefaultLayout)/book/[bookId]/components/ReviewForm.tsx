@@ -6,6 +6,7 @@ import Image from "next/image";
 import GradeSection from "./GradeSection";
 import { useState } from "react";
 import Spinner from "@/components/spinner/Spinner";
+import { useSWRConfig } from "swr";
 
 type ReviewFormProps = {
   book: BookResponseType;
@@ -16,6 +17,7 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
   const [enteredContents, setEnteredContents] = useState("");
   const [grade, setGrade] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
+  const { mutate: globalMutate } = useSWRConfig();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
       body: JSON.stringify({ book, contents: enteredContents, grade }),
     });
     setIsLoading(false);
+    globalMutate(`/api/reviews?type=book&isbn=${book.isbn}`);
     onClose();
   };
 
