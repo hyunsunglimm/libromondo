@@ -24,7 +24,7 @@ export default function BookReviewInfo({ isbn }: BookReviewInfoProps) {
 
   return (
     <>
-      <div className="flex justify-end gap-2 items-center font-bold mb-2">
+      <div className="flex justify-end gap-2 items-center font-bold mb-2 text-2xl md:text-base">
         <p>{`작성된 리뷰 (${reviews?.length ?? 0})`}</p>
         <p>|</p>
         <p>평점 : {grade}점</p>

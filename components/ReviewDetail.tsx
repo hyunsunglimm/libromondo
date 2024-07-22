@@ -125,9 +125,9 @@ export default function ReviewDetail({
   };
 
   return (
-    <section className="w-[600px]">
+    <section className="w-[36rem]">
       <div className="flex">
-        <div className="basis-1/3">
+        <div className="basis-1/3 flex flex-col justify-center">
           <Image
             src={review?.book.thumbnail || "/images/no-image.png"}
             alt={`${review?.book.title} 이미지`}
@@ -135,7 +135,7 @@ export default function ReviewDetail({
             height={500}
             className="w-full border border-black rounded-md"
           />
-          <Button asChild className="mt-2 w-full">
+          <Button asChild className="mt-2 w-full text-xl md:text-base">
             <Link href={`/book/${bookId}`}>도서 상세 보기</Link>
           </Button>
         </div>
@@ -149,9 +149,13 @@ export default function ReviewDetail({
               name={review?.author.name || ""}
               size="sm"
             />
-            <p className="text-xl font-bold">{review?.author.name}</p>
+            <p className="text-3xl md:text-xl font-bold">
+              {review?.author.name}
+            </p>
           </Link>
-          <p className="text-center">{review?.book.title}</p>
+          <p className="text-center text-2xl md:text-base">
+            {review?.book.title}
+          </p>
           <div className="flex justify-center">
             {[1, 2, 3, 4, 5].map(
               (num) =>
@@ -164,8 +168,8 @@ export default function ReviewDetail({
                 )
             )}
           </div>
-          <div className="bg-neutral-100 p-4 rounded-md overflow-y-scroll grow">
-            <p>{review?.contents}</p>
+          <div className="bg-neutral-100 p-4 rounded-md overflow-y-scroll grow max-h-72">
+            <p className="text-xl md:text-base leading-9">{review?.contents}</p>
           </div>
           {isMe && (
             <Button variant="destructive" onClick={revomeReview}>
@@ -182,7 +186,7 @@ export default function ReviewDetail({
           </p>
         )}
         {review && review.comments.length > 0 && (
-          <ul className="flex flex-col p-4 bg-neutral-100 rounded-md max-h-60 overflow-y-scroll">
+          <ul className="flex flex-col p-4 bg-neutral-100 rounded-md max-h-72 overflow-y-scroll">
             {review?.comments.map((c) => {
               const isValidRemoveComment =
                 review.author.id === loginUser?.id ||
@@ -190,13 +194,15 @@ export default function ReviewDetail({
 
               return (
                 <li key={c.id} className="flex gap-2 border-b p-2">
-                  <Link href={`/mypage/${c.userId}`}>
+                  <Link href={`/mypage/${c.userId}`} className="shrink-0">
                     <ProfileImage image={c.image} name={c.name} size="sm" />
                   </Link>
                   <div className="w-full">
                     <div className="flex justify-between items-center mb-2">
                       <Link href={`/mypage/${c.userId}`}>
-                        <p className="font-bold text-lg">{c.name}</p>
+                        <p className="font-bold text-2xl md:text-lg">
+                          {c.name}
+                        </p>
                       </Link>
                       {isValidRemoveComment && (
                         <button onClick={() => handleClick(c.id)}>
@@ -204,7 +210,9 @@ export default function ReviewDetail({
                         </button>
                       )}
                     </div>
-                    <p className="text-gray-600">{c.comment}</p>
+                    <p className="text-gray-600 text-xl md:text-base">
+                      {c.comment}
+                    </p>
                   </div>
                 </li>
               );
@@ -214,7 +222,7 @@ export default function ReviewDetail({
         {loginUser && (
           <form className="flex mt-2 gap-2" onSubmit={handleSubmit}>
             <input
-              className="border py-1 px-2 rounded-md w-full"
+              className="border py-1 px-2 rounded-md w-full text-[16px]"
               placeholder="댓글을 입력해주세요."
               required
               onChange={(e) => setEnteredComment(e.target.value)}

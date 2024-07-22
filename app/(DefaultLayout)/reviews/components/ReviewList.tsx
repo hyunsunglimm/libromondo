@@ -24,7 +24,7 @@ export default function ReviewList({ type }: ReviewListProps) {
 
   return (
     <>
-      <p className="text-end text-gray-600 font-bold mb-2">{`총 ${reviews?.length}개의 리뷰가 있습니다.`}</p>
+      <p className="text-end text-gray-600 font-bold mb-4 md:mb-2 text-2xl md:text-base">{`총 ${reviews?.length}개의 리뷰가 있습니다.`}</p>
       <ul className="flex flex-col gap-4">
         {reviews?.map((review) => {
           const isMe = loginUser?.id === review.author.id;

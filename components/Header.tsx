@@ -28,7 +28,7 @@ export default function Header() {
           />
         </Link>
         <nav>
-          <ul className="flex gap-4 items-center">
+          <ul className="flex gap-8 md:gap-4 items-center">
             <li>
               <Link href="/reviews">
                 <ReviewListIcon />
@@ -55,7 +55,7 @@ export default function Header() {
               <li>
                 <Button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-3xl md:text-base"
+                  className="font-bold w-32 h-16 md:h-12 text-3xl md:w-20 md:text-base"
                 >
                   로그아웃
                 </Button>
@@ -63,13 +63,11 @@ export default function Header() {
             )}
             {!loginUser && !isLoading && (
               <li>
-                <Button asChild>
-                  <Link
-                    href={`/login?callbackUrl=${pathname}`}
-                    className="text-3xl md:text-base"
-                  >
-                    로그인
-                  </Link>
+                <Button
+                  asChild
+                  className="font-bold w-32 h-16 md:h-12 text-3xl md:w-20 md:text-base"
+                >
+                  <Link href={`/login?callbackUrl=${pathname}`}>로그인</Link>
                 </Button>
               </li>
             )}

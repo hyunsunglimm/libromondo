@@ -67,15 +67,19 @@ export default function UserInfoEditForm({
           className="w-32 h-32 border border-black rounded-full object-cover cursor-pointer"
         />
       </label>
-      <p className="text-sm text-gray-400">
+      <p className="text-xl md:text-sm text-gray-400">
         프로필 이미지 수정은 이미지를 클릭하세요.
       </p>
       <input
         value={enteredName}
         onChange={(e) => setEnteredName(e.target.value)}
-        className="border p-1 rounded-md w-full"
+        className="border p-1 rounded-md w-full text-[16px]"
+        required
+        maxLength={12}
       />
-      <Button className="w-full">{isLoading ? <Spinner /> : "저장"}</Button>
+      <Button className="w-full text-2xl md:text-base font-bold h-14">
+        {isLoading ? <Spinner /> : "저장"}
+      </Button>
     </form>
   );
 }

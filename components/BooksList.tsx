@@ -39,7 +39,7 @@ export default function BooksList({ keyword }: BooksListProps) {
   return (
     <>
       {books && books?.length > 0 && (
-        <p className="text-gray-400 text-end mt-4">
+        <p className="text-gray-400 text-end mt-4 text-2xl md:text-base">
           {pageableCount > 800 ? 800 : pageableCount}개의 검색 결과가 있습니다.
         </p>
       )}

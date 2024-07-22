@@ -23,11 +23,11 @@ export default function BookCard({ book, index }: BookCardProps) {
         alt={`${book?.title} 이미지`}
         width={200}
         height={300}
-        className="w-full h-52 border rounded-sm"
+        className="w-full h-72 md:h-52 border rounded-sm"
         priority={index < 13}
       />
       <div className="flex gap-2">
-        <Button asChild className="w-full h-7">
+        <Button asChild className="w-full h-12 md:h-7 text-2xl md:text-base">
           <Link href={`/book/${bookId}`}>상세 보기</Link>
         </Button>
         <HeartToggle book={book} isDetail={pathname.split("/")[2] === bookId} />

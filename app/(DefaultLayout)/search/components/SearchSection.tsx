@@ -11,13 +11,13 @@ export default function SearchSection() {
     <section className="mx-auto max-w-[832px] w-full px-4">
       <div className="flex mb-4 gap-4">
         <button
-          className={`border border-black w-full p-2 rounded-sm ${type === "book" ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`text-3xl md:text-base border border-black w-full p-2 rounded-sm ${type === "book" ? "bg-black text-white" : "bg-white text-black"}`}
           onClick={() => setType("book")}
         >
           도서 검색
         </button>
         <button
-          className={`border border-black w-full p-2 rounded-sm ${type === "user" ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`text-3xl md:text-base border border-black w-full p-2 rounded-sm ${type === "user" ? "bg-black text-white" : "bg-white text-black"}`}
           onClick={() => setType("user")}
         >
           사용자 검색

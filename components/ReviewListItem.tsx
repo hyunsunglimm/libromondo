@@ -30,16 +30,16 @@ export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
           alt={`${review.book.title} 이미지`}
           width={200}
           height={200}
-          className="w-12 border border-black rounded-md"
+          className="w-20 md:w-12 border border-black rounded-md"
         />
-        <div className="ml-2 w-full overflow-hidden">
+        <div className="ml-2 w-full overflow-hidden flex flex-col">
           <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <p className="truncate">{review.book.title}</p>
+            <div className="flex gap-2 items-center text-xl md:text-base">
+              <p className="truncate font-bold">{review.book.title}</p>
               <p>|</p>
               <p className="shrink-0">작성자 : {review.author.name}</p>
-              <p>|</p>
-              <p className="text-gray-400 text-sm shrink-0">
+              <p className="hidden md:block">|</p>
+              <p className="text-gray-400 text-sm shrink-0 hidden md:block">
                 {convertToKST(review.createdAt)}
               </p>
             </div>
@@ -49,8 +49,8 @@ export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
               ))}
             </div>
           </div>
-          <div className="bg-neutral-100 mt-2 p-2 rounded-md">
-            <p className="truncate">{review.contents}</p>
+          <div className="bg-neutral-100 mt-2 p-2 rounded-md grow">
+            <p className="truncate text-xl md:text-base">{review.contents}</p>
           </div>
         </div>
       </li>
