@@ -76,6 +76,7 @@ export default function ReviewDetail({
     globalMutate(`/api/reviews/${loginUser?.id}`);
     globalMutate("/api/reviews?type=all");
     globalMutate("/api/reviews?type=following");
+    globalMutate(`/api/reviews?type=book&isbn=${review?.book.isbn}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
