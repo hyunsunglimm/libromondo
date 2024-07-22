@@ -172,16 +172,20 @@ export default function ReviewDetail({
             <p className="text-xl md:text-base leading-9">{review?.contents}</p>
           </div>
           {isMe && (
-            <Button variant="destructive" onClick={revomeReview}>
+            <Button
+              variant="destructive"
+              onClick={revomeReview}
+              className="text-xl md:text-base"
+            >
               {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
             </Button>
           )}
         </div>
       </div>
-      <div className="border-t border-black mt-2">
-        <p className="text-center text-lg font-bold">댓글</p>
+      <div className="border-t border-black mt-4 pt-4 md:pt-2 md:mt-2">
+        <p className="text-center text-3xl md:text-lg font-bold">댓글</p>
         {review?.comments.length === 0 && (
-          <p className="text-center mt-2 font-bold text-gray-400">
+          <p className="text-center text-2xl md:text-base mt-2 font-bold text-gray-400">
             아직 댓글이 없습니다.
           </p>
         )}
