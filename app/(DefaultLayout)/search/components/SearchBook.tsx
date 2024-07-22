@@ -18,7 +18,12 @@ export default function SearchBook() {
         }}
         value={keyword}
       />
-      <BooksList keyword={debouncedKeyword} />
+      <div className="md:hidden">
+        <BooksList keyword={debouncedKeyword} pagePerView={6} />
+      </div>
+      <div className="hidden md:block">
+        <BooksList keyword={debouncedKeyword} pagePerView={8} />
+      </div>
     </section>
   );
 }

@@ -36,8 +36,34 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">
       <DetailBook book={book} bookId={bookId} />
-      <ShowMoreBooks books={sameAuthorBooks} title="같은 작가의 책" />
-      <ShowMoreBooks books={relatedBooks} title="관련있는 책" />
+      <div className="md:hidden">
+        <ShowMoreBooks
+          books={sameAuthorBooks}
+          title="같은 작가의 책"
+          slidesPerView={3}
+        />
+      </div>
+      <div className="hidden md:block">
+        <ShowMoreBooks
+          books={sameAuthorBooks}
+          title="같은 작가의 책"
+          slidesPerView={4}
+        />
+      </div>
+      <div className="md:hidden">
+        <ShowMoreBooks
+          books={relatedBooks}
+          title="관련있는 책"
+          slidesPerView={3}
+        />
+      </div>
+      <div className="hidden md:block">
+        <ShowMoreBooks
+          books={relatedBooks}
+          title="관련있는 책"
+          slidesPerView={4}
+        />
+      </div>
     </section>
   );
 }

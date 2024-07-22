@@ -23,7 +23,7 @@ export default function UserList({ keyword }: UserListProps) {
   return (
     <>
       {users?.length === 0 && (
-        <p className="text-center text-gray-300 text-xl mt-4">
+        <p className="text-center text-gray-400 text-3xl md:text-xl font-bold mt-8">
           검색된 사용자가 없습니다.
         </p>
       )}

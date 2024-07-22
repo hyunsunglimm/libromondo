@@ -8,17 +8,20 @@ import { getPageArray } from "@/utils/book";
 
 type BooksListProps = {
   keyword: string | null;
+  pagePerView: number;
 };
 
-export default function BooksList({ keyword }: BooksListProps) {
+export default function BooksList({ keyword, pagePerView }: BooksListProps) {
   const { page, setPage } = useBookSearchStore();
   const { data, isLoading } = useSWR<KakaoBookResponse>(
-    keyword ? `/api/book/search?query=${keyword}&page=${page}` : null
+    keyword
+      ? `/api/book/search?query=${keyword}&page=${page}&size=${pagePerView}`
+      : null
   );
 
   const books = data?.documents;
   const pageableCount = data?.meta.pageable_count ?? 0;
-  const lastPage = Math.ceil(pageableCount / 8);
+  const lastPage = Math.ceil(pageableCount / pagePerView);
   const isLastPage = page === lastPage || page >= 100;
 
   const pageArray = getPageArray(page, lastPage);
@@ -40,17 +43,20 @@ export default function BooksList({ keyword }: BooksListProps) {
     <>
       {books && books?.length > 0 && (
         <p className="text-gray-400 text-end mt-4 text-2xl md:text-base">
-          {pageableCount > 800 ? 800 : pageableCount}개의 검색 결과가 있습니다.
+          {pageableCount > pagePerView * 100
+            ? pagePerView * 100
+            : pageableCount}
+          개의 검색 결과가 있습니다.
         </p>
       )}
 
-      <ul className="grid grid-cols-4 max-w-[832px] w-full mx-auto mt-4 gap-4">
+      <ul className="grid grid-cols-3 md:grid-cols-4 max-w-[832px] w-full mx-auto mt-4 gap-4">
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
       </ul>
       {books?.length === 0 && (
-        <p className="text-center text-gray-300 text-xl">
+        <p className="text-center text-gray-400 text-3xl md:text-xl font-bold mt-8">
           검색된 도서가 없습니다.
         </p>
       )}

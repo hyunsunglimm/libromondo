@@ -12,20 +12,25 @@ import { ScaleLoader } from "react-spinners";
 type ShowMoreBooksProps = {
   title: string;
   books: BookResponseType[];
+  slidesPerView: number;
 };
 
-export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
+export default function ShowMoreBooks({
+  title,
+  books,
+  slidesPerView,
+}: ShowMoreBooksProps) {
   const [page, setPage] = useState(1);
   const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 
-  const lastPage = Math.ceil(books?.length / 4);
+  const lastPage = Math.ceil(books?.length / slidesPerView);
   const isLastPage = page === lastPage;
 
   const pageArray = getPageArray(page, lastPage);
 
   useEffect(() => {
-    ref.current?.slideTo((page - 1) * 4);
-  }, [page]);
+    ref.current?.slideTo((page - 1) * slidesPerView);
+  }, [page, slidesPerView]);
 
   const handlePrevPage = () => {
     if (page > 1) {
@@ -46,11 +51,13 @@ export default function ShowMoreBooks({ title, books }: ShowMoreBooksProps) {
 
   return (
     <div className="mt-8">
-      <div className="flex justify-between items-center">
-        <p className="font-bold text-lg">{title}</p>
-        <p className="text-gray-400">총 {books?.length}개의 도서가 있습니다.</p>
+      <div className="flex justify-between items-center mb-4">
+        <p className="font-bold text-3xl md:text-lg">{title}</p>
+        <p className="text-gray-500 text-2xl md:text-base">
+          총 {books?.length}개의 도서가 있습니다.
+        </p>
       </div>
-      <SwiperWrapper ref={ref} setPage={setPage}>
+      <SwiperWrapper ref={ref} setPage={setPage} slidesPerView={slidesPerView}>
         {books?.map((book, index) => (
           <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
         ))}
