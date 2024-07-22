@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 type SwiperWrapperProps = {
+  slidesPerView: number;
   setPage: (arg: number) => void;
   children: Array<React.ReactNode>;
 };
@@ -16,7 +17,7 @@ type SwiperWrapperProps = {
 const SwiperWrapper = forwardRef<
   { slideTo: (arg: number) => void },
   SwiperWrapperProps
->(({ setPage, children }, ref) => {
+>(({ slidesPerView, setPage, children }, ref) => {
   const swiperRef = useRef<SwiperType | null>();
 
   useImperativeHandle(ref, () => {
@@ -30,11 +31,18 @@ const SwiperWrapper = forwardRef<
   return (
     <Swiper
       onSwiper={(swiper) => (swiperRef.current = swiper)}
-      onSlideChange={(swiper) => setPage(Math.ceil(swiper.realIndex / 4 + 1))}
+      onSlideChange={(swiper) =>
+        setPage(Math.ceil(swiper.realIndex / slidesPerView + 1))
+      }
       spaceBetween={8}
-      slidesPerView={4}
-      slidesPerGroup={4}
-      className="mt-4"
+      slidesPerView={3}
+      slidesPerGroup={3}
+      breakpoints={{
+        768: {
+          slidesPerView: 4,
+          slidesPerGroup: 4,
+        },
+      }}
     >
       {children.map((c, idx) => (
         <SwiperSlide key={idx}>{c}</SwiperSlide>
