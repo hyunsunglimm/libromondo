@@ -29,12 +29,14 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
           className="w-1/3 rounded-lg shadow-lg shrink-0"
         />
         <div className="flex flex-col justify-between w-full">
-          <div className="flex flex-col gap-4">
-            <p className="font-bold text-xl">{book.title}</p>
-            <p>저자 : {authors}</p>
-            <p>출판사 : {book.publisher}</p>
-            {translators && <p>번역 : {translators}</p>}
-            <p>
+          <div className="flex flex-col gap-2 md:gap-4">
+            <p className="font-bold text-4xl md:text-xl">{book.title}</p>
+            <p className="text-2xl md:text-base">저자 : {authors}</p>
+            <p className="text-2xl md:text-base">출판사 : {book.publisher}</p>
+            {translators && (
+              <p className="text-2xl md:text-base">번역 : {translators}</p>
+            )}
+            <p className="text-2xl md:text-base">
               가격 : <span className="line-through">{book.price}</span>{" "}
               {book.status !== "정상판매" ? (
                 <span className="text-red-500 bg-red-200 p-1 rounded-md">
@@ -52,11 +54,11 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
         </div>
       </div>
       <div className="bg-neutral-100 p-8 my-8 rounded-md">
-        <p className="leading-10">{book.contents}</p>
+        <p className="leading-10 text-xl md:text-base">{book.contents}</p>
       </div>
       <BookReviewInfo isbn={book.isbn} />
       <div className="flex gap-2 items-center">
-        <Button asChild className="w-full">
+        <Button asChild className="w-full text-2xl md:text-base h-12">
           <Link href={book.url} target="_blank">
             더 자세히 보러가기
           </Link>

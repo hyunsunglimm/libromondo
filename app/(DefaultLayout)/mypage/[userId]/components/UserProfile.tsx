@@ -68,11 +68,11 @@ export default function UserProfile({ userId }: { userId: string }) {
     <>
       <div className="flex flex-col gap-4 items-center">
         {user && <ProfileImage image={user.image} name={user.name} size="lg" />}
-        <p className="font-bold text-2xl">{user?.name}</p>
+        <p className="font-bold text-4xl md:text-2xl">{user?.name}</p>
         {isMe && (
           <button
             onClick={() => setIsEdit(true)}
-            className="bg-gray-100 p-2 rounded-md font-bold hover:bg-gray-200 transition"
+            className="bg-gray-100 p-2 rounded-md font-bold hover:bg-gray-200 transition text-2xl md:text-base"
           >
             내 정보 수정
           </button>
@@ -80,7 +80,7 @@ export default function UserProfile({ userId }: { userId: string }) {
         {!isMe && (
           <Button
             onClick={() => toggleFollow(userId, !!isFollow)}
-            className="w-20"
+            className="w-32 md:w-20 text-2xl md:text-base h-12"
           >
             {followLoading ? (
               <Spinner />
@@ -92,15 +92,17 @@ export default function UserProfile({ userId }: { userId: string }) {
         <div className="w-full flex gap-4">
           <nav className="relative w-full">
             <button
-              className="border border-black rounded-md p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
+              className="border border-black rounded-md p-2 md:p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
               onClick={() => dropdownHandler("following")}
             >
               <div />
-              <p>팔로잉: {user?.following.length}명</p>
+              <p className="text-2xl md:text-base">
+                팔로잉: {user?.following.length}명
+              </p>
               <DropdownIcon isOpen={dropdownType === "following"} />
             </button>
             {dropdownType === "following" && (
-              <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
+              <ul className="border border-black rounded-md p-4 absolute top-16 md:top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
                 {user?.following?.map((user) => (
                   <li key={user.id}>
                     <UserListItem user={user} />
@@ -111,15 +113,17 @@ export default function UserProfile({ userId }: { userId: string }) {
           </nav>
           <nav className="relative w-full">
             <button
-              className="border border-black rounded-md p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
+              className="border border-black rounded-md p-2 md:p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
               onClick={() => dropdownHandler("followers")}
             >
               <div />
-              <p>팔로워: {user?.followers.length}명</p>
+              <p className="text-2xl md:text-base">
+                팔로워: {user?.followers.length}명
+              </p>
               <DropdownIcon isOpen={dropdownType === "followers"} />
             </button>
             {dropdownType === "followers" && (
-              <ul className="border border-black rounded-md p-4 absolute top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
+              <ul className="border border-black rounded-md p-4 absolute top-16 md:top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
                 {user?.followers?.map((user) => (
                   <li key={user.id}>
                     <UserListItem user={user} />

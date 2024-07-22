@@ -32,6 +32,7 @@ export default function PaginationSection({
             disabled={currentPage === 1}
             href="#"
             onClick={setPrevPage}
+            className="text-3xl md:text-base"
           />
         </PaginationItem>
         {pageArray.map((p) => (
@@ -40,6 +41,7 @@ export default function PaginationSection({
               href="#"
               onClick={() => setPage(p)}
               isActive={p === currentPage}
+              className="text-3xl md:text-base"
             >
               {p}
             </PaginationLink>
@@ -50,6 +52,7 @@ export default function PaginationSection({
             disabled={isLastPage}
             href="#"
             onClick={setNextPage}
+            className="text-3xl md:text-base"
           />
         </PaginationItem>
       </PaginationContent>

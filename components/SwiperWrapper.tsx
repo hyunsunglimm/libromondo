@@ -6,7 +6,7 @@ import { Swiper as SwiperType } from "swiper/types";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
 type SwiperWrapperProps = {
   setPage: (arg: number) => void;

@@ -15,14 +15,14 @@ export default function UserListItem({
   return (
     <Link
       href={`/mypage/${user.id}`}
-      className={`flex justify-between items-center hover:bg-gray-50 transition p-2 rounded-md ${outlined && "border border-black"}`}
+      className={`flex justify-between items-center hover:bg-gray-50 transition p-4 md:p-2 rounded-md ${outlined && "border border-black"}`}
     >
       <div />
       <div className="flex items-center gap-4">
         <ProfileImage image={user.image} name={user.name} size="sm" />
-        <p className="text-2xl md:text-base">{user.name}</p>
+        <p className="text-3xl font-bold md:text-lg">{user.name}</p>
       </div>
-      <RiArrowDropDownLine className="w-7 h-7 -rotate-90" />
+      <RiArrowDropDownLine className="w-12 h-12 md:w-8 md:h-8 -rotate-90" />
     </Link>
   );
 }

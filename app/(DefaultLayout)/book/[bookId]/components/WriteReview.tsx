@@ -33,7 +33,7 @@ export default function WriteReview({ book }: WriteReviewProps) {
   return (
     <>
       <Button
-        className={`w-full mt-4 ${alreadyWriteReview && "cursor-not-allowed"}`}
+        className={`w-full mt-4 text-2xl md:text-base h-12 ${alreadyWriteReview && "cursor-not-allowed"}`}
         onClick={handleClick}
         disabled={alreadyWriteReview}
       >

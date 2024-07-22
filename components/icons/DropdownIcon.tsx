@@ -12,7 +12,7 @@ export default function DropdownIcon({ isOpen }: DropdownIconProps) {
         variants={{ open: { rotate: 180 }, closed: { rotate: 0 } }}
         transition={{ duration: 0.2 }}
       >
-        <RiArrowDropDownLine className="w-7 h-7" />
+        <RiArrowDropDownLine className="w-10 h-10 md:w-7 md:h-7" />
       </motion.div>
     </motion.div>
   );

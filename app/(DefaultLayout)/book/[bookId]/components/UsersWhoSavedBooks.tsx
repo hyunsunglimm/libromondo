@@ -24,7 +24,7 @@ export default function UsersWhoSavedBooks({
           onClick={() => setIsOpen(!isOpen)}
         >
           <div />
-          <p className="font-bold">
+          <p className="font-bold text-2xl md:text-base">
             {usersWhoSavedBooks.length}명의 서재에 담겨있습니다.
           </p>
           <DropdownIcon isOpen={isOpen} />

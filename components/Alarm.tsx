@@ -21,8 +21,12 @@ export function Alarm() {
           transition={{ duration: 0.2 }}
           className="bg-white border border-black p-4 rounded-lg fixed z-10 bottom-4 right-4 flex gap-4 items-center"
         >
-          <p>로그인이 필요한 서비스입니다.</p>
-          <Button asChild onClick={offAlarm}>
+          <p className="text-2xl md:text-base">로그인이 필요한 서비스입니다.</p>
+          <Button
+            asChild
+            onClick={offAlarm}
+            className="text-2xl md:text-base h-12"
+          >
             <Link
               href={`/login?callbackUrl=${pathname}`}
               className="text-3xl md:text-base"
