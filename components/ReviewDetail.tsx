@@ -16,12 +16,14 @@ import DeleteIcon from "./icons/DeleteIcon";
 type ReviewDetailProps = {
   reviewId: string;
   loginUser: SanityUser | undefined;
+  isMe: boolean;
   onClose: () => void;
 };
 
 export default function ReviewDetail({
   reviewId,
   loginUser,
+  isMe,
   onClose,
 }: ReviewDetailProps) {
   const {
@@ -83,6 +85,7 @@ export default function ReviewDetail({
 
     const newComment = {
       id: commentId,
+      userId: loginUser.id,
       name: loginUser?.name,
       comment: enteredComment,
       image: loginUser?.image,
@@ -153,9 +156,11 @@ export default function ReviewDetail({
           <div className="bg-neutral-100 p-4 rounded-md overflow-y-scroll grow">
             <p>{review?.contents}</p>
           </div>
-          <Button variant="destructive" onClick={revomeReview}>
-            {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
-          </Button>
+          {isMe && (
+            <Button variant="destructive" onClick={revomeReview}>
+              {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
+            </Button>
+          )}
         </div>
       </div>
       <div className="border-t border-black mt-2">
@@ -169,10 +174,14 @@ export default function ReviewDetail({
           <ul className="flex flex-col p-4 bg-neutral-100 rounded-md max-h-60 overflow-y-scroll">
             {review?.comments.map((c) => (
               <li key={c.id} className="flex gap-2 border-b p-2">
-                <ProfileImage image={c.image} name={c.name} size="sm" />
+                <Link href={`/mypage/${c.userId}`}>
+                  <ProfileImage image={c.image} name={c.name} size="sm" />
+                </Link>
                 <div className="w-full">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="font-bold text-lg">{c.name}</p>
+                    <Link href={`/mypage/${c.userId}`}>
+                      <p className="font-bold text-lg">{c.name}</p>
+                    </Link>
                     <button onClick={() => handleClick(c.id)}>
                       <DeleteIcon />
                     </button>

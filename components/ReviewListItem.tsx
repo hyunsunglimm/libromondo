@@ -11,9 +11,10 @@ import useMe from "@/hooks/useMe";
 
 type ReviewListItemProps = {
   review: Review;
+  isMe: boolean;
 };
 
-export default function ReviewListItem({ review }: ReviewListItemProps) {
+export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { loginUser } = useMe();
 
@@ -57,6 +58,7 @@ export default function ReviewListItem({ review }: ReviewListItemProps) {
         <ReviewDetail
           reviewId={review.id}
           loginUser={loginUser}
+          isMe={isMe}
           onClose={() => setIsOpen(false)}
         />
       </Modal>

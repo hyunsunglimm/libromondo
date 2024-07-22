@@ -7,7 +7,7 @@ const reviewField = `
   "book": book,
   "contents": contents,
   "grade": grade,
-  comments[]{"id": _key, comment, "name": author->name, "image": author->image},
+  comments[]{"id": _key, "userId": author->_id, comment, "name": author->name, "image": author->image},
   "createdAt": _createdAt,
   "updatedAt": _updatedAt
 `;

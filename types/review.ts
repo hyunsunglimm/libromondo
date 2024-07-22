@@ -13,6 +13,7 @@ export type Review = {
 
 export type Comment = {
   id: string;
+  userId: string;
   name: string;
   comment: string;
   image: string;
