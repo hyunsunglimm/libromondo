@@ -1,36 +1,20 @@
 import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReviewForm from "./ReviewForm";
 import { BookResponseType } from "@/types/book";
-import { useSession } from "next-auth/react";
-import { useAlarmStore } from "@/store/alarm";
+import useAlarm from "@/hooks/useAlarm";
 
 type WriteReviewProps = {
   book: BookResponseType;
 };
 
 export default function WriteReview({ book }: WriteReviewProps) {
-  const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
-  const { data: session } = useSession();
   const [isReview, setIsReview] = useState(false);
-
-  useEffect(() => {
-    if (isAlarm) {
-      const timer = setTimeout(() => {
-        offAlarm();
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isAlarm, offAlarm]);
+  const { withAlarm } = useAlarm();
 
   const handleClick = () => {
-    if (!session) {
-      onAlarm();
-      return;
-    }
-    setIsReview(!isReview);
+    withAlarm(() => setIsReview(!isReview));
   };
 
   return (
