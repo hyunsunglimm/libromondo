@@ -7,6 +7,7 @@ import ToggleStar from "./ToggleStar";
 import { useState } from "react";
 import Modal from "./Modal";
 import ReviewDetail from "./ReviewDetail";
+import useMe from "@/hooks/useMe";
 
 type ReviewListItemProps = {
   review: Review;
@@ -14,6 +15,8 @@ type ReviewListItemProps = {
 
 export default function ReviewListItem({ review }: ReviewListItemProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { loginUser } = useMe();
+
   return (
     <>
       <li
@@ -31,15 +34,15 @@ export default function ReviewListItem({ review }: ReviewListItemProps) {
         <div className="ml-2 w-full overflow-hidden">
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
-              <p>{review.book.title}</p>
+              <p className="truncate">{review.book.title}</p>
               <p>|</p>
-              <p>작성자 : {review.author}</p>
+              <p className="shrink-0">작성자 : {review.author}</p>
               <p>|</p>
-              <p className="text-gray-400 text-sm">
-                {convertToKST(review.updatedAt)}
+              <p className="text-gray-400 text-sm shrink-0">
+                {convertToKST(review.createdAt)}
               </p>
             </div>
-            <div className="flex">
+            <div className="flex ml-4">
               {[1, 2, 3, 4, 5].map((num) => (
                 <ToggleStar key={num} isFill={review.grade >= num} size="sm" />
               ))}
@@ -51,7 +54,7 @@ export default function ReviewListItem({ review }: ReviewListItemProps) {
         </div>
       </li>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ReviewDetail review={review} />
+        <ReviewDetail reviewId={review.id} loginUser={loginUser} />
       </Modal>
     </>
   );
