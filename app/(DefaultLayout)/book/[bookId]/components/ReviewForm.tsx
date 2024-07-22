@@ -43,12 +43,14 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
       />
       <GradeSection grade={grade} setGrade={setGrade} />
       <textarea
-        className="border border-black p-2"
+        className="border border-black p-2 text-[16px]"
         required
         onChange={(e) => setEnteredContents(e.target.value)}
         value={enteredContents}
       />
-      <Button>{isLoading ? <Spinner /> : "작성 완료"}</Button>
+      <Button className="text-3xl md:text-base h-14 md:h-12">
+        {isLoading ? <Spinner /> : "작성 완료"}
+      </Button>
     </form>
   );
 }

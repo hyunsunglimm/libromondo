@@ -35,13 +35,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
               transition={{ duration: 0.2 }}
               className="bg-white p-8 rounded-md relative"
             >
-              <button
-                className="absolute top-4 right-4 text-black"
-                onClick={() => onClose()}
-              >
-                <CloseIcon />
-              </button>
-              <div>{children}</div>
+              {children}
             </motion.div>
           </motion.section>
         </ModalPortal>
