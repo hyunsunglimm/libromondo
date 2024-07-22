@@ -8,6 +8,7 @@ import CircularSkeleton from "./skeleton/CircularSkeleton";
 import SearchIcon from "./icons/SearchIcon";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -18,7 +19,12 @@ export default function Header() {
     <header className="border-b sticky top-0 bg-white z-20">
       <div className="max-w-[1280px] flex justify-between items-center mx-auto p-8 md:p-4">
         <Link href="/" className="font-bold text-4xl md:text-xl">
-          Libro Mondo
+          <Image
+            src="/images/libro-mondo-logo.png"
+            alt="리브로 몬도 로고"
+            width={140}
+            height={140}
+          />
         </Link>
         <nav>
           <ul className="flex gap-4 items-center">

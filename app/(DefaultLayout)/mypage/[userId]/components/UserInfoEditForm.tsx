@@ -36,14 +36,12 @@ export default function UserInfoEditForm({
     formData.append("file", file || "");
     formData.append("name", enteredName || "");
 
-    const res = await fetch("/api/user/edit", {
+    await fetch("/api/user/edit", {
       method: "PUT",
       body: formData,
     });
-    if (res.ok) {
-      const updatedUser = await res.json();
-      mutate(updatedUser, false);
-    }
+
+    mutate();
     setIsLoading(false);
     closeModal();
   };

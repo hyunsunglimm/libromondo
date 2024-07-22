@@ -3,11 +3,11 @@ import { BookResponseType } from "@/types/book";
 
 const reviewField = `
   "id": _id,
-  "author": author->name,
+  "author": {"id": author->_id, "name": author->name, "image": author->image},
   "book": book,
   "contents": contents,
   "grade": grade,
-  comments[]{"id": _key, comment, "name": author->name, "image": author->image},
+  comments[]{"id": _key, "userId": author->_id, comment, "name": author->name, "image": author->image},
   "createdAt": _createdAt,
   "updatedAt": _updatedAt
 `;
@@ -29,6 +29,12 @@ export const addReview = (
     },
     { autoGenerateArrayKeys: true }
   );
+};
+
+export const removeReview = async (reviewId: string) => {
+  return client.delete({
+    query: `*[_type == "review" && _id == "${reviewId}"]`,
+  });
 };
 
 export const getReviews = () => {

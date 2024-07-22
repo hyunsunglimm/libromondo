@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: "Libro Mondo는 간편한 도서 추천 서비스입니다.",
     type: "website",
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-    images: "https://libromondo.vercel.app/images/main.png",
+    images: "https://libromondo.vercel.app/images/libro-mondo-logo.png",
     siteName: "Libro Mondo",
     locale: "ko_KR",
   },

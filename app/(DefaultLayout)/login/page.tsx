@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "구글 혹은 카카오로 로그인해주세요.",
     type: "website",
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
-    images: "https://libromondo.vercel.app/images/main.png",
+    images: "https://libromondo.vercel.app/images/libro-mondo-logo.png",
     siteName: "Libro Mondo",
     locale: "ko_KR",
   },
