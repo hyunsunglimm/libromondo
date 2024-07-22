@@ -54,7 +54,11 @@ export default function ReviewListItem({ review }: ReviewListItemProps) {
         </div>
       </li>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ReviewDetail reviewId={review.id} loginUser={loginUser} />
+        <ReviewDetail
+          reviewId={review.id}
+          loginUser={loginUser}
+          onClose={() => setIsOpen(false)}
+        />
       </Modal>
     </>
   );

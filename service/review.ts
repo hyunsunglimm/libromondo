@@ -31,6 +31,12 @@ export const addReview = (
   );
 };
 
+export const removeReview = async (reviewId: string) => {
+  return client.delete({
+    query: `*[_type == "review" && _id == "${reviewId}"]`,
+  });
+};
+
 export const getReviews = () => {
   return client.fetch(`
       *[_type == "review"] | order(_createdAt desc) {

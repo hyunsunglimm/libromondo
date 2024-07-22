@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import ProfileImage from "./ProfileImage";
 import Link from "next/link";
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Spinner from "./spinner/Spinner";
 import { SanityUser } from "@/types/user";
 import { v4 as uuid } from "uuid";
@@ -16,11 +16,13 @@ import DeleteIcon from "./icons/DeleteIcon";
 type ReviewDetailProps = {
   reviewId: string;
   loginUser: SanityUser | undefined;
+  onClose: () => void;
 };
 
 export default function ReviewDetail({
   reviewId,
   loginUser,
+  onClose,
 }: ReviewDetailProps) {
   const {
     data: review,
@@ -28,7 +30,10 @@ export default function ReviewDetail({
     isLoading,
   } = useSWR<Review>(`/api/review/${reviewId}`);
 
+  const { mutate: globalMutate } = useSWRConfig();
+
   const [enteredComment, setEnteredComment] = useState("");
+  const [removeReviewLoading, setRemoveReviewLoading] = useState(false);
 
   if (isLoading) {
     return (
@@ -57,6 +62,16 @@ export default function ReviewDetail({
       method: "PUT",
       body: JSON.stringify({ reviewId: review?.id, commentId }),
     }).then((res) => res.json());
+  };
+
+  const revomeReview = async () => {
+    setRemoveReviewLoading(true);
+    await fetch(`/api/review/${reviewId}`, {
+      method: "HEAD",
+    });
+    onClose();
+    setRemoveReviewLoading(false);
+    globalMutate(`/api/reviews/${loginUser?.id}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -138,7 +153,9 @@ export default function ReviewDetail({
           <div className="bg-neutral-100 p-4 rounded-md overflow-y-scroll grow">
             <p>{review?.contents}</p>
           </div>
-          <Button variant="destructive">리뷰 삭제</Button>
+          <Button variant="destructive" onClick={revomeReview}>
+            {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
+          </Button>
         </div>
       </div>
       <div className="border-t border-black mt-2">
