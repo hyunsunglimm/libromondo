@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { getFollowingReviews, getReviews } from "@/service/review";
 
+export const revalidate = 0;
+
 export async function GET(req: Request) {
   const session = await auth();
   const user = session?.user;

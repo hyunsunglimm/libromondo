@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import ReviewList from "./ReviewList";
+import useAlarm from "@/hooks/useAlarm";
 
 export default function ReviewListSection() {
   const [type, setType] = useState<"all" | "following">("all");
+  const { withAlarm } = useAlarm();
 
   return (
     <section className="mx-auto max-w-[832px] w-full px-4">
@@ -17,7 +19,9 @@ export default function ReviewListSection() {
         </button>
         <button
           className={`border border-black w-full p-2 rounded-sm ${type === "following" ? "bg-black text-white" : "bg-white text-black"}`}
-          onClick={() => setType("following")}
+          onClick={() => {
+            withAlarm(() => setType("following"));
+          }}
         >
           팔로잉만 보기
         </button>

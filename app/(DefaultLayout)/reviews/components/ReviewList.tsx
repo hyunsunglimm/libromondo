@@ -1,5 +1,8 @@
 "use client";
 
+import ReviewListItem from "@/components/ReviewListItem";
+import useMe from "@/hooks/useMe";
+import { Review } from "@/types/review";
 import { ScaleLoader } from "react-spinners";
 import useSWR from "swr";
 
@@ -8,7 +11,10 @@ type ReviewListProps = {
 };
 
 export default function ReviewList({ type }: ReviewListProps) {
-  const { data: reviews, isLoading } = useSWR(`/api/reviews?type=${type}`);
+  const { data: reviews, isLoading } = useSWR<Review[]>(
+    `/api/reviews?type=${type}`
+  );
+  const { loginUser } = useMe();
 
   if (isLoading) {
     return (
@@ -16,7 +22,16 @@ export default function ReviewList({ type }: ReviewListProps) {
     );
   }
 
-  console.log(reviews);
+  return (
+    <>
+      <p className="text-end text-gray-600 font-bold mb-2">{`총 ${reviews?.length}개의 리뷰가 있습니다.`}</p>
+      <ul className="flex flex-col gap-4">
+        {reviews?.map((review) => {
+          const isMe = loginUser?.id === review.author.id;
 
-  return <p>reviews</p>;
+          return <ReviewListItem key={review.id} review={review} isMe={isMe} />;
+        })}
+      </ul>
+    </>
+  );
 }

@@ -74,6 +74,8 @@ export default function ReviewDetail({
     onClose();
     setRemoveReviewLoading(false);
     globalMutate(`/api/reviews/${loginUser?.id}`);
+    globalMutate("/api/reviews?type=all");
+    globalMutate("/api/reviews?type=following");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
