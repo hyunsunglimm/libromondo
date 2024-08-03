@@ -80,7 +80,7 @@ export default function UserProfile({ userId }: { userId: string }) {
         {!isMe && (
           <Button
             onClick={() => toggleFollow(userId, !!isFollow)}
-            className="w-32 md:w-20 text-2xl md:text-base h-12"
+            className="w-32 md:w-20 text-2xl md:text-base h-16 md:h-12"
           >
             {followLoading ? (
               <Spinner />

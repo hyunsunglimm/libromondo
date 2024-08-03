@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="flex flex-col justify-center items-center h-screen gap-4">
-      <h1 className="text-2xl font-bold text-center text-gray-300">
+    <section className="flex flex-col justify-center items-center h-screen gap-12 md:gap-4">
+      <h1 className="text-[3rem] md:text-2xl font-bold text-center text-gray-300">
         죄송합니다. <br /> 존재하지 않는 페이지입니다.
       </h1>
-      <Button asChild>
+      <Button asChild className="text-4xl md:text-base h-16 md:h-12">
         <Link href="/">홈으로 돌아가기</Link>
       </Button>
     </section>

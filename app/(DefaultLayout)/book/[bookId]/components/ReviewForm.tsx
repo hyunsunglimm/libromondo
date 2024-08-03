@@ -48,7 +48,7 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
         onChange={(e) => setEnteredContents(e.target.value)}
         value={enteredContents}
       />
-      <Button className="text-3xl md:text-base h-14 md:h-12">
+      <Button className="text-3xl md:text-base h-16 md:h-12">
         {isLoading ? <Spinner /> : "작성 완료"}
       </Button>
     </form>

@@ -1,6 +1,7 @@
 import UserProfile from "./components/UserProfile";
 import { Metadata } from "next";
 import UserContents from "./components/UserContents";
+import { redirect } from "next/navigation";
 
 type MyPageProps = {
   params: {
@@ -8,7 +9,7 @@ type MyPageProps = {
   };
 };
 
-export default async function MyPage({ params }: MyPageProps) {
+export default function MyPage({ params }: MyPageProps) {
   const userId = params.userId;
 
   return (
@@ -27,6 +28,8 @@ export async function generateMetadata({
   const user = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`
   ).then((res) => res.json());
+
+  if (!user) return redirect("/");
 
   const title = user.name;
   const description = `${user.name}님의 마이페이지입니다.`;

@@ -79,6 +79,8 @@ export async function generateMetadata({
     .then((res) => res.json())
     .then((data) => data.documents[0]);
 
+  if (!book) return redirect("/");
+
   const title = `${book.title} (${book.authors[0]})`;
   const description = book.contents;
 

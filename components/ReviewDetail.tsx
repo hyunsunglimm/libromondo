@@ -135,7 +135,10 @@ export default function ReviewDetail({
             height={500}
             className="w-full border border-black rounded-md"
           />
-          <Button asChild className="mt-2 w-full text-xl md:text-base">
+          <Button
+            asChild
+            className="mt-2 w-full text-xl md:text-base h-16 md:h-12"
+          >
             <Link href={`/book/${bookId}`}>도서 상세 보기</Link>
           </Button>
         </div>
@@ -175,7 +178,7 @@ export default function ReviewDetail({
             <Button
               variant="destructive"
               onClick={revomeReview}
-              className="text-xl md:text-base"
+              className="text-xl md:text-base h-16 md:h-12"
             >
               {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
             </Button>
