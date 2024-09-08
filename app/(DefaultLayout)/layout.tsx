@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     template: "Libro Mondo | %s",
   },
   description: "Libro Mondo는 간편한 도서 추천 서비스입니다.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: {
       default: "Libro Mondo",
