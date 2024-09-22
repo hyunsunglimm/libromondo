@@ -1,9 +1,5 @@
-import Error from "next/error";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
