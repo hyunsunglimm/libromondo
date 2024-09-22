@@ -38,3 +38,33 @@ export const getBestBooks = async (): Promise<BookResponseType[]> => {
 
   return bookData;
 };
+
+export const getRelatedBooks = async ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}): Promise<BookResponseType[]> => {
+  let relatedKeyword = "";
+  const aiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai`, {
+    method: "POST",
+    body: JSON.stringify({ description }),
+  }).then((res) => res.json());
+
+  if (aiResponse.error) {
+    relatedKeyword = title.slice(0, 2);
+  } else {
+    relatedKeyword = aiResponse.content;
+  }
+
+  console.log("🔥🔥🔥", relatedKeyword);
+
+  const relatedBooks = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${relatedKeyword}`
+  )
+    .then((res) => res.json())
+    .then((data) => data.documents);
+
+  return relatedBooks;
+};
