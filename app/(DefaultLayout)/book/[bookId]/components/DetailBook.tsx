@@ -38,9 +38,9 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
             )}
             <p className="text-2xl md:text-base">
               가격 : <span className="line-through">{book.price}</span>{" "}
-              {!book.status ? (
+              {!book.status || book.sale_price <= 0 ? (
                 <span className="text-red-500 bg-red-200 p-1 rounded-md">
-                  판매중이 아닙니다.
+                  판매중이 아니거나 E북으로만 판매중입니다.
                 </span>
               ) : (
                 `${book.sale_price}원`

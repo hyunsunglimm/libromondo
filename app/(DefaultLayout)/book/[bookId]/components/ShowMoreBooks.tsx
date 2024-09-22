@@ -63,14 +63,20 @@ export default function ShowMoreBooks({
         ))}
       </SwiperWrapper>
 
-      <PaginationSection
-        setPrevPage={handlePrevPage}
-        setNextPage={handleNextPage}
-        setPage={setPage}
-        pageArray={pageArray}
-        currentPage={page}
-        isLastPage={isLastPage}
-      />
+      {books?.length > 0 ? (
+        <PaginationSection
+          setPrevPage={handlePrevPage}
+          setNextPage={handleNextPage}
+          setPage={setPage}
+          pageArray={pageArray}
+          currentPage={page}
+          isLastPage={isLastPage}
+        />
+      ) : (
+        <p className="text-gray-300 text-3xl md:text-2xl text-center py-8 font-bold">
+          {title}이 존재하지 않습니다.
+        </p>
+      )}
     </div>
   );
 }
