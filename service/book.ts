@@ -64,7 +64,7 @@ export const getRelatedBooks = async ({
   const data = await Promise.all(
     relatedKeywords.map(async (keyword) => {
       const result = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${keyword}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${keyword}&size=10`
       ).then((res) => res.json());
 
       return result;
