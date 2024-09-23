@@ -1,3 +1,4 @@
+import { systemContent } from "@/utils/ai";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
@@ -7,25 +8,22 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
   try {
-    const { description } = await req.json();
+    const { url, description } = await req.json();
+    if (!description) return Response.json({ error: true });
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-1106",
       messages: [
         {
           role: "system",
-          content: `
-            조건 1: 저자는 제시하지 말 것
-            조건 2: xx와 xx의 형태의 답이면 xx 로 하나의 키워드만 답하기
-            조건 3: xx, xx, xx의 형태의 답이면 xx로 하나의 키워드만 답하기
-            조건 4: 설명을 충분히 읽고 맥락을 잘 파악하여 어떤 키워드가 가장 관련된 책을 검색할 수 있는지 구체적으로 고려해볼 것
-          `,
+          content: systemContent,
         },
         {
           role: "user",
           content: `
-            ${description}
+            도서 설명: ${description}
+            도서 관련 링크: ${url}
             
-            위 도서 설명을 통해 위 도서와 관련된 도서를 검색하기 위한 키워드 하나를 제공해주세요
+            위의 정보를 토대로 검색 키워드를 제공해주세요.
           `,
         },
       ],

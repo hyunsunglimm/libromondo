@@ -40,31 +40,41 @@ export const getBestBooks = async (): Promise<BookResponseType[]> => {
 };
 
 export const getRelatedBooks = async ({
+  url,
   title,
   description,
 }: {
+  url: string;
   title: string;
   description: string;
 }): Promise<BookResponseType[]> => {
-  let relatedKeyword = "";
+  let relatedKeywords = [];
   const aiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai`, {
     method: "POST",
-    body: JSON.stringify({ description }),
+    body: JSON.stringify({ url, description }),
+    cache: "no-store",
   }).then((res) => res.json());
 
   if (aiResponse.error) {
-    relatedKeyword = title.slice(0, 2);
+    relatedKeywords = [title.slice(0, 2)];
   } else {
-    relatedKeyword = aiResponse.content;
+    relatedKeywords = [...aiResponse.content.split(",")];
   }
 
-  console.log("🔥🔥🔥", relatedKeyword);
+  const data = await Promise.all(
+    relatedKeywords.map(async (keyword) => {
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${keyword}`
+      ).then((res) => res.json());
 
-  const relatedBooks = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${relatedKeyword}`
-  )
-    .then((res) => res.json())
-    .then((data) => data.documents);
+      return result;
+    })
+  );
+
+  const relatedBooks = data
+    .filter((d) => d.meta.total_count > 0)
+    .map((d) => d.documents)
+    .flat();
 
   return relatedBooks;
 };

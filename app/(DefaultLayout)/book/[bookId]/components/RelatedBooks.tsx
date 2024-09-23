@@ -4,6 +4,7 @@ import { getRelatedBooks } from "@/service/book";
 
 const RelatedBooks = async ({ book }: { book: BookResponseType }) => {
   const relatedBooks: BookResponseType[] = await getRelatedBooks({
+    url: book.url,
     title: book.title,
     description: book.contents,
   });
