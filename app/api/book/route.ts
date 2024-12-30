@@ -1,13 +1,13 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-import { fetchBookData, getBestBookTitles } from "@/service/book";
+import { getBooks, getBestBookTitles } from "@/service/book";
 
 export const GET = async () => {
   const bestBookTitles = await getBestBookTitles();
 
   const data = await Promise.all(
-    bestBookTitles.map((title) => fetchBookData(title, 1))
+    bestBookTitles.map((title) => getBooks({ query: title, size: 1 }))
   );
 
   const bookData = data

@@ -1,4 +1,4 @@
-import { fetchBookData } from "@/service/book";
+import { getBooks } from "@/service/book";
 
 type Context = {
   params: {
@@ -9,7 +9,7 @@ type Context = {
 export const GET = async (_: Request, context: Context) => {
   const { bookId } = context.params;
 
-  const data = await fetchBookData(bookId, 1);
+  const data = await getBooks({ query: bookId, size: 1 });
 
   return Response.json(data);
 };

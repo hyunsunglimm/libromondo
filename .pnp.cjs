@@ -50,6 +50,7 @@ const RAW_RUNTIME_STATE =
           ["next-sanity", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:9.8.30"],\
           ["openai", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:4.77.0"],\
           ["postcss", "npm:8.4.49"],\
+          ["query-string", "npm:9.1.1"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:18.3.1"],\
           ["react-icons", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:5.4.0"],\
@@ -8127,6 +8128,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["decode-uri-component", [\
+      ["npm:0.4.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/decode-uri-component-npm-0.4.1-61db093ef6-10c0.zip/node_modules/decode-uri-component/",\
+        "packageDependencies": [\
+          ["decode-uri-component", "npm:0.4.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["decompress", [\
       ["npm:4.2.1", {\
         "packageLocation": "../../../.yarn/berry/cache/decompress-npm-4.2.1-a79829cc55-10c0.zip/node_modules/decompress/",\
@@ -9518,6 +9528,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["fill-range", "npm:7.1.1"],\
           ["to-regex-range", "npm:5.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["filter-obj", [\
+      ["npm:5.1.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/filter-obj-npm-5.1.0-a1ae61a7db-10c0.zip/node_modules/filter-obj/",\
+        "packageDependencies": [\
+          ["filter-obj", "npm:5.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11686,6 +11705,7 @@ const RAW_RUNTIME_STATE =
           ["next-sanity", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:9.8.30"],\
           ["openai", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:4.77.0"],\
           ["postcss", "npm:8.4.49"],\
+          ["query-string", "npm:9.1.1"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:18.3.1"],\
           ["react-icons", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:5.4.0"],\
@@ -13856,6 +13876,18 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["query-string", [\
+      ["npm:9.1.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/query-string-npm-9.1.1-0fe72d5dee-10c0.zip/node_modules/query-string/",\
+        "packageDependencies": [\
+          ["query-string", "npm:9.1.1"],\
+          ["decode-uri-component", "npm:0.4.1"],\
+          ["filter-obj", "npm:5.1.0"],\
+          ["split-on-first", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["querystringify", [\
       ["npm:2.2.0", {\
         "packageLocation": "../../../.yarn/berry/cache/querystringify-npm-2.2.0-4e77c9f606-10c0.zip/node_modules/querystringify/",\
@@ -15479,6 +15511,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/speedometer-npm-1.0.0-8940560fb9-10c0.zip/node_modules/speedometer/",\
         "packageDependencies": [\
           ["speedometer", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["split-on-first", [\
+      ["npm:3.0.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/split-on-first-npm-3.0.0-3b993e48ae-10c0.zip/node_modules/split-on-first/",\
+        "packageDependencies": [\
+          ["split-on-first", "npm:3.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\

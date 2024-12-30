@@ -23,3 +23,11 @@ export type BookMeta = {
   pageable_count: number;
   total_count: number;
 };
+
+export type GetBooksRequestParams = {
+  query: string;
+  sort?: string;
+  page?: number;
+  size?: number;
+  target?: string;
+};

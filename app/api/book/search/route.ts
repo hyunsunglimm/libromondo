@@ -1,4 +1,4 @@
-import { fetchBookData } from "@/service/book";
+import { getBooks } from "@/service/book";
 
 export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
@@ -14,7 +14,11 @@ export const GET = async (req: Request) => {
     return new Response("Bad Request", { status: 400 });
   }
 
-  const data = await fetchBookData(query, parseInt(size), page || "1");
+  const data = await getBooks({
+    query,
+    size: parseInt(size),
+    page: parseInt(page || "1"),
+  });
 
   return Response.json(data);
 };

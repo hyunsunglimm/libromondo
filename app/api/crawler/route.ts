@@ -15,7 +15,6 @@ export const GET = async () => {
 
   // @ts-ignore
   $("li[data-goods-no]").each((idx, el) => {
-    console.log(el);
     const title = $(el).find(".gd_name").text().trim();
 
     list.push(title);

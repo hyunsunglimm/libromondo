@@ -1,5 +1,10 @@
-import { BookResponseType, KakaoBookResponse } from "@/types/book";
+import {
+  BookResponseType,
+  GetBooksRequestParams,
+  KakaoBookResponse,
+} from "@/types/book";
 import { BASE_URL, KAKAO_SEARCH_API_URL } from "@/constants/url";
+import queryString from "query-string";
 
 export const getBestBookTitles = async (): Promise<string[]> => {
   const res = await fetch(`${BASE_URL}/api/crawler`);
@@ -7,19 +12,16 @@ export const getBestBookTitles = async (): Promise<string[]> => {
   return data;
 };
 
-export const fetchBookData = async (
-  title: string,
-  size?: number,
-  page?: string
+export const getBooks = async (
+  params: GetBooksRequestParams
 ): Promise<KakaoBookResponse> => {
-  const res = await fetch(
-    `${KAKAO_SEARCH_API_URL}?query=${title}&size=${size}&page=${page}`,
-    {
-      headers: {
-        Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
-      },
-    }
-  );
+  const queryParams = queryString.stringify(params);
+  console.log(queryParams);
+  const res = await fetch(`${KAKAO_SEARCH_API_URL}?${queryParams}`, {
+    headers: {
+      Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
+    },
+  });
 
   const data = await res.json();
 
