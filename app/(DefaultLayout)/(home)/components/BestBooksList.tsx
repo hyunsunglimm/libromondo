@@ -1,16 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import useSWR from "swr";
 import { motion } from "framer-motion";
-import { BookResponseType } from "@/types/book";
 import Link from "next/link";
 import { ScaleLoader } from "react-spinners";
+import { useGetBestBook } from "../hooks/useGetBestBook";
 
 export default function BestBooksList() {
-  const { data: books, isLoading } = useSWR<BookResponseType[]>("/api/book");
+  const { data: books, isPending } = useGetBestBook();
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="flex flex-col items-center justify-center mt-24">
         <p className="text-2xl">국내 베스트 도서를 불러오는 중입니다.</p>
@@ -22,7 +21,7 @@ export default function BestBooksList() {
 
   return (
     <>
-      {!isLoading && books && (
+      {!isPending && books && (
         <motion.ul
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

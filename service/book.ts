@@ -1,6 +1,6 @@
 import { BookResponseType, KakaoBookResponse } from "@/types/book";
 
-const getBestBookTitles = async (): Promise<string[]> => {
+export const getBestBookTitles = async (): Promise<string[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/crawler`);
   const data = await res.json();
   return data;
@@ -26,17 +26,9 @@ export const fetchBookData = async (
 };
 
 export const getBestBooks = async (): Promise<BookResponseType[]> => {
-  const bestBookTitles = await getBestBookTitles();
+  const response = await fetch("http://localhost:3000/api/book");
 
-  const data = await Promise.all(
-    bestBookTitles.map((title) => fetchBookData(title, 1))
-  );
-
-  const bookData = data
-    .filter((d) => d.meta.total_count > 0)
-    .map((d) => d.documents[0]);
-
-  return bookData;
+  return await response.json();
 };
 
 export const getRelatedBooks = async ({
