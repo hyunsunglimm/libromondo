@@ -1,6 +1,7 @@
 import GoogleLogin from "./components/GoogleLogin";
 import KakaoLogin from "./components/KakaoLogin";
 import { Metadata } from "next";
+import NaverLogin from "./components/NaverLogin";
 
 export const metadata: Metadata = {
   title: "로그인 페이지",
@@ -30,6 +31,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       </p>
       <GoogleLogin callbackUrl={searchParams.callbackUrl ?? "/"} />
       <KakaoLogin callbackUrl={searchParams.callbackUrl ?? "/"} />
+      <NaverLogin callbackUrl={searchParams.callbackUrl ?? "/"} />
     </section>
   );
 }

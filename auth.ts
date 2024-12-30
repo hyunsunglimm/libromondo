@@ -1,10 +1,11 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Kakao from "next-auth/providers/kakao";
+import Naver from "next-auth/providers/naver";
 import { addUser } from "./service/user";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google, Kakao],
+  providers: [Google, Kakao, Naver],
   callbacks: {
     signIn: async ({ account, user, profile }) => {
       let userId = null;
