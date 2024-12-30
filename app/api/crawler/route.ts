@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 
 export const GET = async () => {
   const url =
@@ -10,10 +10,12 @@ export const GET = async () => {
 
   const { data } = await axios.get(url);
 
-  const $ = cheerio.load(data);
+  const $ = load(data);
   const list: string[] = [];
 
+  // @ts-ignore
   $("li[data-goods-no]").each((idx, el) => {
+    console.log(el);
     const title = $(el).find(".gd_name").text().trim();
 
     list.push(title);
