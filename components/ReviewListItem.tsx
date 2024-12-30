@@ -16,7 +16,7 @@ type ReviewListItemProps = {
 
 export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { loginUser } = useMe();
+  const { data: loginUser } = useMe();
 
   return (
     <>

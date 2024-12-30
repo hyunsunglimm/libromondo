@@ -3125,7 +3125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/image-url@npm:^1.0.2":
+"@sanity/image-url@npm:^1.0.2, @sanity/image-url@npm:^1.1.0":
   version: 1.1.0
   resolution: "@sanity/image-url@npm:1.1.0"
   checksum: 10c0/ae7bf95e79871f1d4673d74eab96e107bb60068878b80f0891b67708bd4683e525b8dfb5c97afdf6f0427529f1001acb2cb22b1d409315cce4a079d49f65e687
@@ -3510,7 +3510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/vision@npm:^3.48.0":
+"@sanity/vision@npm:^3.68.3":
   version: 3.68.3
   resolution: "@sanity/vision@npm:3.68.3"
   dependencies:
@@ -3928,6 +3928,24 @@ __metadata:
   dependencies:
     "@types/react": "npm:^18"
   checksum: 10c0/c2a13c940c8dabc5fe38554f0b78560411a0618cc9b733c06d884b35f631b5c89eb88a016593df3b5bfd923517a337fd4a2f32598094f8924ac8e22b5f874c99
+  languageName: node
+  linkType: hard
+
+"@types/react-is@npm:^19":
+  version: 19.0.0
+  resolution: "@types/react-is@npm:19.0.0"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/d5fa0294f95cf301540f3e28fb44c00524c74a7de3ef9757703d76067206f3ecc002da6486e1581f23b54173b6449db8631acc3088009116e4569ff216df3ecc
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*":
+  version: 19.0.2
+  resolution: "@types/react@npm:19.0.2"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/8992f39701fcf1bf893ef8f94a56196445667baf08fe4f6050a14e229a17aad3265ad3efc01595ff3b4d5d5c69da885f9aa4ff80f164a613018734efcff1eb8f
   languageName: node
   linkType: hard
 
@@ -8711,13 +8729,14 @@ __metadata:
   resolution: "libromondo@workspace:."
   dependencies:
     "@radix-ui/react-slot": "npm:^1.1.0"
-    "@sanity/image-url": "npm:^1.0.2"
-    "@sanity/vision": "npm:^3.48.0"
+    "@sanity/image-url": "npm:^1.1.0"
+    "@sanity/vision": "npm:^3.68.3"
     "@tanstack/react-query": "npm:^5.62.11"
     "@tanstack/react-query-next-experimental": "npm:^5.62.11"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
+    "@types/react-is": "npm:^19"
     "@vitejs/plugin-react": "npm:^4.3.1"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.7.2"
@@ -8737,6 +8756,7 @@ __metadata:
     react: "npm:^18"
     react-dom: "npm:^18"
     react-icons: "npm:^5.2.1"
+    react-is: "npm:^19.0.0"
     react-spinners: "npm:^0.14.1"
     sanity: "npm:^3.48.0"
     styled-components: "npm:^6.1.11"
@@ -10752,6 +10772,13 @@ __metadata:
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: 10c0/f2f1e60010c683479e74c63f96b09fb41603527cd131a9959e2aee1e5a8b0caf270b365e5ca77d4a6b18aae659b60a86150bb3979073528877029b35aecd2072
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "react-is@npm:19.0.0"
+  checksum: 10c0/d1be8e8500cf04f76df71942a21ef3a71266397a383d7ec8885f35190df818d35c65efd35aed7be47a89ad99aaff2c52e0c4e39e8930844a6b997622e50625a8
   languageName: node
   linkType: hard
 

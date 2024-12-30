@@ -19,7 +19,7 @@ export default function WriteReview({ book }: WriteReviewProps) {
   const { data: reviews } = useSWR<Review[]>(
     `/api/reviews?type=book&isbn=${book.isbn}`
   );
-  const { loginUser } = useMe();
+  const { data: loginUser } = useMe();
   const { withAlarm } = useAlarm();
 
   const alreadyWriteReview = reviews?.some(
@@ -33,7 +33,9 @@ export default function WriteReview({ book }: WriteReviewProps) {
   return (
     <>
       <Button
-        className={`w-full mt-4 text-2xl md:text-base h-12 ${alreadyWriteReview && "cursor-not-allowed"}`}
+        className={`w-full mt-4 text-2xl md:text-base h-12 ${
+          alreadyWriteReview && "cursor-not-allowed"
+        }`}
         onClick={handleClick}
         disabled={alreadyWriteReview}
       >

@@ -14,7 +14,7 @@ export default function ReviewList({ type }: ReviewListProps) {
   const { data: reviews, isLoading } = useSWR<Review[]>(
     `/api/reviews?type=${type}`
   );
-  const { loginUser } = useMe();
+  const { data: loginUser } = useMe();
 
   if (isLoading) {
     return (

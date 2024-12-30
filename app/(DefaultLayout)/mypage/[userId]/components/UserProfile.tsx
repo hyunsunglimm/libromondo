@@ -27,7 +27,7 @@ export default function UserProfile({ userId }: { userId: string }) {
   const [followLoading, setFollowLoading] = useState(false);
   const { withAlarm } = useAlarm();
 
-  const { loginUser, mutate: loginUserMutate } = useMe();
+  const { data: loginUser, mutate: loginUserMutate } = useMe();
   const {
     data: user,
     mutate,

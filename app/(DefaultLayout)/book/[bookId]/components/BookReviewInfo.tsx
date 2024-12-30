@@ -13,7 +13,7 @@ export default function BookReviewInfo({ isbn }: BookReviewInfoProps) {
   const { data: reviews } = useSWR<Review[]>(
     `/api/reviews?type=book&isbn=${isbn}`
   );
-  const { loginUser } = useMe();
+  const { data: loginUser } = useMe();
 
   const grade =
     reviews && reviews.length > 0

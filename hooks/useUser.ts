@@ -17,7 +17,7 @@ const updateSave = async (
 
 export default function useUser(book: BookResponseType, isDetail: boolean) {
   const { isAlarm, onAlarm, offAlarm } = useAlarmStore();
-  const { loginUser, mutate } = useMe();
+  const { data: loginUser, mutate } = useMe();
 
   const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
 
