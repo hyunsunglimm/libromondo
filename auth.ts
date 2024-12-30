@@ -22,6 +22,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         addUser(userId, user.name, user.image || "");
       }
 
+      if (account?.provider === "naver") {
+        if (!profile) return false;
+
+        userId = profile.response.id;
+        addUser(
+          userId,
+          profile.response.name,
+          profile.response.profile_image || ""
+        );
+      }
+
       if (userId) {
         user.id = userId;
       }
