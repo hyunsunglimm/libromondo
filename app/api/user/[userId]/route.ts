@@ -13,11 +13,14 @@ type Context = {
 export const GET = async (_: Request, ctx: Context) => {
   const userId = ctx.params.userId;
 
-  if (!userId) {
-    return new Response("유저정보가 없습니다.", { status: 401 });
-  }
-
   const sanityUser = await getUserById(userId);
+
+  if (!sanityUser) {
+    return Response.json({
+      message: "해당 유저 정보가 없습니다.",
+      status: 401,
+    });
+  }
 
   return Response.json(sanityUser);
 };

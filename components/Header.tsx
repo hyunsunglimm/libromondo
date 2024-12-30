@@ -1,7 +1,7 @@
 "use client";
 
 import useMe from "@/hooks/useMe";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import ProfileImage from "./ProfileImage";
 import CircularSkeleton from "./skeleton/CircularSkeleton";
@@ -12,8 +12,7 @@ import Image from "next/image";
 import ReviewListIcon from "./icons/ReviewListIcon";
 
 export default function Header() {
-  const { data: session } = useSession();
-  const { loginUser, isLoading } = useMe();
+  const { data: loginUser, isLoading } = useMe();
   const pathname = usePathname();
 
   return (
@@ -39,7 +38,7 @@ export default function Header() {
                 <SearchIcon />
               </Link>
             </li>
-            {session && isLoading && <CircularSkeleton size="sm" />}
+            {isLoading && <CircularSkeleton size="sm" />}
             {loginUser && (
               <li>
                 <Link href={`/mypage/${loginUser.id}`}>

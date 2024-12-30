@@ -10,9 +10,9 @@ export const GET = async () => {
     bestBookTitles.map((title) => getBooks({ query: title, size: 1 }))
   );
 
-  const bookData = data
+  const validData = data
     .filter((d) => d.meta.total_count > 0)
     .map((d) => d.documents[0]);
 
-  return Response.json(bookData);
+  return Response.json(validData);
 };

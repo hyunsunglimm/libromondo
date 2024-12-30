@@ -16,7 +16,6 @@ export const getBooks = async (
   params: GetBooksRequestParams
 ): Promise<KakaoBookResponse> => {
   const queryParams = queryString.stringify(params);
-  console.log(queryParams);
   const res = await fetch(`${KAKAO_SEARCH_API_URL}?${queryParams}`, {
     headers: {
       Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
