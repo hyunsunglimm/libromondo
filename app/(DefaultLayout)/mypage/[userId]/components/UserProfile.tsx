@@ -3,7 +3,6 @@
 import Modal from "@/components/Modal";
 import { useState } from "react";
 import UserInfoEditForm from "./UserInfoEditForm";
-import useMe from "@/hooks/useMe";
 import ProfileImage from "@/components/ProfileImage";
 import DropdownIcon from "@/components/icons/DropdownIcon";
 import UserListItem from "@/components/UserListItem";
@@ -15,14 +14,17 @@ export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
 
-  const { data: loginUser } = useMe();
-  const { data: user, isPending, isFollow, toggleFollow } = useUserById(userId);
+  const {
+    data: user,
+    isPending,
+    isFollow,
+    isMe,
+    toggleFollow,
+  } = useUserById(userId);
 
   if (isPending) {
     return <UserProfileSkeleton />;
   }
-
-  const isMe = loginUser?.id === userId;
 
   const closeModal = () => setIsEdit(false);
 

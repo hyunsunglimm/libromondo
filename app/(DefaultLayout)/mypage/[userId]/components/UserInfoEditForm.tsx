@@ -1,9 +1,8 @@
-"use client";
-
 import Spinner from "@/components/spinner/Spinner";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 type UserInfoEditForm = {
@@ -15,10 +14,11 @@ export default function UserInfoEditForm({
   user,
   closeModal,
 }: UserInfoEditForm) {
-  const { mutate } = useMe();
   const [file, setFile] = useState<File>();
   const [enteredName, setEnteredName] = useState(user?.name);
   const [isLoading, setIsLoading] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function UserInfoEditForm({
       body: formData,
     });
 
-    mutate();
+    queryClient.invalidateQueries({ queryKey: ["user", user?.id] });
     setIsLoading(false);
     closeModal();
   };

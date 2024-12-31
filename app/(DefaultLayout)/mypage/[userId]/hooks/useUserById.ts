@@ -19,6 +19,8 @@ export function useUserById(userId: string) {
   const isFollow =
     loginUser?.following.some((user) => user.id === userId) || false;
 
+  const isMe = loginUser?.id === userId;
+
   const query = useQuery<SanityUser>({
     queryKey: ["user", userId],
     queryFn: async () => {
@@ -91,5 +93,5 @@ export function useUserById(userId: string) {
     });
   };
 
-  return { ...query, isFollow, toggleFollow };
+  return { ...query, isFollow, isMe, toggleFollow };
 }
