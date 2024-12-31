@@ -1,46 +1,28 @@
 "use client";
 
 import Modal from "@/components/Modal";
-import { SanityUser } from "@/types/user";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useState } from "react";
 import UserInfoEditForm from "./UserInfoEditForm";
 import useMe from "@/hooks/useMe";
 import ProfileImage from "@/components/ProfileImage";
 import DropdownIcon from "@/components/icons/DropdownIcon";
 import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
-import Spinner from "@/components/spinner/Spinner";
 import UserProfileSkeleton from "./UserProfileSkeleton";
-import useAlarm from "@/hooks/useAlarm";
-
-async function updateFollow(targetId: string, follow: boolean) {
-  return fetch("/api/follow", {
-    method: "PUT",
-    body: JSON.stringify({ targetId, follow }),
-  }).then((res) => res.json());
-}
+import { useUserById } from "../hooks/useUserById";
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
-  const [followLoading, setFollowLoading] = useState(false);
-  const { withAlarm } = useAlarm();
 
-  const { data: loginUser, mutate: loginUserMutate } = useMe();
-  const {
-    data: user,
-    mutate,
-    isLoading,
-  } = useSWR<SanityUser>(`/api/user/${userId}`);
+  const { data: loginUser } = useMe();
+  const { data: user, isPending, isFollow, toggleFollow } = useUserById(userId);
 
-  if (isLoading) {
+  if (isPending) {
     return <UserProfileSkeleton />;
   }
 
   const isMe = loginUser?.id === userId;
-
-  const isFollow = loginUser?.following.some((user) => user.id === userId);
 
   const closeModal = () => setIsEdit(false);
 
@@ -50,18 +32,6 @@ export default function UserProfile({ userId }: { userId: string }) {
     } else {
       setDropdownType(type);
     }
-  };
-
-  const toggleFollow = async (targetId: string, follow: boolean) => {
-    withAlarm(async () => {
-      setFollowLoading(true);
-
-      await loginUserMutate(updateFollow(targetId, follow), {
-        populateCache: false,
-      });
-      await mutate();
-      setFollowLoading(false);
-    });
   };
 
   return (
@@ -79,14 +49,10 @@ export default function UserProfile({ userId }: { userId: string }) {
         )}
         {!isMe && (
           <Button
-            onClick={() => toggleFollow(userId, !!isFollow)}
+            onClick={() => toggleFollow()}
             className="w-32 md:w-20 text-2xl md:text-base h-16 md:h-12"
           >
-            {followLoading ? (
-              <Spinner />
-            ) : (
-              <p>{isFollow ? "언팔로우" : "팔로우"}</p>
-            )}
+            {isFollow ? "언팔로우" : "팔로우"}
           </Button>
         )}
         <div className="w-full flex gap-4">

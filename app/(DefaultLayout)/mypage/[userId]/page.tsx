@@ -29,7 +29,13 @@ export async function generateMetadata({
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`
   ).then((res) => res.json());
 
-  if (!user) return redirect("/");
+  if (!user) {
+    return {
+      title: "존재하지 않는 사용자입니다.",
+      description:
+        "존재하지 않는 사용자입니다. 올바른 방식으로 다시 시도해주세요.",
+    };
+  }
 
   const title = user.name;
   const description = `${user.name}님의 마이페이지입니다.`;

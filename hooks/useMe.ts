@@ -5,14 +5,14 @@ import { useSession } from "next-auth/react";
 export default function useMe() {
   const { data: session, status } = useSession();
 
-  const userId = session?.user?.id;
+  const myId = session?.user?.id;
 
-  const shouldFetch = status === "authenticated" && !!userId;
+  const shouldFetch = status === "authenticated" && !!myId;
 
   return useQuery<SanityUser>({
-    queryKey: ["me", userId],
+    queryKey: ["me", myId],
     queryFn: async () => {
-      const res = await fetch(`/api/user/${session?.user?.id}`);
+      const res = await fetch(`/api/user/${myId}`);
       return await res.json();
     },
     enabled: shouldFetch,
