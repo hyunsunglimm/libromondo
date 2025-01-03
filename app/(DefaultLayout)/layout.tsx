@@ -6,6 +6,7 @@ import SWRConfigContext from "@/context/SWRConfigContext";
 import AuthContext from "@/context/AuthContext";
 import { Alarm } from "@/components/Alarm";
 import QueryProvider from "@/provider/QueryProvider";
+import Modal from "@/components/Modal";
 
 export const metadata: Metadata = {
   title: {
@@ -41,7 +42,7 @@ export default function DefaultLayout({
             {children}
           </main>
           <Alarm />
-          <div id="portal" />
+          <Modal />
           <Footer />
         </SWRConfigContext>
       </QueryProvider>

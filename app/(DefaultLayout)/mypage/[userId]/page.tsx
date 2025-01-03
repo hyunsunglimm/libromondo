@@ -1,7 +1,6 @@
 import UserProfile from "./components/UserProfile";
 import { Metadata } from "next";
 import UserContents from "./components/UserContents";
-import { redirect } from "next/navigation";
 
 type MyPageProps = {
   params: {

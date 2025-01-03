@@ -1,6 +1,5 @@
 "use client";
 
-import Modal from "@/components/Modal";
 import { useState } from "react";
 import UserInfoEditForm from "./UserInfoEditForm";
 import ProfileImage from "@/components/ProfileImage";
@@ -9,10 +8,11 @@ import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
 import UserProfileSkeleton from "./UserProfileSkeleton";
 import { useUserById } from "../hooks/useUserById";
+import { useModal } from "@/hooks/useModal";
 
 export default function UserProfile({ userId }: { userId: string }) {
-  const [isEdit, setIsEdit] = useState(false);
   const [dropdownType, setDropdownType] = useState("");
+  const { open } = useModal();
 
   const {
     data: user,
@@ -25,8 +25,6 @@ export default function UserProfile({ userId }: { userId: string }) {
   if (isPending) {
     return <UserProfileSkeleton />;
   }
-
-  const closeModal = () => setIsEdit(false);
 
   const dropdownHandler = (type: string) => {
     if (dropdownType === type) {
@@ -43,7 +41,7 @@ export default function UserProfile({ userId }: { userId: string }) {
         <p className="font-bold text-4xl md:text-2xl">{user?.name}</p>
         {isMe && (
           <button
-            onClick={() => setIsEdit(true)}
+            onClick={() => open(<UserInfoEditForm user={user} />)}
             className="bg-gray-100 p-2 rounded-md font-bold hover:bg-gray-200 transition text-2xl md:text-base"
           >
             내 정보 수정
@@ -102,9 +100,6 @@ export default function UserProfile({ userId }: { userId: string }) {
           </nav>
         </div>
       </div>
-      <Modal isOpen={isEdit} onClose={closeModal}>
-        <UserInfoEditForm user={user} closeModal={closeModal} />
-      </Modal>
     </>
   );
 }

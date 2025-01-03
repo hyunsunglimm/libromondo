@@ -1,22 +1,21 @@
 import Spinner from "@/components/spinner/Spinner";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
+import { useModal } from "@/hooks/useModal";
 import { SanityUser } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 type UserInfoEditForm = {
   user: SanityUser | undefined;
-  closeModal: () => void;
 };
 
-export default function UserInfoEditForm({
-  user,
-  closeModal,
-}: UserInfoEditForm) {
+export default function UserInfoEditForm({ user }: UserInfoEditForm) {
   const [file, setFile] = useState<File>();
   const [enteredName, setEnteredName] = useState(user?.name);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { close } = useModal();
 
   const queryClient = useQueryClient();
 
@@ -43,7 +42,7 @@ export default function UserInfoEditForm({
 
     queryClient.invalidateQueries({ queryKey: ["user", user?.id] });
     setIsLoading(false);
-    closeModal();
+    close();
   };
 
   return (
