@@ -1,6 +1,5 @@
 import Spinner from "@/components/spinner/Spinner";
 import { Button } from "@/components/ui/button";
-import useMe from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
 import { SanityUser } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
