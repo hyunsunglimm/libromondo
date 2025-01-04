@@ -3,8 +3,6 @@
 import { useState } from "react";
 import UserInfoEditForm from "./UserInfoEditForm";
 import ProfileImage from "@/components/ProfileImage";
-import DropdownIcon from "@/components/icons/DropdownIcon";
-import UserListItem from "@/components/UserListItem";
 import { Button } from "@/components/ui/button";
 import UserProfileSkeleton from "./UserProfileSkeleton";
 import { useUserById } from "../hooks/useUserById";

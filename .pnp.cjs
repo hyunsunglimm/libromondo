@@ -65,7 +65,7 @@ const RAW_RUNTIME_STATE =
           ["tailwindcss", "npm:3.4.17"],\
           ["tailwindcss-animate", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:1.0.7"],\
           ["typescript", "patch:typescript@npm%3A5.7.2#optional!builtin<compat/typescript>::version=5.7.2&hash=5786d5"],\
-          ["uuid", "npm:10.0.0"],\
+          ["uuid", "npm:11.0.3"],\
           ["zustand", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:4.5.5"]\
         ],\
         "linkType": "SOFT"\
@@ -11738,7 +11738,7 @@ const RAW_RUNTIME_STATE =
           ["tailwindcss", "npm:3.4.17"],\
           ["tailwindcss-animate", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:1.0.7"],\
           ["typescript", "patch:typescript@npm%3A5.7.2#optional!builtin<compat/typescript>::version=5.7.2&hash=5786d5"],\
-          ["uuid", "npm:10.0.0"],\
+          ["uuid", "npm:11.0.3"],\
           ["zustand", "virtual:a8329eee602fc6d7687d1bae9db002c5ca15eb26df5aa5b749e017e45b87d9d3489b4f26547cefb1140c4acbfeab2573dc62e63623ae8fc84d0c03eaf9722c75#npm:4.5.5"]\
         ],\
         "linkType": "SOFT"\

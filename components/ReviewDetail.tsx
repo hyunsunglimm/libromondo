@@ -12,19 +12,18 @@ import Spinner from "./spinner/Spinner";
 import { SanityUser } from "@/types/user";
 import { v4 as uuid } from "uuid";
 import DeleteIcon from "./icons/DeleteIcon";
+import { useModal } from "@/hooks/useModal";
 
 type ReviewDetailProps = {
   reviewId: string;
   loginUser: SanityUser | undefined;
   isMe: boolean;
-  onClose: () => void;
 };
 
 export default function ReviewDetail({
   reviewId,
   loginUser,
   isMe,
-  onClose,
 }: ReviewDetailProps) {
   const {
     data: review,
@@ -36,6 +35,8 @@ export default function ReviewDetail({
 
   const [enteredComment, setEnteredComment] = useState("");
   const [removeReviewLoading, setRemoveReviewLoading] = useState(false);
+
+  const { close } = useModal();
 
   if (isLoading) {
     return (
@@ -71,7 +72,7 @@ export default function ReviewDetail({
     await fetch(`/api/review/${reviewId}`, {
       method: "HEAD",
     });
-    onClose();
+    close();
     setRemoveReviewLoading(false);
     globalMutate(`/api/reviews/${loginUser?.id}`);
     globalMutate("/api/reviews?type=all");

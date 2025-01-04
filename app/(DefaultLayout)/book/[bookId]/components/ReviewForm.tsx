@@ -7,17 +7,19 @@ import GradeSection from "./GradeSection";
 import { useState } from "react";
 import Spinner from "@/components/spinner/Spinner";
 import { useSWRConfig } from "swr";
+import { useModal } from "@/hooks/useModal";
 
 type ReviewFormProps = {
   book: BookResponseType;
-  onClose: () => void;
 };
 
-export default function ReviewForm({ book, onClose }: ReviewFormProps) {
+export default function ReviewForm({ book }: ReviewFormProps) {
   const [enteredContents, setEnteredContents] = useState("");
   const [grade, setGrade] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const { mutate: globalMutate } = useSWRConfig();
+
+  const {close} = useModal()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ export default function ReviewForm({ book, onClose }: ReviewFormProps) {
     });
     setIsLoading(false);
     globalMutate(`/api/reviews?type=book&isbn=${book.isbn}`);
-    onClose();
+    close();
   };
 
   return (
