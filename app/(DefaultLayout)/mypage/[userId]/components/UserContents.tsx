@@ -2,26 +2,21 @@
 
 import { useState } from "react";
 import SavedBooks from "./SavedBooks";
-import useSWR from "swr";
-import { SanityUser } from "@/types/user";
-import useMe from "@/hooks/useMe";
 import { ScaleLoader } from "react-spinners";
 import Reviews from "./Reviews";
+import { useUserById } from "../hooks/useUserById";
 
 export default function UserContents({ userId }: { userId: string }) {
-  const { data: user, isLoading } = useSWR<SanityUser>(`/api/user/${userId}`);
-  const { data: loginUser } = useMe();
+  const { data: user, isPending, isMe } = useUserById(userId);
   const [type, setType] = useState("book");
 
-  if (isLoading || !user) {
+  if (isPending || !user) {
     return (
       <div className="flex justify-center mt-20">
         <ScaleLoader />
       </div>
     );
   }
-
-  const isMe = loginUser?.id === userId;
 
   return (
     <section className="mt-8 md:mt-4">
@@ -43,8 +38,8 @@ export default function UserContents({ userId }: { userId: string }) {
           리뷰
         </button>
       </div>
-      {type === "book" && <SavedBooks user={user} isMe={isMe} />}
-      {type === "review" && <Reviews user={user} isMe={isMe} />}
+      {type === "book" && <SavedBooks userId={userId} />}
+      {type === "review" && <Reviews userId={userId} />}
     </section>
   );
 }

@@ -1,22 +1,15 @@
 "use client";
 
 import ReviewListItem from "@/components/ReviewListItem";
-import { Review } from "@/types/review";
-import { SanityUser } from "@/types/user";
 import { ScaleLoader } from "react-spinners";
-import useSWR from "swr";
+import { useReview } from "../hooks/useReview";
+import { useUserById } from "../hooks/useUserById";
 
-type ReviewsProps = {
-  user: SanityUser;
-  isMe: boolean;
-};
+export default function Reviews({ userId }: { userId: string }) {
+  const { data: reviews, isPending } = useReview(userId);
+  const { data: user, isMe } = useUserById(userId);
 
-export default function Reviews({ user, isMe }: ReviewsProps) {
-  const { data: reviews, isLoading } = useSWR<Review[]>(
-    `/api/reviews/${user.id}`
-  );
-
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="flex justify-center mt-20">
         <ScaleLoader />

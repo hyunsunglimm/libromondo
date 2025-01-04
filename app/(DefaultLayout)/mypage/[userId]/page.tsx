@@ -1,6 +1,7 @@
 import UserProfile from "./components/UserProfile";
 import { Metadata } from "next";
 import UserContents from "./components/UserContents";
+import { BASE_URL } from "@/constants/url";
 
 type MyPageProps = {
   params: {
@@ -24,9 +25,9 @@ export async function generateMetadata({
 }: MyPageProps): Promise<Metadata> {
   const userId = params.userId;
 
-  const user = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`
-  ).then((res) => res.json());
+  const user = await fetch(`${BASE_URL}/api/user/${userId}`).then((res) =>
+    res.json()
+  );
 
   if (!user) {
     return {
@@ -46,7 +47,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/mypage/${params.userId}/`,
+      url: `${BASE_URL}/mypage/${params.userId}/`,
       images: user.image,
       siteName: "Libro Mondo",
       locale: "ko_KR",

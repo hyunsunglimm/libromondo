@@ -1,14 +1,11 @@
 "use client";
 
 import BookCard from "@/components/BookCard";
-import { SanityUser } from "@/types/user";
+import { useUserById } from "../hooks/useUserById";
 
-type SavedBooksProps = {
-  user: SanityUser;
-  isMe: boolean;
-};
+export default function SavedBooks({ userId }: { userId: string }) {
+  const { data: user, isMe } = useUserById(userId);
 
-export default function SavedBooks({ user, isMe }: SavedBooksProps) {
   return (
     <div className="pt-4 mt-4">
       <h2 className="text-center font-bold text-4xl md:text-2xl">
