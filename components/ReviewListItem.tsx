@@ -4,7 +4,6 @@ import { Review } from "@/types/review";
 import { convertToKST } from "@/utils/date";
 import Image from "next/image";
 import ToggleStar from "./ToggleStar";
-import { useState } from "react";
 import ReviewDetail from "./ReviewDetail";
 import useMe from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
@@ -15,7 +14,6 @@ type ReviewListItemProps = {
 };
 
 export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const { data: loginUser } = useMe();
   const { open } = useModal();
 

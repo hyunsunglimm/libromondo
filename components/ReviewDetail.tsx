@@ -139,6 +139,7 @@ export default function ReviewDetail({
           <Button
             asChild
             className="mt-2 w-full text-xl md:text-base h-16 md:h-12"
+            onClick={close}
           >
             <Link href={`/book/${bookId}`}>도서 상세 보기</Link>
           </Button>
@@ -147,6 +148,7 @@ export default function ReviewDetail({
           <Link
             href={`/mypage/${review?.author.id}`}
             className="py-2 border-b border-black flex justify-center items-center gap-2 hover:bg-neutral-50 transition"
+            onClick={close}
           >
             <ProfileImage
               image={review?.author.image || ""}
