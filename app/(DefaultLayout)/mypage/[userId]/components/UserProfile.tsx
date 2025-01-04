@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import UserProfileSkeleton from "./UserProfileSkeleton";
 import { useUserById } from "../hooks/useUserById";
 import { useModal } from "@/hooks/useModal";
+import Dropdown from "@/components/ui/Dropdown";
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [dropdownType, setDropdownType] = useState("");
@@ -56,48 +57,18 @@ export default function UserProfile({ userId }: { userId: string }) {
           </Button>
         )}
         <div className="w-full flex gap-4">
-          <nav className="relative w-full">
-            <button
-              className="border border-black rounded-md p-2 md:p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
-              onClick={() => dropdownHandler("following")}
-            >
-              <div />
-              <p className="text-2xl md:text-base">
-                팔로잉: {user?.following.length}명
-              </p>
-              <DropdownIcon isOpen={dropdownType === "following"} />
-            </button>
-            {dropdownType === "following" && (
-              <ul className="border border-black rounded-md p-4 absolute top-16 md:top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
-                {user?.following?.map((user) => (
-                  <li key={user.id}>
-                    <UserListItem user={user} />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </nav>
-          <nav className="relative w-full">
-            <button
-              className="border border-black rounded-md p-2 md:p-1 w-full flex justify-between items-center hover:bg-gray-50 trasition"
-              onClick={() => dropdownHandler("followers")}
-            >
-              <div />
-              <p className="text-2xl md:text-base">
-                팔로워: {user?.followers.length}명
-              </p>
-              <DropdownIcon isOpen={dropdownType === "followers"} />
-            </button>
-            {dropdownType === "followers" && (
-              <ul className="border border-black rounded-md p-4 absolute top-16 md:top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
-                {user?.followers?.map((user) => (
-                  <li key={user.id}>
-                    <UserListItem user={user} />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </nav>
+          <Dropdown
+            isOpen={dropdownType === "following"}
+            title={`팔로잉: ${user?.following?.length || 0}명`}
+            list={user?.following}
+            onClick={() => dropdownHandler("following")}
+          />
+          <Dropdown
+            isOpen={dropdownType === "followers"}
+            title={`팔로워: ${user?.followers?.length || 0}명`}
+            list={user?.followers}
+            onClick={() => dropdownHandler("followers")}
+          />
         </div>
       </div>
     </>

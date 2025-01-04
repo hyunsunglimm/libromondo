@@ -17,7 +17,7 @@ export function useUserById(userId: string) {
   const queryClient = useQueryClient();
 
   const isFollow =
-    loginUser?.following.some((user) => user.id === userId) || false;
+    loginUser?.following?.some((user) => user.id === userId) || false;
 
   const isMe = loginUser?.id === userId;
 
