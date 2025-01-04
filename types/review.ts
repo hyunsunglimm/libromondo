@@ -4,7 +4,6 @@ export type Review = {
   id: string;
   author: Reviewer;
   book: BookResponseType;
-  contents: string;
   grade: number;
   comments: Comment[];
   createdAt: string;

@@ -1,11 +1,12 @@
-export const review = {
-  title: "Review",
-  name: "review",
+// 서재에 담긴 책 테이블
+export const books = {
+  title: "Books",
+  name: "books",
   type: "document",
   fields: [
     {
-      title: "Author",
-      name: "author",
+      title: "User",
+      name: "user",
       type: "reference",
       to: [{ type: "user" }],
     },
@@ -79,49 +80,29 @@ export const review = {
       ],
     },
     {
+      title: "Contents",
+      name: "contents",
+      type: "string",
+    },
+    {
       title: "Grade",
       name: "grade",
       type: "number",
     },
-    {
-      title: "Comments",
-      name: "comments",
-      type: "array",
-      of: [
-        {
-          title: "Comment",
-          name: "comment",
-          type: "document",
-          fields: [
-            {
-              title: "Author",
-              name: "author",
-              type: "reference",
-              to: [{ type: "user" }],
-            },
-            {
-              title: "Comment",
-              name: "comment",
-              type: "string",
-            },
-          ],
-        },
-      ],
-    },
   ],
   preview: {
     select: {
-      author: "author.name",
+      author: "user.name",
       bookTitle: "book.title",
-      bookThumbnail: "book.thumbnail",
+      userImage: "user.image",
     },
     prepare(selection) {
-      const { author, bookTitle, bookThumbnail } = selection;
+      const { user, bookTitle, userImage } = selection;
       return {
-        title: author,
+        title: user,
         subtitle: bookTitle,
         // eslint-disable-next-line @next/next/no-img-element
-        media: <img src={bookThumbnail} alt="preview book thumbnail" />,
+        media: <img src={userImage} alt="preview user profile image" />,
       };
     },
   },
