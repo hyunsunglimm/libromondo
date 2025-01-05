@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/constants/url";
 import useAlarm from "@/hooks/useAlarm";
-import useMe from "@/hooks/useMe";
+import { useMe } from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
 import {
   useMutation,

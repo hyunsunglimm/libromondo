@@ -6,7 +6,7 @@ import { BookResponseType } from "@/types/book";
 import useAlarm from "@/hooks/useAlarm";
 import useSWR from "swr";
 import { Review } from "@/types/review";
-import useMe from "@/hooks/useMe";
+import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
 
 type WriteReviewProps = {

@@ -1,7 +1,7 @@
 "use client";
 
 import ReviewListItem from "@/components/ReviewListItem";
-import useMe from "@/hooks/useMe";
+import { useMe } from "@/hooks/useMe";
 import { Review } from "@/types/review";
 import { ScaleLoader } from "react-spinners";
 import useSWR from "swr";

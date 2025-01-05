@@ -5,7 +5,7 @@ import { convertToKST } from "@/utils/date";
 import Image from "next/image";
 import ToggleStar from "./ToggleStar";
 import ReviewDetail from "./ReviewDetail";
-import useMe from "@/hooks/useMe";
+import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
 
 type ReviewListItemProps = {
@@ -56,9 +56,7 @@ export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
           </div>
         </div>
         <div className="bg-neutral-100 mt-2 p-2 rounded-md grow">
-          <p className="truncate text-xl md:text-base">
-            {review.contents}
-          </p>
+          <p className="truncate text-xl md:text-base">{review.contents}</p>
         </div>
       </div>
     </li>
