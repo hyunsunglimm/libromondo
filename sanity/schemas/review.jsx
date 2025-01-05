@@ -79,6 +79,11 @@ export const review = {
       ],
     },
     {
+      title: "Contents",
+      name: "contents",
+      type: "string",
+    },
+    {
       title: "Grade",
       name: "grade",
       type: "number",
@@ -112,14 +117,14 @@ export const review = {
   preview: {
     select: {
       author: "author.name",
-      bookTitle: "book.title",
+      contents: "contents",
       bookThumbnail: "book.thumbnail",
     },
     prepare(selection) {
-      const { author, bookTitle, bookThumbnail } = selection;
+      const { author, contents, bookThumbnail } = selection;
       return {
-        title: author,
-        subtitle: bookTitle,
+        title: `작성자: ${author}`,
+        subtitle: `리뷰 내용: ${contents}`,
         // eslint-disable-next-line @next/next/no-img-element
         media: <img src={bookThumbnail} alt="preview book thumbnail" />,
       };

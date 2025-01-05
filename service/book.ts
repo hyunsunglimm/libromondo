@@ -5,11 +5,12 @@ import {
 } from "@/types/book";
 import { BASE_URL, KAKAO_SEARCH_API_URL } from "@/constants/url";
 import queryString from "query-string";
+import { client } from "@/sanity/lib/client";
 
 export const getBestBookTitles = async (): Promise<string[]> => {
   const res = await fetch(`${BASE_URL}/api/crawler`);
-  const data = await res.json();
-  return data;
+
+  return await res.json();
 };
 
 export const getBooks = async (
@@ -22,9 +23,7 @@ export const getBooks = async (
     },
   });
 
-  const data = await res.json();
-
-  return data;
+  return await res.json();
 };
 
 export const getBestBooks = async (): Promise<BookResponseType[]> => {
@@ -71,4 +70,10 @@ export const getRelatedBooks = async ({
     .flat();
 
   return relatedBooks;
+};
+
+export const getSavedBooks = (userId: string) => {
+  return client
+    .fetch(`*[_type == "books" && user._ref == "${userId}"]`)
+    .then((data) => data.map((d: { book: BookResponseType }) => d.book));
 };

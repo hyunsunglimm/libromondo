@@ -57,7 +57,7 @@ export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
         </div>
         <div className="bg-neutral-100 mt-2 p-2 rounded-md grow">
           <p className="truncate text-xl md:text-base">
-            {review.book.contents}
+            {review.contents}
           </p>
         </div>
       </div>

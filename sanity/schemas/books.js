@@ -79,20 +79,10 @@ export const books = {
         },
       ],
     },
-    {
-      title: "Contents",
-      name: "contents",
-      type: "string",
-    },
-    {
-      title: "Grade",
-      name: "grade",
-      type: "number",
-    },
   ],
   preview: {
     select: {
-      author: "user.name",
+      user: "user.name",
       bookTitle: "book.title",
       userImage: "user.image",
     },

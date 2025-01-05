@@ -2,6 +2,8 @@ import UserProfile from "./components/UserProfile";
 import { Metadata } from "next";
 import UserContents from "./components/UserContents";
 import { BASE_URL } from "@/constants/url";
+import { Suspense } from "react";
+import UserProfileSkeleton from "./components/UserProfileSkeleton";
 
 type MyPageProps = {
   params: {
@@ -14,7 +16,9 @@ export default function MyPage({ params }: MyPageProps) {
 
   return (
     <section className="mx-auto max-w-[832px] w-full px-4">
-      <UserProfile userId={userId} />
+      <Suspense fallback={<UserProfileSkeleton />}>
+        <UserProfile userId={userId} />
+      </Suspense>
       <UserContents userId={userId} />
     </section>
   );

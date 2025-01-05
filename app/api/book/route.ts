@@ -1,6 +1,3 @@
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 import { getBooks, getBestBookTitles } from "@/service/book";
 
 export const GET = async () => {

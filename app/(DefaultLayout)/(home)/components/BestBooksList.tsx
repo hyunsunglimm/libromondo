@@ -21,14 +21,14 @@ export default function BestBooksList() {
 
   return (
     <>
-      {!isPending && books && (
+      {!isPending && (
         <motion.ul
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           className="grid md:grid-cols-4 grid-cols-3 max-w-[800px] w-full mx-auto mt-8 gap-4"
         >
-          {books.map((book, index) => {
+          {books?.map((book, index) => {
             const bookId = book.isbn.split(" ")[0];
 
             return (

@@ -15,6 +15,19 @@ export const addUser = async (id: string, name: string, image: string) => {
   });
 };
 
+export const getUser = async (): Promise<
+  Pick<SanityUser, "id" | "books">[]
+> => {
+  return client.fetch(
+    `
+        *[_type == "user"] {
+          "id": _id,
+          "books": books,
+        }
+      `
+  );
+};
+
 export const getUserById = async (id: string) => {
   return client
     .fetch(
