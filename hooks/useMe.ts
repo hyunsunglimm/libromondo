@@ -1,20 +1,14 @@
+import { BASE_URL } from "@/constants/url";
 import { SanityUser } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 
-export default function useMe() {
-  const { data: session, status } = useSession();
-
-  const myId = session?.user?.id;
-
-  const shouldFetch = status === "authenticated" && !!myId;
-
+export function useMe() {
   return useQuery<SanityUser>({
-    queryKey: ["me", myId],
+    queryKey: ["me"],
     queryFn: async () => {
-      const res = await fetch(`/api/user/${myId}`);
+      const res = await fetch(`${BASE_URL}/api/me`);
+
       return await res.json();
     },
-    enabled: shouldFetch,
   });
 }

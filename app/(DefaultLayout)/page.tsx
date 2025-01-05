@@ -10,7 +10,7 @@ export default function HomePage() {
       <MotionText className="mt-4 text-3xl">
         리브로 몬도와 함께 알아가보세요.
       </MotionText>
-      <BestBooksList />
+      {/* <BestBooksList /> */}
     </section>
   );
 }
