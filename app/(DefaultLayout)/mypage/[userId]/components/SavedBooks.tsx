@@ -2,20 +2,15 @@
 
 import BookCard from "@/components/BookCard";
 import { useUserById } from "../hooks/useUserById";
-import { useSavedBooks } from "../hooks/useSavedBooks";
-import { ScaleLoader } from "react-spinners";
+import { BookResponseType } from "@/types/book";
 
-export default function SavedBooks({ userId }: { userId: string }) {
-  const { data: books, isPending } = useSavedBooks(userId);
+type SavedBooksProps = {
+  userId: string;
+  books: BookResponseType[] | undefined;
+};
+
+export default function SavedBooks({ userId, books }: SavedBooksProps) {
   const { data: user, isMe } = useUserById(userId);
-
-  if (isPending) {
-    return (
-      <div className="flex justify-center mt-20">
-        <ScaleLoader />
-      </div>
-    );
-  }
 
   return (
     <div className="pt-4 mt-4">

@@ -5,7 +5,8 @@ import DetailBook from "./components/DetailBook";
 import { Metadata } from "next";
 import RelatedBooks from "./components/RelatedBooks";
 import { Suspense } from "react";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/loader/Spinner";
+import { BASE_URL } from "@/constants/url";
 
 type BookDetailPageProps = {
   params: {
@@ -16,16 +17,14 @@ type BookDetailPageProps = {
 export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const { bookId } = params;
 
-  const book: BookResponseType = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${bookId}`
-  )
+  const book: BookResponseType = await fetch(`${BASE_URL}/api/book/${bookId}`)
     .then((res) => res.json())
     .then((data) => data.documents[0]);
 
   if (!book) return redirect("/");
 
   const sameAuthorBooks: BookResponseType[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${book.authors[0]}`
+    `${BASE_URL}/api/book/related?keyword=${book.authors[0]}`
   )
     .then((res) => res.json())
     .then((data) => data.documents);
@@ -65,9 +64,7 @@ export async function generateMetadata({
 }: BookDetailPageProps): Promise<Metadata> {
   const bookId = params.bookId;
 
-  const book = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${bookId}`
-  )
+  const book = await fetch(`${BASE_URL}/api/book/${bookId}`)
     .then((res) => res.json())
     .then((data) => data.documents[0]);
 
@@ -83,7 +80,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/book/${params.bookId}/`,
+      url: `${BASE_URL}/book/${params.bookId}/`,
       images: book.thumbnail,
       siteName: "Libro Mondo",
       locale: "ko_KR",

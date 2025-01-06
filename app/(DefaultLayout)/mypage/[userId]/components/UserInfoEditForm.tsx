@@ -1,5 +1,6 @@
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/loader/Spinner";
 import { Button } from "@/components/ui/button";
+import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
 import { SanityUser } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,11 +13,8 @@ type UserInfoEditForm = {
 export default function UserInfoEditForm({ user }: UserInfoEditForm) {
   const [file, setFile] = useState<File>();
   const [enteredName, setEnteredName] = useState(user?.name);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const { close } = useModal();
-
-  const queryClient = useQueryClient();
+  const { editLoading, editInfo } = useMe();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -26,32 +24,14 @@ export default function UserInfoEditForm({ user }: UserInfoEditForm) {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    setIsLoading(true);
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("file", file || "");
-    formData.append("name", enteredName || "");
-
-    await fetch("/api/user/edit", {
-      method: "PUT",
-      body: formData,
-    });
-
-    queryClient.invalidateQueries({ queryKey: ["user", user?.id] });
-    setIsLoading(false);
-    close();
-  };
-
   return (
     <form
       className="flex flex-col justify-center items-center gap-4"
-      onSubmit={handleSubmit}
+      onSubmit={async (event) => editInfo({ event, file, enteredName })}
     >
       <input
         className="hidden"
-        name="input"
+        name="file"
         id="input-upload"
         type="file"
         accept="image/*"
@@ -70,13 +50,14 @@ export default function UserInfoEditForm({ user }: UserInfoEditForm) {
       </p>
       <input
         value={enteredName}
+        name="name"
         onChange={(e) => setEnteredName(e.target.value)}
         className="border p-1 rounded-md w-full text-[16px]"
         required
         maxLength={12}
       />
       <Button className="w-full text-2xl md:text-base font-bold h-14">
-        {isLoading ? <Spinner /> : "저장"}
+        {editLoading ? <Spinner /> : "저장"}
       </Button>
     </form>
   );

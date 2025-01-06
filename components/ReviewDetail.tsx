@@ -8,7 +8,7 @@ import ProfileImage from "./ProfileImage";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
-import Spinner from "./spinner/Spinner";
+import Spinner from "./loader/Spinner";
 import { SanityUser } from "@/types/user";
 import { v4 as uuid } from "uuid";
 import DeleteIcon from "./icons/DeleteIcon";

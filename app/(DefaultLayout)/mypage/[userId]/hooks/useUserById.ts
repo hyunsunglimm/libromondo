@@ -2,11 +2,7 @@ import { BASE_URL } from "@/constants/url";
 import useAlarm from "@/hooks/useAlarm";
 import { useMe } from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
 async function updateFollow(targetId: string, follow: boolean) {
   return fetch("/api/follow", {
@@ -16,7 +12,7 @@ async function updateFollow(targetId: string, follow: boolean) {
 }
 
 export function useUserById(userId: string) {
-  const { data: loginUser } = useMe();
+  const { data: loginUser, isPending: meLoading } = useMe();
   const { withAlarm } = useAlarm();
 
   const queryClient = useQueryClient();
@@ -26,7 +22,7 @@ export function useUserById(userId: string) {
 
   const isMe = loginUser?.id === userId;
 
-  const query = useSuspenseQuery<SanityUser>({
+  const query = useQuery<SanityUser>({
     queryKey: ["user", userId],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/user/${userId}`);
@@ -35,7 +31,9 @@ export function useUserById(userId: string) {
     },
   });
 
-  const user = query.data;
+  const { data: user, isPending: userLoading } = query;
+
+  const allLoading = meLoading || userLoading;
 
   const { mutate } = useMutation({
     mutationFn: () => updateFollow(userId as string, isFollow),
@@ -44,7 +42,7 @@ export function useUserById(userId: string) {
         queryKey: ["user", userId],
       });
       await queryClient.cancelQueries({
-        queryKey: ["me", loginUser?.id],
+        queryKey: ["me"],
       });
 
       queryClient.setQueryData(["user", userId], (prev: SanityUser) =>
@@ -67,7 +65,7 @@ export function useUserById(userId: string) {
               ],
             }
       );
-      queryClient.setQueryData(["me", loginUser?.id], (prev: SanityUser) =>
+      queryClient.setQueryData(["me"], (prev: SanityUser) =>
         isFollow
           ? {
               ...prev,
@@ -92,11 +90,11 @@ export function useUserById(userId: string) {
     },
   });
 
-  const toggleFollow = async () => {
-    withAlarm(async () => {
+  const toggleFollow = () => {
+    withAlarm(() => {
       mutate();
     });
   };
 
-  return { ...query, isFollow, isMe, toggleFollow };
+  return { ...query, isFollow, isMe, allLoading, toggleFollow };
 }
