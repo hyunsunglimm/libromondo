@@ -36,6 +36,13 @@ export function useSave(book: BookResponseType) {
   const { mutate } = useMutation({
     mutationFn: () => updateSave({ userId: loginUser?.id, book, isSave }),
     onMutate: async () => {
+      await queryClient.cancelQueries({
+        queryKey: ["my-saved"],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["savedBooks", loginUser?.id],
+      });
+
       queryClient.setQueryData(["my-saved"], (prev: string[]) =>
         isSave ? prev.filter((id) => id !== book.isbn) : [...prev, book.isbn]
       );
@@ -47,8 +54,8 @@ export function useSave(book: BookResponseType) {
             : [...prev, book]
       );
     },
-    onError: () => {
-      alert("에러 발생!!!");
+    onError: (error) => {
+      alert(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["my-saved"] });
