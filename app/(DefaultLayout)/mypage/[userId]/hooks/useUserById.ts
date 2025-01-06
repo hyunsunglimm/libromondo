@@ -44,7 +44,7 @@ export function useUserById(userId: string) {
         queryKey: ["user", userId],
       });
       await queryClient.cancelQueries({
-        queryKey: ["me", loginUser?.id],
+        queryKey: ["me"],
       });
 
       queryClient.setQueryData(["user", userId], (prev: SanityUser) =>
@@ -67,7 +67,7 @@ export function useUserById(userId: string) {
               ],
             }
       );
-      queryClient.setQueryData(["me", loginUser?.id], (prev: SanityUser) =>
+      queryClient.setQueryData(["me"], (prev: SanityUser) =>
         isFollow
           ? {
               ...prev,
@@ -92,8 +92,8 @@ export function useUserById(userId: string) {
     },
   });
 
-  const toggleFollow = async () => {
-    withAlarm(async () => {
+  const toggleFollow = () => {
+    withAlarm(() => {
       mutate();
     });
   };
