@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { SanityUser } from "@/types/user";
+import { SanityUser, SimpleUser } from "@/types/user";
 import { EMPTY_PROFILE_IMAGE } from "@/utils/image";
 
 export const addUser = async (id: string, name: string, image: string) => {
@@ -50,28 +50,20 @@ export const editProfile = async (userId: string, name: string, file: Blob) => {
   }
 };
 
-export const getUsersWhoSavedBooks = async (bookId: string) => {
+export const getBookSavors = async (isbn: string) => {
   return client
     .fetch(
       `
-      *[_type == "user"]{
-        ...,
-        "id": _id
+      *[_type == "books" && (book.isbn match "${isbn}")] {
+        "user": user->{
+          "id": _id,
+          name,
+          image
+        }
       }
     `
     )
-    .then((users: SanityUser[]) =>
-      users.filter((user) =>
-        user.books.some((book) => book.isbn.includes(bookId))
-      )
-    )
-    .then((users: SanityUser[]) =>
-      users.map((user) => ({
-        id: user.id,
-        name: user.name,
-        image: user.image,
-      }))
-    );
+    .then((users) => users.map((user: { user: SimpleUser }) => user.user));
 };
 
 export async function searchUsers(keyword?: string) {
