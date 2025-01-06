@@ -48,10 +48,16 @@ export function useSave(book: BookResponseType) {
       );
       queryClient.setQueryData(
         ["savedBooks", loginUser?.id],
-        (prev: BookResponseType[]) =>
-          isSave
+        (prev: BookResponseType[]) => {
+          if (!prev) {
+            // 마이페이지에 접속하지 않아 savedBooks가 fetch되기 전
+            return;
+          }
+
+          return isSave
             ? prev.filter((prevBook) => prevBook.isbn !== book.isbn)
-            : [...prev, book]
+            : [...prev, book];
+        }
       );
     },
     onError: (error) => {
