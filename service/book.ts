@@ -72,8 +72,25 @@ export const getRelatedBooks = async ({
   return relatedBooks;
 };
 
-export const getSavedBooks = (userId: string) => {
+export const getSavedBooks = async (userId: string) => {
   return client
     .fetch(`*[_type == "books" && user._ref == "${userId}"]`)
     .then((data) => data.map((d: { book: BookResponseType }) => d.book));
+};
+
+export const addSave = async (userId: string, book: BookResponseType) => {
+  return client.create(
+    {
+      _type: "books",
+      user: { _ref: userId },
+      book,
+    },
+    { autoGenerateArrayKeys: true }
+  );
+};
+
+export const removeSave = async (userId: string, book: BookResponseType) => {
+  return client.delete({
+    query: `*[_type == "books" && user._ref == "${userId}" && book.isbn == "${book.isbn}"]`,
+  });
 };

@@ -1,26 +1,25 @@
 "use client";
 
+import { useSave } from "@/hooks/useSave";
 import HeartFillIcon from "./icons/HeartFillIcon";
 import HeartIcon from "./icons/HeartIcon";
-import useUser from "@/hooks/useUser";
 import { BookResponseType } from "@/types/book";
 
 type HeartToggleProps = {
   book: BookResponseType;
-  isDetail?: boolean;
 };
 
-export default function HeartToggle({
-  book,
-  isDetail = false,
-}: HeartToggleProps) {
-  const { isSave, updateSaveHandler } = useUser(book, isDetail);
+export default function HeartToggle({ book }: HeartToggleProps) {
+  const { toggleSave } = useSave();
+
+  const isSave = true;
+
   return (
     <>
       {isSave ? (
-        <HeartFillIcon onClick={updateSaveHandler} />
+        <HeartFillIcon onClick={() => toggleSave({ book, isSave })} />
       ) : (
-        <HeartIcon onClick={updateSaveHandler} />
+        <HeartIcon onClick={() => toggleSave({ book, isSave })} />
       )}
     </>
   );

@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import HeartToggle from "./HeartToggle";
-import { usePathname } from "next/navigation";
 
 type BookCardProps = {
   book: BookResponseType;
@@ -14,7 +13,6 @@ type BookCardProps = {
 
 export default function BookCard({ book, index }: BookCardProps) {
   const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
-  const pathname = usePathname();
 
   return (
     <li className="flex flex-col gap-4 justify-between rounded-sm p-4 w-full border shadow-md">
@@ -35,7 +33,7 @@ export default function BookCard({ book, index }: BookCardProps) {
         <Button asChild className="w-full h-12 md:h-7 text-2xl md:text-base">
           <Link href={`/book/${bookId}`}>상세 보기</Link>
         </Button>
-        <HeartToggle book={book} isDetail={pathname.split("/")[2] === bookId} />
+        <HeartToggle book={book} />
       </div>
     </li>
   );

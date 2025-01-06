@@ -1,5 +1,4 @@
 import { client } from "@/sanity/lib/client";
-import { BookResponseType } from "@/types/book";
 import { SanityUser } from "@/types/user";
 import { EMPTY_PROFILE_IMAGE } from "@/utils/image";
 
@@ -13,19 +12,6 @@ export const addUser = async (id: string, name: string, image: string) => {
     following: [],
     followers: [],
   });
-};
-
-export const getUser = async (): Promise<
-  Pick<SanityUser, "id" | "books">[]
-> => {
-  return client.fetch(
-    `
-        *[_type == "user"] {
-          "id": _id,
-          "books": books,
-        }
-      `
-  );
 };
 
 export const getUserById = async (id: string) => {
@@ -49,21 +35,6 @@ export const getUserById = async (id: string) => {
         return null;
       }
     });
-};
-
-export const addSave = async (userId: string, book: BookResponseType) => {
-  return client
-    .patch(userId)
-    .setIfMissing({ books: [] })
-    .append("books", [book])
-    .commit({ autoGenerateArrayKeys: true });
-};
-
-export const removeSave = async (userId: string, book: BookResponseType) => {
-  return client
-    .patch(userId)
-    .unset([`books[isbn=="${book.isbn}"]`])
-    .commit();
 };
 
 export const editProfile = async (userId: string, name: string, file: Blob) => {
