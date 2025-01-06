@@ -13,6 +13,15 @@ export const getBestBookTitles = async (): Promise<string[]> => {
   return await res.json();
 };
 
+export const getBookById = async (
+  bookId: string
+): Promise<BookResponseType> => {
+  const res = await fetch(`${BASE_URL}/api/book/${bookId}`);
+  const data = await res.json();
+
+  return data.documents[0];
+};
+
 export const getBooks = async (
   params: GetBooksRequestParams
 ): Promise<KakaoBookResponse> => {

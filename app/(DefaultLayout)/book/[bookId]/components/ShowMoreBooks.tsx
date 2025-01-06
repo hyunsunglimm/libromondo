@@ -8,22 +8,24 @@ import { BookResponseType } from "@/types/book";
 import { getPageArray } from "@/utils/book";
 import { useEffect, useRef, useState } from "react";
 import { ScaleLoader } from "react-spinners";
+import { useBookSameAuthor } from "../hooks/useBookSameAuthor";
 
 type ShowMoreBooksProps = {
+  author: string;
   title: string;
-  books: BookResponseType[];
   slidesPerView: number;
 };
 
 export default function ShowMoreBooks({
   title,
-  books,
+  author,
   slidesPerView,
 }: ShowMoreBooksProps) {
+  const { data: books } = useBookSameAuthor(author);
   const [page, setPage] = useState(1);
   const ref = useRef<{ slideTo: (arg: number) => void } | null>(null);
 
-  const lastPage = Math.ceil(books?.length / slidesPerView);
+  const lastPage = Math.ceil(books?.length || 0 / slidesPerView);
   const isLastPage = page === lastPage;
 
   const pageArray = getPageArray(page, lastPage);

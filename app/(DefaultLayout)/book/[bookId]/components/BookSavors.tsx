@@ -30,6 +30,11 @@ export default function BookSavors({ bookId }: UsersWhoSavedBooksProps) {
           <DropdownIcon isOpen={isOpen} />
         </button>
       )}
+      {users && users.length === 0 && (
+        <p className="text-sm text-end text-gray-400">
+          아직 아무의 서재에도 담기지 않았네요 😢
+        </p>
+      )}
       {isOpen && (
         <ul className="border border-black rounded-md p-4 absolute top-14 md:top-12 w-full bg-white z-10 flex flex-col gap-4 max-h-72 overflow-y-scroll">
           {users?.map((user) => (

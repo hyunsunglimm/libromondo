@@ -4,10 +4,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ScaleLoader } from "react-spinners";
-import { useGetBestBook } from "../hooks/useGetBestBook";
+import { useBestBook } from "../hooks/useBestBook";
 
 export default function BestBooksList() {
-  const { data: books, isPending } = useGetBestBook();
+  const { data: books, isPending } = useBestBook();
 
   if (isPending) {
     return (

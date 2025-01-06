@@ -22,7 +22,7 @@ const updateSave = async ({ userId, book, isSave }: UpdateSaveParams) => {
 };
 
 export function useSave(book: BookResponseType) {
-  const { data: loginUser } = useMe();
+  const { data: loginUser, isPending: meLoading } = useMe();
   const queryClient = useQueryClient();
 
   const simpleUser = {
@@ -31,7 +31,7 @@ export function useSave(book: BookResponseType) {
     image: loginUser?.image,
   };
 
-  const { data: savedIds } = useQuery<string[]>({
+  const { data: savedIds, isPending: savedLoading } = useQuery<string[]>({
     queryKey: ["my-saved"],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/books/my-saved`);
@@ -39,6 +39,8 @@ export function useSave(book: BookResponseType) {
       return await res.json();
     },
   });
+
+  const allLoading = meLoading || savedLoading;
 
   const isSave = savedIds?.includes(book.isbn) || false;
 
@@ -93,5 +95,5 @@ export function useSave(book: BookResponseType) {
     },
   });
 
-  return { isSave, toggleSave: mutate };
+  return { isSave, allLoading, toggleSave: mutate };
 }
