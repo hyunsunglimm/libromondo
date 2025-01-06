@@ -14,12 +14,6 @@ export const user = {
       type: "string",
     },
     {
-      title: "Books",
-      name: "books",
-      type: "array",
-      of: [{ type: "book" }],
-    },
-    {
       title: "Following",
       name: "following",
       type: "array",
