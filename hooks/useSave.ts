@@ -75,11 +75,15 @@ export function useSave(book: BookResponseType) {
             : [...prev, book];
         }
       );
-      queryClient.setQueryData(["bookSavors", bookId], (prev: SimpleUser[]) =>
-        isSave
+      queryClient.setQueryData(["bookSavors", bookId], (prev: SimpleUser[]) => {
+        if (!prev) {
+          return;
+        }
+
+        return isSave
           ? prev.filter((user) => user.id !== simpleUser.id)
-          : [...prev, simpleUser]
-      );
+          : [...prev, simpleUser];
+      });
     },
     onError: (error, variable) => {
       alert(`${error} ${variable}`);
