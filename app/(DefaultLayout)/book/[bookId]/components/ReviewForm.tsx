@@ -5,7 +5,7 @@ import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import GradeSection from "./GradeSection";
 import { useState } from "react";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/loader/Spinner";
 import { useSWRConfig } from "swr";
 import { useModal } from "@/hooks/useModal";
 
@@ -19,7 +19,7 @@ export default function ReviewForm({ book }: ReviewFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { mutate: globalMutate } = useSWRConfig();
 
-  const {close} = useModal()
+  const { close } = useModal();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

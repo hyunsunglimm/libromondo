@@ -1,21 +1,16 @@
 "use client";
 
 import ReviewListItem from "@/components/ReviewListItem";
-import { ScaleLoader } from "react-spinners";
-import { useReview } from "../hooks/useReview";
 import { useUserById } from "../hooks/useUserById";
+import { Review } from "@/types/review";
 
-export default function Reviews({ userId }: { userId: string }) {
-  const { data: reviews, isPending } = useReview(userId);
+type ReviewsProps = {
+  userId: string;
+  reviews: Review[] | undefined;
+};
+
+export default function Reviews({ userId, reviews }: ReviewsProps) {
   const { data: user, isMe } = useUserById(userId);
-
-  if (isPending) {
-    return (
-      <div className="flex justify-center mt-20">
-        <ScaleLoader />
-      </div>
-    );
-  }
 
   return (
     <div className="pt-4 mt-4">

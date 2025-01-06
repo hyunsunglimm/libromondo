@@ -7,12 +7,19 @@ import { Button } from "@/components/ui/button";
 import { useUserById } from "../hooks/useUserById";
 import { useModal } from "@/hooks/useModal";
 import Dropdown from "@/components/ui/Dropdown";
+import UserProfileSkeleton from "./UserProfileSkeleton";
 
 export default function UserProfile({ userId }: { userId: string }) {
   const [dropdownType, setDropdownType] = useState("");
   const { open } = useModal();
 
-  const { data: user, isFollow, isMe, toggleFollow } = useUserById(userId);
+  const {
+    data: user,
+    isFollow,
+    isMe,
+    allLoading,
+    toggleFollow,
+  } = useUserById(userId);
 
   const dropdownHandler = (type: string) => {
     if (dropdownType === type) {
@@ -21,6 +28,10 @@ export default function UserProfile({ userId }: { userId: string }) {
       setDropdownType(type);
     }
   };
+
+  if (allLoading) {
+    return <UserProfileSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-4 items-center">

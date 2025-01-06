@@ -3,9 +3,27 @@
 import { useState } from "react";
 import SavedBooks from "./SavedBooks";
 import Reviews from "./Reviews";
+import { useUserById } from "../hooks/useUserById";
+import { useSavedBooks } from "../hooks/useSavedBooks";
+import { useReview } from "../hooks/useReview";
+import { SyncLoader } from "react-spinners";
+import Spinner from "@/components/loader/Spinner";
 
 export default function UserContents({ userId }: { userId: string }) {
   const [type, setType] = useState("book");
+  const { allLoading: userLoading } = useUserById(userId);
+  const { data: books, isPending: savedBookLoading } = useSavedBooks(userId);
+  const { data: reviews, isPending: reviewLoading } = useReview(userId);
+
+  const allLoading = userLoading || savedBookLoading || reviewLoading;
+
+  if (allLoading) {
+    return (
+      <div className="flex justify-center mt-20">
+        <SyncLoader />
+      </div>
+    );
+  }
 
   return (
     <section className="mt-8 md:mt-4">
@@ -27,8 +45,8 @@ export default function UserContents({ userId }: { userId: string }) {
           리뷰
         </button>
       </div>
-      {type === "book" && <SavedBooks userId={userId} />}
-      {type === "review" && <Reviews userId={userId} />}
+      {type === "book" && <SavedBooks userId={userId} books={books} />}
+      {type === "review" && <Reviews userId={userId} reviews={reviews} />}
     </section>
   );
 }

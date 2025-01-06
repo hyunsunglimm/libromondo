@@ -12,7 +12,7 @@ async function updateFollow(targetId: string, follow: boolean) {
 }
 
 export function useUserById(userId: string) {
-  const { data: loginUser } = useMe();
+  const { data: loginUser, isPending: meLoading } = useMe();
   const { withAlarm } = useAlarm();
 
   const queryClient = useQueryClient();
@@ -31,7 +31,9 @@ export function useUserById(userId: string) {
     },
   });
 
-  const user = query.data;
+  const { data: user, isPending: userLoading } = query;
+
+  const allLoading = meLoading || userLoading;
 
   const { mutate } = useMutation({
     mutationFn: () => updateFollow(userId as string, isFollow),
@@ -94,5 +96,5 @@ export function useUserById(userId: string) {
     });
   };
 
-  return { ...query, isFollow, isMe, toggleFollow };
+  return { ...query, isFollow, isMe, allLoading, toggleFollow };
 }

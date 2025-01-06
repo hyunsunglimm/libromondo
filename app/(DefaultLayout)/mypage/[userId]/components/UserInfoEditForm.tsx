@@ -1,4 +1,4 @@
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/loader/Spinner";
 import { Button } from "@/components/ui/button";
 import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";

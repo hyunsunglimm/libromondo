@@ -5,7 +5,7 @@ import DetailBook from "./components/DetailBook";
 import { Metadata } from "next";
 import RelatedBooks from "./components/RelatedBooks";
 import { Suspense } from "react";
-import Spinner from "@/components/spinner/Spinner";
+import Spinner from "@/components/loader/Spinner";
 import { BASE_URL } from "@/constants/url";
 
 type BookDetailPageProps = {
