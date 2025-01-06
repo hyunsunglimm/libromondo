@@ -1,7 +1,10 @@
+// cancelQueries, setQueryData, invalidateQueries 비대해져서 리팩토링 고려
 import { BookResponseType } from "@/types/book";
 import { useMe } from "./useMe";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "@/constants/url";
+import { SimpleUser } from "@/types/user";
+import { getBookIdByISBN } from "@/utils/book";
 
 type UpdateSaveParams = {
   userId: string | undefined;
@@ -22,6 +25,12 @@ export function useSave(book: BookResponseType) {
   const { data: loginUser } = useMe();
   const queryClient = useQueryClient();
 
+  const simpleUser = {
+    id: loginUser?.id,
+    name: loginUser?.name,
+    image: loginUser?.image,
+  };
+
   const { data: savedIds } = useQuery<string[]>({
     queryKey: ["my-saved"],
     queryFn: async () => {
@@ -33,6 +42,8 @@ export function useSave(book: BookResponseType) {
 
   const isSave = savedIds?.includes(book.isbn) || false;
 
+  const bookId = getBookIdByISBN(book.isbn);
+
   const { mutate } = useMutation({
     mutationFn: () => updateSave({ userId: loginUser?.id, book, isSave }),
     onMutate: async () => {
@@ -41,6 +52,9 @@ export function useSave(book: BookResponseType) {
       });
       await queryClient.cancelQueries({
         queryKey: ["savedBooks", loginUser?.id],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["bookSavors", bookId],
       });
 
       queryClient.setQueryData(["my-saved"], (prev: string[]) =>
@@ -59,14 +73,22 @@ export function useSave(book: BookResponseType) {
             : [...prev, book];
         }
       );
+      queryClient.setQueryData(["bookSavors", bookId], (prev: SimpleUser[]) =>
+        isSave
+          ? prev.filter((user) => user.id !== simpleUser.id)
+          : [...prev, simpleUser]
+      );
     },
-    onError: (error) => {
-      alert(error);
+    onError: (error, variable) => {
+      alert(`${error} ${variable}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["my-saved"] });
       queryClient.invalidateQueries({
         queryKey: ["savedBooks", loginUser?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["bookSavors", bookId],
       });
     },
   });

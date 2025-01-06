@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import HeartToggle from "./HeartToggle";
+import { getBookIdByISBN } from "@/utils/book";
 
 type BookCardProps = {
   book: BookResponseType;
@@ -12,7 +13,7 @@ type BookCardProps = {
 };
 
 export default function BookCard({ book, index }: BookCardProps) {
-  const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
+  const bookId = getBookIdByISBN(book.isbn);
 
   return (
     <li className="flex flex-col gap-4 justify-between rounded-sm p-4 w-full border shadow-md">

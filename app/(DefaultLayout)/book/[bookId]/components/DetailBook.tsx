@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { BookResponseType } from "@/types/book";
 import Image from "next/image";
 import Link from "next/link";
-import UsersWhoSavedBooks from "./UsersWhoSavedBooks";
+import BookSavors from "./BookSavors";
 import WriteReview from "./WriteReview";
 import BookReviewInfo from "./BookReviewInfo";
 
@@ -48,7 +48,7 @@ export default function DetailBook({ book, bookId }: DetailBookProps) {
             </p>
           </div>
           <div>
-            <UsersWhoSavedBooks bookId={bookId} />
+            <BookSavors bookId={bookId} />
             <WriteReview book={book} />
           </div>
         </div>
