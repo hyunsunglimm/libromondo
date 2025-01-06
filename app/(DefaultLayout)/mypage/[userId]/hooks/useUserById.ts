@@ -2,11 +2,7 @@ import { BASE_URL } from "@/constants/url";
 import useAlarm from "@/hooks/useAlarm";
 import { useMe } from "@/hooks/useMe";
 import { SanityUser } from "@/types/user";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
 async function updateFollow(targetId: string, follow: boolean) {
   return fetch("/api/follow", {
@@ -26,7 +22,7 @@ export function useUserById(userId: string) {
 
   const isMe = loginUser?.id === userId;
 
-  const query = useSuspenseQuery<SanityUser>({
+  const query = useQuery<SanityUser>({
     queryKey: ["user", userId],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/user/${userId}`);

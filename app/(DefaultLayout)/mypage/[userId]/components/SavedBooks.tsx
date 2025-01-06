@@ -6,8 +6,8 @@ import { useSavedBooks } from "../hooks/useSavedBooks";
 import { ScaleLoader } from "react-spinners";
 
 export default function SavedBooks({ userId }: { userId: string }) {
-  const { data: books, isPending } = useSavedBooks(userId);
   const { data: user, isMe } = useUserById(userId);
+  const { data: books, isPending } = useSavedBooks(userId);
 
   if (isPending) {
     return (

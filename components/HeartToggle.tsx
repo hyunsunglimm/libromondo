@@ -10,16 +10,14 @@ type HeartToggleProps = {
 };
 
 export default function HeartToggle({ book }: HeartToggleProps) {
-  const { toggleSave } = useSave();
-
-  const isSave = true;
+  const { isSave, toggleSave } = useSave(book);
 
   return (
     <>
       {isSave ? (
-        <HeartFillIcon onClick={() => toggleSave({ book, isSave })} />
+        <HeartFillIcon onClick={() => toggleSave()} />
       ) : (
-        <HeartIcon onClick={() => toggleSave({ book, isSave })} />
+        <HeartIcon onClick={() => toggleSave()} />
       )}
     </>
   );
