@@ -9,7 +9,11 @@ type EditInfoParams = {
   enteredName: string | undefined;
 };
 
-const editInfo = async ({ event, file, enteredName }: EditInfoParams) => {
+const editInfoMutationFn = async ({
+  event,
+  file,
+  enteredName,
+}: EditInfoParams) => {
   event.preventDefault();
 
   const formData = new FormData();
@@ -37,12 +41,12 @@ export function useMe() {
     },
   });
 
-  const { mutate, isPending: editLoading } = useMutation<
+  const { mutate: editInfo, isPending: editLoading } = useMutation<
     void,
     Error,
     EditInfoParams
   >({
-    mutationFn: (editInfoParams) => editInfo(editInfoParams),
+    mutationFn: (editInfoParams) => editInfoMutationFn(editInfoParams),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["user", query.data?.id] });
@@ -53,5 +57,5 @@ export function useMe() {
     },
   });
 
-  return { ...query, editLoading, mutate };
+  return { ...query, editLoading, editInfo };
 }

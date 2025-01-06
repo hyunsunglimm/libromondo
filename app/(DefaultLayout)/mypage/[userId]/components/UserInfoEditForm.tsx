@@ -14,7 +14,7 @@ export default function UserInfoEditForm({ user }: UserInfoEditForm) {
   const [file, setFile] = useState<File>();
   const [enteredName, setEnteredName] = useState(user?.name);
 
-  const { editLoading, mutate } = useMe();
+  const { editLoading, editInfo } = useMe();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function UserInfoEditForm({ user }: UserInfoEditForm) {
   return (
     <form
       className="flex flex-col justify-center items-center gap-4"
-      onSubmit={async (event) => mutate({ event, file, enteredName })}
+      onSubmit={async (event) => editInfo({ event, file, enteredName })}
     >
       <input
         className="hidden"
