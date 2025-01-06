@@ -15,9 +15,9 @@ export default function HeartToggle({ book }: HeartToggleProps) {
   return (
     <>
       {isSave ? (
-        <HeartFillIcon onClick={() => toggleSave()} />
+        <HeartFillIcon onClick={toggleSave} />
       ) : (
-        <HeartIcon onClick={() => toggleSave()} />
+        <HeartIcon onClick={toggleSave} />
       )}
     </>
   );

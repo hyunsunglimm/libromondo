@@ -74,7 +74,9 @@ export const getRelatedBooks = async ({
 
 export const getSavedBooks = async (userId: string) => {
   return client
-    .fetch(`*[_type == "books" && user._ref == "${userId}"]`)
+    .fetch(
+      `*[_type == "books" && user._ref == "${userId}"] | order(_createdAt asc)`
+    )
     .then((data) => data.map((d: { book: BookResponseType }) => d.book));
 };
 
