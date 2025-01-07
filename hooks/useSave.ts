@@ -47,18 +47,20 @@ export function useSave(book: BookResponseType) {
 
   const bookId = getBookIdByISBN(book.isbn);
 
+  const useSaveQueryKeys = [
+    [queryKeys.book.mySaved],
+    [queryKeys.book.savedBooks, loginUser?.id],
+    [queryKeys.book.bookSavors, bookId],
+  ];
+
   const { mutate } = useMutation({
     mutationFn: () => updateSave({ userId: loginUser?.id, book, isSave }),
     onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: [queryKeys.book.mySaved],
-      });
-      await queryClient.cancelQueries({
-        queryKey: [queryKeys.book.savedBooks, loginUser?.id],
-      });
-      await queryClient.cancelQueries({
-        queryKey: [queryKeys.book.bookSavors, bookId],
-      });
+      await Promise.all(
+        useSaveQueryKeys.map((queryKey) =>
+          queryClient.cancelQueries({ queryKey })
+        )
+      );
 
       queryClient.setQueryData([queryKeys.book.mySaved], (prev: string[]) =>
         isSave ? prev.filter((id) => id !== book.isbn) : [...prev, book.isbn]
