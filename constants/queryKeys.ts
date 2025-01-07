@@ -1,5 +1,6 @@
 export const queryKeys = {
   book: {
+    base: "book",
     bestBooks: "best-books",
     bookSavors: "book-savors",
     savedBooks: "saved-books",
@@ -7,10 +8,11 @@ export const queryKeys = {
     sameAuthor: "same-author",
   },
   user: {
-    user: "user",
+    base: "user",
     me: "me",
   },
   review: {
+    base: "review",
     reviewsByUser: "reviews-by-user",
     reviewsByBook: "reviews-by-book",
   },

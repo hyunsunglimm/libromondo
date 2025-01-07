@@ -24,7 +24,7 @@ export function useUserById(userId: string) {
   const isMe = loginUser?.id === userId;
 
   const query = useQuery<SanityUser>({
-    queryKey: [queryKeys.user.user, userId],
+    queryKey: [queryKeys.user.base, userId],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/user/${userId}`);
 
@@ -37,7 +37,7 @@ export function useUserById(userId: string) {
   const allLoading = meLoading || userLoading;
 
   const useUserByIdQueryKeys = [
-    [queryKeys.user.user, userId],
+    [queryKeys.user.base, userId],
     [queryKeys.user.me],
   ];
 
@@ -51,7 +51,7 @@ export function useUserById(userId: string) {
       );
 
       queryClient.setQueryData(
-        [queryKeys.user.user, userId],
+        [queryKeys.user.base, userId],
         (prev: SanityUser) =>
           isFollow
             ? {
@@ -93,7 +93,7 @@ export function useUserById(userId: string) {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.user.user, userId],
+        queryKey: [queryKeys.user.base, userId],
       });
       queryClient.invalidateQueries({
         queryKey: [queryKeys.user.me, loginUser?.id],

@@ -51,7 +51,7 @@ export function useMe() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.user.me] });
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.user.user, query.data?.id],
+        queryKey: [queryKeys.user.base, query.data?.id],
       });
       close();
     },

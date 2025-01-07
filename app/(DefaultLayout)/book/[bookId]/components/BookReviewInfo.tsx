@@ -1,7 +1,6 @@
 "use client";
 
 import ReviewListItem from "@/components/ReviewListItem";
-import { useMe } from "@/hooks/useMe";
 import { useReviewsByBook } from "../hooks/useReviewsByBook";
 
 type BookReviewInfoProps = {
@@ -10,7 +9,6 @@ type BookReviewInfoProps = {
 
 export default function BookReviewInfo({ bookId }: BookReviewInfoProps) {
   const { data: reviews } = useReviewsByBook(bookId);
-  const { data: loginUser } = useMe();
 
   const totalRating =
     reviews && reviews.length > 0
@@ -27,11 +25,9 @@ export default function BookReviewInfo({ bookId }: BookReviewInfoProps) {
         <p>총 평점 : {totalRating}점</p>
       </div>
       <ul className="flex flex-col gap-4 mb-8 max-h-72 overflow-y-scroll">
-        {reviews?.map((review) => {
-          const isMe = loginUser?.id === review.author.id;
-
-          return <ReviewListItem key={review.id} review={review} isMe={isMe} />;
-        })}
+        {reviews?.map((review) => (
+          <ReviewListItem key={review.id} review={review} />
+        ))}
       </ul>
     </>
   );
