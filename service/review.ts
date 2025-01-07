@@ -62,7 +62,7 @@ export const getReviewsByBook = (bookId: string) => {
     `);
 };
 
-export const getReviewByUser = (userId: string) => {
+export const getReviewsByUser = (userId: string) => {
   return client.fetch(`
       *[_type == "review" && author->_id == "${userId}"] | order(_createdAt desc) {
         ${reviewField}

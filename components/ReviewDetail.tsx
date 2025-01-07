@@ -7,44 +7,25 @@ import { Button } from "./ui/button";
 import ProfileImage from "./ProfileImage";
 import Link from "next/link";
 import { useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
 import Spinner from "./loader/Spinner";
-import { SanityUser } from "@/types/user";
 import { v4 as uuid } from "uuid";
 import DeleteIcon from "./icons/DeleteIcon";
 import { useModal } from "@/hooks/useModal";
+import { useMe } from "@/hooks/useMe";
+import { useReviewDetail } from "@/hooks/review/useReviewDetail";
 
 type ReviewDetailProps = {
-  reviewId: string;
-  loginUser: SanityUser | undefined;
+  review: Review;
   isMe: boolean;
 };
 
-export default function ReviewDetail({
-  reviewId,
-  loginUser,
-  isMe,
-}: ReviewDetailProps) {
-  const {
-    data: review,
-    mutate,
-    isLoading,
-  } = useSWR<Review>(`/api/review/${reviewId}`);
-
-  const { mutate: globalMutate } = useSWRConfig();
+export default function ReviewDetail({ review, isMe }: ReviewDetailProps) {
+  const { data: loginUser } = useMe();
+  const { removeReview, isRemoving } = useReviewDetail();
 
   const [enteredComment, setEnteredComment] = useState("");
-  const [removeReviewLoading, setRemoveReviewLoading] = useState(false);
 
   const { close } = useModal();
-
-  if (isLoading) {
-    return (
-      <div className="w-80 h-80 flex justify-center items-center">
-        <Spinner type="black" />
-      </div>
-    );
-  }
 
   const bookId =
     review?.book.isbn.split(" ")[0] || review?.book.isbn.split(" ")[1];
@@ -67,19 +48,6 @@ export default function ReviewDetail({
     }).then((res) => res.json());
   };
 
-  const revomeReview = async () => {
-    setRemoveReviewLoading(true);
-    await fetch(`/api/review/${reviewId}`, {
-      method: "HEAD",
-    });
-    close();
-    setRemoveReviewLoading(false);
-    globalMutate(`/api/reviews/${loginUser?.id}`);
-    globalMutate("/api/reviews?type=all");
-    globalMutate("/api/reviews?type=following");
-    globalMutate(`/api/reviews?type=book&isbn=${review?.book.isbn}`);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -100,12 +68,6 @@ export default function ReviewDetail({
       comments: [...review.comments, newComment],
     };
 
-    mutate(addComment(commentId), {
-      optimisticData: newReview,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
     setEnteredComment("");
   };
 
@@ -116,13 +78,6 @@ export default function ReviewDetail({
       ...review,
       comments: review.comments.filter((c) => c.id !== commentId),
     };
-
-    mutate(removeComment(commentId), {
-      optimisticData: newReview,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
   };
 
   return (
@@ -180,10 +135,10 @@ export default function ReviewDetail({
           {isMe && (
             <Button
               variant="destructive"
-              onClick={revomeReview}
+              onClick={() => removeReview(review.id)}
               className="text-xl md:text-base h-16 md:h-12"
             >
-              {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
+              {isRemoving ? <Spinner /> : "리뷰 삭제"}
             </Button>
           )}
         </div>

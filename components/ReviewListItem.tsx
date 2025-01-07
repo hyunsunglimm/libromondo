@@ -5,7 +5,6 @@ import { convertToKST } from "@/utils/date";
 import Image from "next/image";
 import ToggleStar from "./ToggleStar";
 import ReviewDetail from "./ReviewDetail";
-import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
 
 type ReviewListItemProps = {
@@ -14,22 +13,13 @@ type ReviewListItemProps = {
 };
 
 export default function ReviewListItem({ review, isMe }: ReviewListItemProps) {
-  const { data: loginUser } = useMe();
   const { open } = useModal();
 
   return (
     <li
       key={review.id}
       className="border border-black p-2 rounded-md hover:bg-neutral-50 transition cursor-pointer flex"
-      onClick={() =>
-        open(
-          <ReviewDetail
-            reviewId={review.id}
-            loginUser={loginUser}
-            isMe={isMe}
-          />
-        )
-      }
+      onClick={() => open(<ReviewDetail review={review} isMe={isMe} />)}
     >
       <Image
         src={review.book.thumbnail}

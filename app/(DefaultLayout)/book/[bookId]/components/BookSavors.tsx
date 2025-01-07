@@ -4,11 +4,7 @@ import UserListItem from "@/components/UserListItem";
 import { useBookSavors } from "../hooks/useBookSavors";
 import Spinner from "@/components/loader/Spinner";
 
-type UsersWhoSavedBooksProps = {
-  bookId: string;
-};
-
-export default function BookSavors({ bookId }: UsersWhoSavedBooksProps) {
+export default function BookSavors({ bookId }: { bookId: string }) {
   const { data: users, isPending } = useBookSavors(bookId);
   const [isOpen, setIsOpen] = useState(false);
 
