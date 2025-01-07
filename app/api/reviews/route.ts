@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import {
-  getBookReviews,
+  getReviewsByBook,
   getFollowingReviews,
   getReviews,
 } from "@/service/review";
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
   }
 
   if (type === "book" && isbn) {
-    reviews = await getBookReviews(isbn);
+    reviews = await getReviewsByBook(isbn);
   }
 
   return Response.json(reviews);

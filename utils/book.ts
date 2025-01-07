@@ -8,3 +8,6 @@ export const getPageArray = (page: number, lastPage: number) => {
     (_, i) => startPage + i
   );
 };
+
+export const getBookIdByISBN = (isbn: string) =>
+  isbn.split(" ")[0] || isbn.split(" ")[1];

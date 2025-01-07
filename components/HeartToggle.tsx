@@ -10,7 +10,9 @@ type HeartToggleProps = {
 };
 
 export default function HeartToggle({ book }: HeartToggleProps) {
-  const { isSave, toggleSave } = useSave(book);
+  const { isSave, allLoading, toggleSave } = useSave(book);
+
+  if (allLoading) return <div className="w-12 h-12 md:w-7 md:h-7" />;
 
   return (
     <>

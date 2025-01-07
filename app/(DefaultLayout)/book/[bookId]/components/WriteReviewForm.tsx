@@ -6,36 +6,23 @@ import Image from "next/image";
 import GradeSection from "./GradeSection";
 import { useState } from "react";
 import Spinner from "@/components/loader/Spinner";
-import { useSWRConfig } from "swr";
-import { useModal } from "@/hooks/useModal";
+import { useReview } from "@/hooks/review/useReview";
 
 type ReviewFormProps = {
   book: BookResponseType;
 };
 
-export default function ReviewForm({ book }: ReviewFormProps) {
+export default function WriteReviewForm({ book }: ReviewFormProps) {
   const [enteredContents, setEnteredContents] = useState("");
   const [grade, setGrade] = useState(3);
-  const [isLoading, setIsLoading] = useState(false);
-  const { mutate: globalMutate } = useSWRConfig();
 
-  const { close } = useModal();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setIsLoading(true);
-    await fetch("/api/review", {
-      method: "POST",
-      body: JSON.stringify({ book, contents: enteredContents, grade }),
-    });
-    setIsLoading(false);
-    globalMutate(`/api/reviews?type=book&isbn=${book.isbn}`);
-    close();
-  };
+  const { writeReview, isWriting } = useReview();
 
   return (
-    <form className="w-80 flex flex-col gap-4" onSubmit={handleSubmit}>
+    <form
+      className="w-80 flex flex-col gap-4"
+      onSubmit={(event) => writeReview({ event, book, enteredContents, grade })}
+    >
       <Image
         src={book.thumbnail}
         alt={`${book.title} 이미지`}
@@ -51,7 +38,7 @@ export default function ReviewForm({ book }: ReviewFormProps) {
         value={enteredContents}
       />
       <Button className="text-3xl md:text-base h-16 md:h-12">
-        {isLoading ? <Spinner /> : "작성 완료"}
+        {isWriting ? <Spinner /> : "작성 완료"}
       </Button>
     </form>
   );

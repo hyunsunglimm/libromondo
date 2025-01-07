@@ -1,129 +1,48 @@
 "use client";
 
-import { Review } from "@/types/review";
 import Image from "next/image";
 import ToggleStar from "./ToggleStar";
 import { Button } from "./ui/button";
 import ProfileImage from "./ProfileImage";
 import Link from "next/link";
 import { useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
 import Spinner from "./loader/Spinner";
-import { SanityUser } from "@/types/user";
-import { v4 as uuid } from "uuid";
 import DeleteIcon from "./icons/DeleteIcon";
 import { useModal } from "@/hooks/useModal";
+import { useMe } from "@/hooks/useMe";
+import { useReviewDetail } from "@/hooks/review/useReviewDetail";
+import { getBookIdByISBN } from "@/utils/book";
 
 type ReviewDetailProps = {
   reviewId: string;
-  loginUser: SanityUser | undefined;
-  isMe: boolean;
 };
 
-export default function ReviewDetail({
-  reviewId,
-  loginUser,
-  isMe,
-}: ReviewDetailProps) {
+export default function ReviewDetail({ reviewId }: ReviewDetailProps) {
+  const { data: loginUser } = useMe();
+
   const {
     data: review,
-    mutate,
-    isLoading,
-  } = useSWR<Review>(`/api/review/${reviewId}`);
+    isPending,
+    isMine,
+    removeReview,
+    isRemoving,
+    addComment,
+    removeComment,
+  } = useReviewDetail(reviewId);
 
-  const { mutate: globalMutate } = useSWRConfig();
+  const bookId = getBookIdByISBN(review?.book.isbn || "");
 
   const [enteredComment, setEnteredComment] = useState("");
-  const [removeReviewLoading, setRemoveReviewLoading] = useState(false);
 
   const { close } = useModal();
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="w-80 h-80 flex justify-center items-center">
         <Spinner type="black" />
       </div>
     );
   }
-
-  const bookId =
-    review?.book.isbn.split(" ")[0] || review?.book.isbn.split(" ")[1];
-
-  const addComment = async (commentId: string) => {
-    return fetch("/api/comments", {
-      method: "POST",
-      body: JSON.stringify({
-        reviewId: review?.id,
-        comment: enteredComment,
-        commentId,
-      }),
-    }).then((res) => res.json());
-  };
-
-  const removeComment = async (commentId: string) => {
-    return fetch("/api/comments", {
-      method: "PUT",
-      body: JSON.stringify({ reviewId: review?.id, commentId }),
-    }).then((res) => res.json());
-  };
-
-  const revomeReview = async () => {
-    setRemoveReviewLoading(true);
-    await fetch(`/api/review/${reviewId}`, {
-      method: "HEAD",
-    });
-    close();
-    setRemoveReviewLoading(false);
-    globalMutate(`/api/reviews/${loginUser?.id}`);
-    globalMutate("/api/reviews?type=all");
-    globalMutate("/api/reviews?type=following");
-    globalMutate(`/api/reviews?type=book&isbn=${review?.book.isbn}`);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!review || !loginUser) return;
-
-    const commentId = uuid();
-
-    const newComment = {
-      id: commentId,
-      userId: loginUser.id,
-      name: loginUser?.name,
-      comment: enteredComment,
-      image: loginUser?.image,
-    };
-
-    const newReview = {
-      ...review,
-      comments: [...review.comments, newComment],
-    };
-
-    mutate(addComment(commentId), {
-      optimisticData: newReview,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
-    setEnteredComment("");
-  };
-
-  const handleClick = (commentId: string) => {
-    if (!review) return;
-
-    const newReview = {
-      ...review,
-      comments: review.comments.filter((c) => c.id !== commentId),
-    };
-
-    mutate(removeComment(commentId), {
-      optimisticData: newReview,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
-  };
 
   return (
     <section className="w-[36rem]">
@@ -177,13 +96,13 @@ export default function ReviewDetail({
           <div className="bg-neutral-100 p-4 rounded-md overflow-y-scroll grow max-h-72">
             <p className="text-xl md:text-base leading-9">{review?.contents}</p>
           </div>
-          {isMe && (
+          {isMine && (
             <Button
               variant="destructive"
-              onClick={revomeReview}
+              onClick={() => removeReview()}
               className="text-xl md:text-base h-16 md:h-12"
             >
-              {removeReviewLoading ? <Spinner /> : "리뷰 삭제"}
+              {isRemoving ? <Spinner /> : "리뷰 삭제"}
             </Button>
           )}
         </div>
@@ -215,7 +134,9 @@ export default function ReviewDetail({
                         </p>
                       </Link>
                       {isValidRemoveComment && (
-                        <button onClick={() => handleClick(c.id)}>
+                        <button
+                          onClick={() => removeComment({ commentId: c.id })}
+                        >
                           <DeleteIcon />
                         </button>
                       )}
@@ -230,7 +151,13 @@ export default function ReviewDetail({
           </ul>
         )}
         {loginUser && (
-          <form className="flex mt-2 gap-2" onSubmit={handleSubmit}>
+          <form
+            className="flex mt-2 gap-2"
+            onSubmit={(event) => {
+              addComment({ event, comment: enteredComment });
+              setEnteredComment("");
+            }}
+          >
             <input
               className="border py-1 px-2 rounded-md w-full text-[16px]"
               placeholder="댓글을 입력해주세요."

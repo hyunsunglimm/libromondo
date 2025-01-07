@@ -4,10 +4,20 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ScaleLoader } from "react-spinners";
-import { useGetBestBook } from "../hooks/useGetBestBook";
+import { useBestBook } from "../hooks/useBestBook";
 
 export default function BestBooksList() {
-  const { data: books, isPending } = useGetBestBook();
+  const { data: books, isPending, isError } = useBestBook();
+
+  // 임시 에러핸들링
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center mt-24">
+        <p className="text-2xl">무언가 잘못되었습니다.</p>
+        <p className="text-2xl">새로고침 해주세요.</p>
+      </div>
+    );
+  }
 
   if (isPending) {
     return (

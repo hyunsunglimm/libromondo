@@ -1,4 +1,4 @@
-import { getReviewByUser } from "@/service/review";
+import { getReviewsByUser } from "@/service/review";
 
 export const revalidate = 0;
 
@@ -11,7 +11,7 @@ type Context = {
 export async function GET(_: Request, context: Context) {
   const { userId } = context.params;
 
-  const data = await getReviewByUser(userId);
+  const data = await getReviewsByUser(userId);
 
   return Response.json(data);
 }

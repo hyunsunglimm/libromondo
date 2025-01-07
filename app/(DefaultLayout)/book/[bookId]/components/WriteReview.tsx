@@ -1,22 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import ReviewForm from "./ReviewForm";
+import ReviewForm from "./WriteReviewForm";
 import { BookResponseType } from "@/types/book";
 import useAlarm from "@/hooks/useAlarm";
-import useSWR from "swr";
-import { Review } from "@/types/review";
 import { useMe } from "@/hooks/useMe";
 import { useModal } from "@/hooks/useModal";
+import { getBookIdByISBN } from "@/utils/book";
+import { useReviewsByBook } from "../hooks/useReviewsByBook";
 
 type WriteReviewProps = {
   book: BookResponseType;
 };
 
 export default function WriteReview({ book }: WriteReviewProps) {
-  const { data: reviews } = useSWR<Review[]>(
-    `/api/reviews?type=book&isbn=${book.isbn}`
-  );
+  const bookId = getBookIdByISBN(book.isbn);
+
+  const { data: reviews } = useReviewsByBook(bookId);
   const { data: loginUser } = useMe();
   const { withAlarm } = useAlarm();
   const { open } = useModal();

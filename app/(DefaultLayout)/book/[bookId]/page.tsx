@@ -1,12 +1,11 @@
-import { BookResponseType, KakaoBookResponse } from "@/types/book";
+import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
 import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
 import { Metadata } from "next";
-import RelatedBooks from "./components/RelatedBooks";
-import { Suspense } from "react";
-import Spinner from "@/components/loader/Spinner";
 import { BASE_URL } from "@/constants/url";
+import { getBookById } from "@/service/book";
+import SameAuthorBookList from "./components/SameAuthorBookList";
 
 type BookDetailPageProps = {
   params: {
@@ -17,36 +16,29 @@ type BookDetailPageProps = {
 export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const { bookId } = params;
 
-  const book: BookResponseType = await fetch(`${BASE_URL}/api/book/${bookId}`)
-    .then((res) => res.json())
-    .then((data) => data.documents[0]);
+  const book = await getBookById(bookId);
 
   if (!book) return redirect("/");
 
-  const sameAuthorBooks: BookResponseType[] = await fetch(
-    `${BASE_URL}/api/book/related?keyword=${book.authors[0]}`
-  )
-    .then((res) => res.json())
-    .then((data) => data.documents);
-
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">
-      <DetailBook book={book} bookId={bookId} />
-      <div className="md:hidden">
+      <DetailBook book={book} />
+      <SameAuthorBookList author={book.authors[0]} size={4} />
+      {/* <div className="md:hidden">
         <ShowMoreBooks
-          books={sameAuthorBooks}
+          author={book.authors[0]}
           title="같은 작가의 책"
           slidesPerView={3}
         />
       </div>
       <div className="hidden md:block">
         <ShowMoreBooks
-          books={sameAuthorBooks}
+          author={book.authors[0]}
           title="같은 작가의 책"
           slidesPerView={4}
         />
-      </div>
-      <Suspense
+      </div> */}
+      {/* <Suspense
         fallback={
           <div className="py-8">
             <Spinner type="black" />
@@ -54,7 +46,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
         }
       >
         <RelatedBooks book={book} />
-      </Suspense>
+      </Suspense> */}
     </section>
   );
 }

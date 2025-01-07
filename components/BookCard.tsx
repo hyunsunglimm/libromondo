@@ -5,14 +5,16 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import HeartToggle from "./HeartToggle";
+import { getBookIdByISBN } from "@/utils/book";
+import BlockSkeleton from "./skeleton/BlockSkeleton";
 
 type BookCardProps = {
   book: BookResponseType;
   index: number;
 };
 
-export default function BookCard({ book, index }: BookCardProps) {
-  const bookId = book.isbn.split(" ")[0] || book.isbn.split(" ")[1];
+function BookCard({ book, index }: BookCardProps) {
+  const bookId = getBookIdByISBN(book.isbn);
 
   return (
     <li className="flex flex-col gap-4 justify-between rounded-sm p-4 w-full border shadow-md">
@@ -38,3 +40,9 @@ export default function BookCard({ book, index }: BookCardProps) {
     </li>
   );
 }
+
+const Skeleton = () => <BlockSkeleton size="w-full h-72" />;
+
+BookCard.Skeleton = Skeleton;
+
+export default BookCard;

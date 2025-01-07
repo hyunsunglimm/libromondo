@@ -2,6 +2,7 @@ import { BASE_URL } from "@/constants/url";
 import { SanityUser } from "@/types/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useModal } from "./useModal";
+import { queryKeys } from "@/constants/queryKeys";
 
 type EditInfoParams = {
   event: React.FormEvent;
@@ -33,7 +34,7 @@ export function useMe() {
   const { close } = useModal();
 
   const query = useQuery<SanityUser>({
-    queryKey: ["me"],
+    queryKey: [queryKeys.user.me],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/me`);
 
@@ -48,8 +49,10 @@ export function useMe() {
   >({
     mutationFn: (editInfoParams) => editInfoMutationFn(editInfoParams),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["me"] });
-      queryClient.invalidateQueries({ queryKey: ["user", query.data?.id] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.user.me] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.user.base, query.data?.id],
+      });
       close();
     },
     onError: () => {

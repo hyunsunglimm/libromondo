@@ -1,3 +1,4 @@
+import { queryKeys } from "@/constants/queryKeys";
 import { BASE_URL } from "@/constants/url";
 import useAlarm from "@/hooks/useAlarm";
 import { useMe } from "@/hooks/useMe";
@@ -23,7 +24,7 @@ export function useUserById(userId: string) {
   const isMe = loginUser?.id === userId;
 
   const query = useQuery<SanityUser>({
-    queryKey: ["user", userId],
+    queryKey: [queryKeys.user.base, userId],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/user/${userId}`);
 
@@ -35,35 +36,41 @@ export function useUserById(userId: string) {
 
   const allLoading = meLoading || userLoading;
 
+  const useUserByIdQueryKeys = [
+    [queryKeys.user.base, userId],
+    [queryKeys.user.me],
+  ];
+
   const { mutate } = useMutation({
     mutationFn: () => updateFollow(userId as string, isFollow),
     onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: ["user", userId],
-      });
-      await queryClient.cancelQueries({
-        queryKey: ["me"],
-      });
+      await Promise.all(
+        useUserByIdQueryKeys.map((queryKey) =>
+          queryClient.cancelQueries({ queryKey })
+        )
+      );
 
-      queryClient.setQueryData(["user", userId], (prev: SanityUser) =>
-        isFollow
-          ? {
-              ...prev,
-              followers: prev.followers.filter(
-                (user) => user.id !== loginUser?.id
-              ),
-            }
-          : {
-              ...prev,
-              followers: [
-                ...prev.followers,
-                {
-                  id: loginUser?.id,
-                  name: loginUser?.name,
-                  image: loginUser?.image,
-                },
-              ],
-            }
+      queryClient.setQueryData(
+        [queryKeys.user.base, userId],
+        (prev: SanityUser) =>
+          isFollow
+            ? {
+                ...prev,
+                followers: prev.followers.filter(
+                  (user) => user.id !== loginUser?.id
+                ),
+              }
+            : {
+                ...prev,
+                followers: [
+                  ...prev.followers,
+                  {
+                    id: loginUser?.id,
+                    name: loginUser?.name,
+                    image: loginUser?.image,
+                  },
+                ],
+              }
       );
       queryClient.setQueryData(["me"], (prev: SanityUser) =>
         isFollow
@@ -85,8 +92,12 @@ export function useUserById(userId: string) {
       alert("팔로우 혹은 팔로잉에 실패하였습니다. 잠시 후 다시 시도해주세요.");
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user", userId] });
-      queryClient.invalidateQueries({ queryKey: ["me", loginUser?.id] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.user.base, userId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.user.me, loginUser?.id],
+      });
     },
   });
 
