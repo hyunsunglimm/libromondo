@@ -36,15 +36,19 @@ export function useUserById(userId: string) {
 
   const allLoading = meLoading || userLoading;
 
+  const useUserByIdQueryKeys = [
+    [queryKeys.user.user, userId],
+    [queryKeys.user.me],
+  ];
+
   const { mutate } = useMutation({
     mutationFn: () => updateFollow(userId as string, isFollow),
     onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: [queryKeys.user.user, userId],
-      });
-      await queryClient.cancelQueries({
-        queryKey: [queryKeys.user.me],
-      });
+      await Promise.all(
+        useUserByIdQueryKeys.map((queryKey) =>
+          queryClient.cancelQueries({ queryKey })
+        )
+      );
 
       queryClient.setQueryData(
         [queryKeys.user.user, userId],
