@@ -50,11 +50,11 @@ export const editProfile = async (userId: string, name: string, file: Blob) => {
   }
 };
 
-export const getBookSavors = async (isbn: string) => {
+export const getBookSavors = async (bookId: string) => {
   return client
     .fetch(
       `
-      *[_type == "books" && (book.isbn match "${isbn}")] {
+      *[_type == "books" && (book.isbn match "${bookId}")] {
         "user": user->{
           "id": _id,
           name,

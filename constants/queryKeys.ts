@@ -11,6 +11,7 @@ export const queryKeys = {
     me: "me",
   },
   review: {
-    reviews: "reviews",
+    reviewsByUser: "reviews-by-user",
+    reviewsByBook: "reviews-by-book",
   },
 };

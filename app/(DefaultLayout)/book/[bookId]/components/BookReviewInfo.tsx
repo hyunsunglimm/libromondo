@@ -2,17 +2,14 @@
 
 import ReviewListItem from "@/components/ReviewListItem";
 import { useMe } from "@/hooks/useMe";
-import { Review } from "@/types/review";
-import useSWR from "swr";
+import { useReviewsByBook } from "../hooks/useReviewsByBook";
 
 type BookReviewInfoProps = {
-  isbn: string;
+  bookId: string;
 };
 
-export default function BookReviewInfo({ isbn }: BookReviewInfoProps) {
-  const { data: reviews } = useSWR<Review[]>(
-    `/api/reviews?type=book&isbn=${isbn}`
-  );
+export default function BookReviewInfo({ bookId }: BookReviewInfoProps) {
+  const { data: reviews } = useReviewsByBook(bookId);
   const { data: loginUser } = useMe();
 
   const grade =

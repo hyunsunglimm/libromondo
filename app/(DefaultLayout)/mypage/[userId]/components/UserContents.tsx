@@ -5,7 +5,7 @@ import SavedBooks from "./SavedBooks";
 import Reviews from "./Reviews";
 import { useUserById } from "../hooks/useUserById";
 import { useSavedBooks } from "../hooks/useSavedBooks";
-import { useReviews } from "../hooks/useReviews";
+import { useReviewsByUser } from "../hooks/useReviewsByUser";
 import { SyncLoader } from "react-spinners";
 import Spinner from "@/components/loader/Spinner";
 
@@ -13,7 +13,7 @@ export default function UserContents({ userId }: { userId: string }) {
   const [type, setType] = useState("book");
   const { allLoading: userLoading } = useUserById(userId);
   const { data: books, isPending: savedBookLoading } = useSavedBooks(userId);
-  const { data: reviews, isPending: reviewLoading } = useReviews(userId);
+  const { data: reviews, isPending: reviewLoading } = useReviewsByUser(userId);
 
   const allLoading = userLoading || savedBookLoading || reviewLoading;
 
