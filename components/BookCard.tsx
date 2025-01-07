@@ -6,13 +6,14 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import HeartToggle from "./HeartToggle";
 import { getBookIdByISBN } from "@/utils/book";
+import BlockSkeleton from "./skeleton/BlockSkeleton";
 
 type BookCardProps = {
   book: BookResponseType;
   index: number;
 };
 
-export default function BookCard({ book, index }: BookCardProps) {
+function BookCard({ book, index }: BookCardProps) {
   const bookId = getBookIdByISBN(book.isbn);
 
   return (
@@ -39,3 +40,9 @@ export default function BookCard({ book, index }: BookCardProps) {
     </li>
   );
 }
+
+const Skeleton = () => <BlockSkeleton size="w-full h-72" />;
+
+BookCard.Skeleton = Skeleton;
+
+export default BookCard;

@@ -17,14 +17,13 @@ export default function SameAuthorBookList({
   size,
 }: ShowMoreBooksProps) {
   const [page, setPage] = useState(1);
-  const { data } = useBookSameAuthor({ author, page, size });
-  const books = data?.documents;
+  const { books, totalCount } = useBookSameAuthor({ author, page, size });
 
-  const lastPage = Math.ceil((data?.meta.pageable_count || 0) / size);
+  const lastPage = Math.ceil((totalCount || 0) / size);
 
   const pageArray = getPageArray(page, lastPage);
 
-  const isLastPage = data?.meta.is_end;
+  const isLastPage = lastPage === page;
 
   const handlePrevPage = () => {
     if (page > 1) {
@@ -39,19 +38,21 @@ export default function SameAuthorBookList({
     <div className="mt-8">
       <div className="flex justify-between items-center mb-4">
         <p className="font-bold text-3xl md:text-lg">같은 작가의 책</p>
-        {data && (
+        {totalCount && (
           <p className="text-gray-500 text-2xl md:text-base">
-            총 {data.meta.pageable_count}개의 도서가 있습니다.
+            총 {totalCount}개의 도서가 있습니다.
           </p>
         )}
       </div>
       <div className="grid grid-cols-4 gap-4">
-        {books?.map((book, index) => (
-          <BookCard book={book} index={index} key={`book?.isbn -${index}`} />
-        ))}
+        {books
+          ? books.map((book, index) => (
+              <BookCard book={book} index={index} key={book.isbn} />
+            ))
+          : [1, 2, 3, 4].map((index) => <BookCard.Skeleton key={index} />)}
       </div>
 
-      {books && books.length > 0 ? (
+      {lastPage > 0 && (
         <PaginationSection
           setPrevPage={handlePrevPage}
           setNextPage={handleNextPage}
@@ -60,7 +61,8 @@ export default function SameAuthorBookList({
           currentPage={page}
           isLastPage={isLastPage ?? true}
         />
-      ) : (
+      )}
+      {totalCount === 0 && (
         <p className="text-gray-300 text-3xl md:text-2xl text-center py-8 font-bold">
           같은 작가의 책이 존재하지 않습니다.
         </p>
