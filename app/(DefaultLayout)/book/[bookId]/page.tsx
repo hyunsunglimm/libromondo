@@ -5,6 +5,7 @@ import DetailBook from "./components/DetailBook";
 import { Metadata } from "next";
 import { BASE_URL } from "@/constants/url";
 import { getBookById } from "@/service/book";
+import SameAuthorBookList from "./components/SameAuthorBookList";
 
 type BookDetailPageProps = {
   params: {
@@ -22,7 +23,8 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   return (
     <section className="max-w-[832px] w-full mx-auto px-4">
       <DetailBook book={book} />
-      <div className="md:hidden">
+      <SameAuthorBookList author={book.authors[0]} size={4} />
+      {/* <div className="md:hidden">
         <ShowMoreBooks
           author={book.authors[0]}
           title="같은 작가의 책"
@@ -35,7 +37,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
           title="같은 작가의 책"
           slidesPerView={4}
         />
-      </div>
+      </div> */}
       {/* <Suspense
         fallback={
           <div className="py-8">

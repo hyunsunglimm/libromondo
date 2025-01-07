@@ -1,19 +1,27 @@
 import { queryKeys } from "@/constants/queryKeys";
 import { BASE_URL } from "@/constants/url";
-import { BookResponseType } from "@/types/book";
+import { KakaoBookResponse } from "@/types/book";
 import { useQuery } from "@tanstack/react-query";
+import queryString from "query-string";
 
-export function useBookSameAuthor(author: string) {
-  return useQuery<BookResponseType[]>({
-    queryKey: [queryKeys.book.sameAuthor, author],
+type UseBookSameAuthorParams = {
+  author: string;
+  page: number;
+  size: number;
+};
+
+export function useBookSameAuthor(params: UseBookSameAuthorParams) {
+  const { author, page, size } = params;
+
+  return useQuery<KakaoBookResponse>({
+    queryKey: [queryKeys.book.sameAuthor, author, page, size],
     queryFn: async () => {
+      const queryParams = queryString.stringify(params);
       const res = await fetch(
-        `${BASE_URL}/api/books/same-author?author=${author}`
+        `${BASE_URL}/api/books/same-author?${queryParams}`
       );
 
-      const data = await res.json();
-
-      return data.documents;
+      return await res.json();
     },
   });
 }

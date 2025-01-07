@@ -4,7 +4,6 @@ import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
 import SwiperWrapper from "@/components/SwiperWrapper";
 
-import { BookResponseType } from "@/types/book";
 import { getPageArray } from "@/utils/book";
 import { useEffect, useRef, useState } from "react";
 import { ScaleLoader } from "react-spinners";
