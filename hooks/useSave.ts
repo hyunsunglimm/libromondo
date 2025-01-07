@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "@/constants/url";
 import { SimpleUser } from "@/types/user";
 import { getBookIdByISBN } from "@/utils/book";
+import { queryKeys } from "@/constants/queryKeys";
 
 type UpdateSaveParams = {
   userId: string | undefined;
@@ -32,7 +33,7 @@ export function useSave(book: BookResponseType) {
   };
 
   const { data: savedIds, isPending: savedLoading } = useQuery<string[]>({
-    queryKey: ["my-saved"],
+    queryKey: [queryKeys.book.mySaved],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/books/my-saved`);
 
@@ -50,20 +51,20 @@ export function useSave(book: BookResponseType) {
     mutationFn: () => updateSave({ userId: loginUser?.id, book, isSave }),
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: ["my-saved"],
+        queryKey: [queryKeys.book.mySaved],
       });
       await queryClient.cancelQueries({
-        queryKey: ["savedBooks", loginUser?.id],
+        queryKey: [queryKeys.book.savedBooks, loginUser?.id],
       });
       await queryClient.cancelQueries({
-        queryKey: ["bookSavors", bookId],
+        queryKey: [queryKeys.book.bookSavors, bookId],
       });
 
-      queryClient.setQueryData(["my-saved"], (prev: string[]) =>
+      queryClient.setQueryData([queryKeys.book.mySaved], (prev: string[]) =>
         isSave ? prev.filter((id) => id !== book.isbn) : [...prev, book.isbn]
       );
       queryClient.setQueryData(
-        ["savedBooks", loginUser?.id],
+        [queryKeys.book.savedBooks, loginUser?.id],
         (prev: BookResponseType[]) => {
           if (!prev) {
             // 마이페이지에 접속하지 않아 savedBooks가 fetch되기 전
@@ -75,26 +76,29 @@ export function useSave(book: BookResponseType) {
             : [...prev, book];
         }
       );
-      queryClient.setQueryData(["bookSavors", bookId], (prev: SimpleUser[]) => {
-        if (!prev) {
-          return;
-        }
+      queryClient.setQueryData(
+        [queryKeys.book.bookSavors, bookId],
+        (prev: SimpleUser[]) => {
+          if (!prev) {
+            return;
+          }
 
-        return isSave
-          ? prev.filter((user) => user.id !== simpleUser.id)
-          : [...prev, simpleUser];
-      });
+          return isSave
+            ? prev.filter((user) => user.id !== simpleUser.id)
+            : [...prev, simpleUser];
+        }
+      );
     },
     onError: (error, variable) => {
       alert(`${error} ${variable}`);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["my-saved"] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.book.mySaved] });
       queryClient.invalidateQueries({
-        queryKey: ["savedBooks", loginUser?.id],
+        queryKey: [queryKeys.book.savedBooks, loginUser?.id],
       });
       queryClient.invalidateQueries({
-        queryKey: ["bookSavors", bookId],
+        queryKey: [queryKeys.book.bookSavors, bookId],
       });
     },
   });
