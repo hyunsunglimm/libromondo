@@ -1,23 +1,23 @@
 "use client";
 
+import { useState } from "react";
+import { useRelatedBooks } from "../hooks/useRelatedBooks";
+import { getPageArray } from "@/utils/book";
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
 
-import { getPageArray } from "@/utils/book";
-import { useState } from "react";
-import { useBookSameAuthor } from "../hooks/useBookSameAuthor";
-
-type ShowMoreBooksProps = {
-  author: string;
+type RelatedBookList = {
+  bookId: string;
   size: number;
 };
 
-export default function SameAuthorBookList({
-  author,
-  size,
-}: ShowMoreBooksProps) {
+const RelatedBookList = async ({ bookId, size }: RelatedBookList) => {
   const [page, setPage] = useState(1);
-  const { books, totalCount } = useBookSameAuthor({ author, page, size });
+  const { data: books, refetch } = useRelatedBooks(bookId);
+
+  const displayBooks = books?.slice(size * (page - 1), size * page);
+
+  const totalCount = books?.length;
 
   const lastPage = Math.ceil((totalCount || 0) / size);
 
@@ -41,7 +41,13 @@ export default function SameAuthorBookList({
     <div className="mt-8">
       <div className="flex justify-between items-center mb-4">
         <p className="font-bold text-3xl md:text-lg">
-          같은 작가의 책을 모아봤어요.
+          관련있는 책을 모아봤어요.
+          <span
+            className="ml-4 text-base cursor-pointer hover:underline"
+            onClick={() => refetch()}
+          >
+            다른 책도 보고싶어요!
+          </span>
         </p>
         {totalCount && (
           <p className="text-gray-500 text-2xl md:text-base">
@@ -50,8 +56,8 @@ export default function SameAuthorBookList({
         )}
       </div>
       <div className="grid grid-cols-4 gap-4">
-        {books
-          ? books.map((book, index) => (
+        {displayBooks
+          ? displayBooks.map((book, index) => (
               <BookCard book={book} index={index} key={book.isbn} />
             ))
           : [1, 2, 3, 4].map((index) => <BookCard.Skeleton key={index} />)}
@@ -69,9 +75,11 @@ export default function SameAuthorBookList({
       )}
       {totalCount === 0 && (
         <p className="text-gray-300 text-3xl md:text-2xl text-center py-8 font-bold">
-          같은 작가의 책이 존재하지 않습니다.
+          관련있는 책이 없습니다.
         </p>
       )}
     </div>
   );
-}
+};
+
+export default RelatedBookList;

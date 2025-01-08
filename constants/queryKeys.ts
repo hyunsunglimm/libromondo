@@ -6,6 +6,7 @@ export const queryKeys = {
     savedBooks: "saved-books",
     mySaved: "my-saved",
     sameAuthor: "same-author",
+    related: "related",
   },
   user: {
     base: "user",

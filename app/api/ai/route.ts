@@ -31,6 +31,6 @@ export async function POST(req: NextRequest) {
 
     return Response.json({ ...completion.choices[0].message, error: false });
   } catch (error) {
-    return Response.json({ error: true });
+    return Response.json({ error: true, message: error });
   }
 }
