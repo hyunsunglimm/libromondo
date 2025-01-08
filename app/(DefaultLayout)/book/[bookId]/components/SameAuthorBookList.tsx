@@ -43,11 +43,11 @@ export default function SameAuthorBookList({
         <p className="font-bold text-3xl md:text-lg">
           같은 작가의 책을 모아봤어요.
         </p>
-        {totalCount && (
+        {totalCount ? (
           <p className="text-gray-500 text-2xl md:text-base">
             총 {totalCount}개의 도서가 있습니다.
           </p>
-        )}
+        ) : null}
       </div>
       <div className="grid grid-cols-4 gap-4">
         {books

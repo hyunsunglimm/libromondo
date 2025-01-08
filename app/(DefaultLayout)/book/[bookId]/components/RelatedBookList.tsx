@@ -6,12 +6,12 @@ import { getPageArray } from "@/utils/book";
 import BookCard from "@/components/BookCard";
 import PaginationSection from "@/components/PaginationSection";
 
-type RelatedBookList = {
+type RelatedBookListProps = {
   bookId: string;
   size: number;
 };
 
-const RelatedBookList = async ({ bookId, size }: RelatedBookList) => {
+const RelatedBookList = ({ bookId, size }: RelatedBookListProps) => {
   const [page, setPage] = useState(1);
   const { data: books, refetch } = useRelatedBooks(bookId);
 
@@ -37,6 +37,11 @@ const RelatedBookList = async ({ bookId, size }: RelatedBookList) => {
     }
   };
 
+  const handleRefetch = async () => {
+    await refetch();
+    setPage(1);
+  };
+
   return (
     <div className="mt-8">
       <div className="flex justify-between items-center mb-4">
@@ -44,16 +49,16 @@ const RelatedBookList = async ({ bookId, size }: RelatedBookList) => {
           관련있는 책을 모아봤어요.
           <span
             className="ml-4 text-base cursor-pointer hover:underline"
-            onClick={() => refetch()}
+            onClick={handleRefetch}
           >
             다른 책도 보고싶어요!
           </span>
         </p>
-        {totalCount && (
+        {totalCount ? (
           <p className="text-gray-500 text-2xl md:text-base">
             총 {totalCount}개의 도서가 있습니다.
           </p>
-        )}
+        ) : null}
       </div>
       <div className="grid grid-cols-4 gap-4">
         {displayBooks
