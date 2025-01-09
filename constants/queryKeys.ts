@@ -14,7 +14,13 @@ export const queryKeys = {
   },
   review: {
     base: "review",
+    reviews: "reviews",
     reviewsByUser: "reviews-by-user",
     reviewsByBook: "reviews-by-book",
+  },
+  search: {
+    base: "search",
+    user: "search-user",
+    book: "search-book",
   },
 };

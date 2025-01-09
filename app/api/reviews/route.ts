@@ -1,11 +1,5 @@
 import { auth } from "@/auth";
-import {
-  getReviewsByBook,
-  getFollowingReviews,
-  getReviews,
-} from "@/service/review";
-
-export const revalidate = 0;
+import { getFollowingReviews, getReviews } from "@/service/review";
 
 export async function GET(req: Request) {
   const session = await auth();
@@ -22,10 +16,6 @@ export async function GET(req: Request) {
 
   if (type === "following" && user && user.id) {
     reviews = await getFollowingReviews(user.id);
-  }
-
-  if (type === "book" && isbn) {
-    reviews = await getReviewsByBook(isbn);
   }
 
   return Response.json(reviews);

@@ -1,6 +1,6 @@
-import BooksList from "@/components/BooksList";
 import useDebounce from "@/hooks/useDebounce";
 import { useBookSearchStore } from "@/store/search";
+import SearchBookList from "./SearchBookList";
 
 export default function SearchBook() {
   const { keyword, setKeyword, setPage } = useBookSearchStore();
@@ -18,12 +18,7 @@ export default function SearchBook() {
         }}
         value={keyword}
       />
-      <div className="md:hidden">
-        <BooksList keyword={debouncedKeyword} pagePerView={6} />
-      </div>
-      <div className="hidden md:block">
-        <BooksList keyword={debouncedKeyword} pagePerView={8} />
-      </div>
+      <SearchBookList keyword={debouncedKeyword} size={8} />
     </section>
   );
 }

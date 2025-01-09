@@ -1,18 +1,15 @@
 "use client";
 
 import UserListItem from "@/components/UserListItem";
-import { SimpleUser } from "@/types/user";
 import { ScaleLoader } from "react-spinners";
-import useSWR from "swr";
+import { useSearchUser } from "../hooks/useSearchUser";
 
 type UserListProps = {
   keyword: string;
 };
 
 export default function UserList({ keyword }: UserListProps) {
-  const { data: users, isLoading } = useSWR<SimpleUser[]>(
-    keyword ? `/api/user/search?query=${keyword}` : null
-  );
+  const { data: users, isLoading } = useSearchUser(keyword);
 
   if (isLoading) {
     return (
