@@ -8,33 +8,23 @@ export const addUser = async (id: string, name: string, image: string) => {
     _type: "user",
     name,
     image: image || EMPTY_PROFILE_IMAGE,
-    books: [],
     following: [],
     followers: [],
   });
 };
 
 export const getUserById = async (id: string) => {
-  return client
-    .fetch(
-      `
+  return client.fetch(
+    `
         *[_type == "user" && _id == "${id}"][0]{
           "id": _id,
           "name": name,
           "image": image,
-          "books": books,
           following[]->{"id": _id, name,image},
           followers[]->{"id": _id, name,image}
         }
       `
-    )
-    .then((user) => {
-      if (user) {
-        return { ...user, books: user.books ?? [] };
-      } else {
-        return null;
-      }
-    });
+  );
 };
 
 export const editProfile = async (userId: string, name: string, file: Blob) => {
