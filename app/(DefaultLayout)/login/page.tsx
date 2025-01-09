@@ -2,6 +2,7 @@ import GoogleLogin from "./components/GoogleLogin";
 import KakaoLogin from "./components/KakaoLogin";
 import { Metadata } from "next";
 import NaverLogin from "./components/NaverLogin";
+import { BASE_URL } from "@/constants/url";
 
 export const metadata: Metadata = {
   title: "로그인 페이지",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     title: "로그인 페이지",
     description: "구글 혹은 카카오로 로그인해주세요.",
     type: "website",
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+    url: `${BASE_URL}/login`,
     images: "https://libromondo.vercel.app/images/libro-mondo-logo.png",
     siteName: "Libro Mondo",
     locale: "ko_KR",

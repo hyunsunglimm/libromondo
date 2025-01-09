@@ -1,6 +1,6 @@
 import { queryKeys } from "@/constants/queryKeys";
 import { BASE_URL } from "@/constants/url";
-import { BookResponseType, KakaoBookResponse } from "@/types/book";
+import { BookResponseType } from "@/types/book";
 import { useQuery } from "@tanstack/react-query";
 import queryString from "query-string";
 

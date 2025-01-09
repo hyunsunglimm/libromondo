@@ -41,6 +41,28 @@ export const getBestBooks = async (): Promise<BookResponseType[]> => {
   return await response.json();
 };
 
+// OPEN AI API를 이용한 해당 도서의 관련 키워드 얻기 (현재 사용량 초과)
+export const getRelatedBookKeywords = async (bookId: string) => {
+  const book = await getBookById(bookId);
+
+  const { url, title, contents: description } = book;
+
+  let relatedKeywords = [];
+  const aiResponse = await fetch(`${BASE_URL}/api/ai`, {
+    method: "POST",
+    body: JSON.stringify({ url, description }),
+    cache: "no-store",
+  }).then((res) => res.json());
+
+  if (aiResponse.error) {
+    relatedKeywords = [title.slice(0, 2)];
+  } else {
+    relatedKeywords = [...aiResponse.content.split(",")];
+  }
+
+  return relatedKeywords;
+};
+
 export const getRelatedBooks = async ({
   url,
   title,
@@ -51,7 +73,7 @@ export const getRelatedBooks = async ({
   description: string;
 }): Promise<BookResponseType[]> => {
   let relatedKeywords = [];
-  const aiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai`, {
+  const aiResponse = await fetch(`${BASE_URL}/api/ai`, {
     method: "POST",
     body: JSON.stringify({ url, description }),
     cache: "no-store",
@@ -66,7 +88,7 @@ export const getRelatedBooks = async ({
   const data = await Promise.all(
     relatedKeywords.map(async (keyword) => {
       const result = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/related?keyword=${keyword}&size=10`
+        `${BASE_URL}/api/book/related?keyword=${keyword}&size=10`
       ).then((res) => res.json());
 
       return result;

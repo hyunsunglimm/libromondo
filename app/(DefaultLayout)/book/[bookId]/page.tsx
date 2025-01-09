@@ -1,11 +1,11 @@
 import { BookResponseType } from "@/types/book";
 import { redirect } from "next/navigation";
-import ShowMoreBooks from "./components/ShowMoreBooks";
 import DetailBook from "./components/DetailBook";
 import { Metadata } from "next";
 import { BASE_URL } from "@/constants/url";
 import { getBookById } from "@/service/book";
 import SameAuthorBookList from "./components/SameAuthorBookList";
+import RelatedBookList from "./components/RelatedBookList";
 
 type BookDetailPageProps = {
   params: {
@@ -24,29 +24,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
     <section className="max-w-[832px] w-full mx-auto px-4">
       <DetailBook book={book} />
       <SameAuthorBookList author={book.authors[0]} size={4} />
-      {/* <div className="md:hidden">
-        <ShowMoreBooks
-          author={book.authors[0]}
-          title="같은 작가의 책"
-          slidesPerView={3}
-        />
-      </div>
-      <div className="hidden md:block">
-        <ShowMoreBooks
-          author={book.authors[0]}
-          title="같은 작가의 책"
-          slidesPerView={4}
-        />
-      </div> */}
-      {/* <Suspense
-        fallback={
-          <div className="py-8">
-            <Spinner type="black" />
-          </div>
-        }
-      >
-        <RelatedBooks book={book} />
-      </Suspense> */}
+      <RelatedBookList bookId={bookId} size={4} />
     </section>
   );
 }

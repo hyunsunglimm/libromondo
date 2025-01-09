@@ -28,7 +28,7 @@ export default function Reviews({ userId, reviews }: ReviewsProps) {
       )}
       <ul className="flex flex-col gap-2 mt-4">
         {reviews?.map((review) => (
-          <ReviewListItem key={review.id} review={review} isMe={isMe} />
+          <ReviewListItem key={review.id} review={review} />
         ))}
       </ul>
     </div>

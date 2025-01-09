@@ -1,9 +1,7 @@
 import Spinner from "@/components/loader/Spinner";
 import { Button } from "@/components/ui/button";
 import { useMe } from "@/hooks/useMe";
-import { useModal } from "@/hooks/useModal";
 import { SanityUser } from "@/types/user";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 type UserInfoEditForm = {

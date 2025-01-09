@@ -72,7 +72,23 @@ export function useUserById(userId: string) {
                 ],
               }
       );
-      queryClient.setQueryData(["me"], (prev: SanityUser) =>
+      queryClient.setQueryData(
+        [queryKeys.user.base, loginUser?.id],
+        (prev: SanityUser) =>
+          isFollow
+            ? {
+                ...prev,
+                following: prev.following.filter((user) => user.id !== userId),
+              }
+            : {
+                ...prev,
+                following: [
+                  ...prev.following,
+                  { id: userId, name: user?.name, image: user?.image },
+                ],
+              }
+      );
+      queryClient.setQueryData([queryKeys.user.me], (prev: SanityUser) =>
         isFollow
           ? {
               ...prev,
